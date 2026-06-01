@@ -14,15 +14,89 @@ within each run.
 
 ## Quick start
 
+Best simple setup:
+
 ```bash
-python3 scripts/deals_channel.py --config config/deals.json --dry-run
+export GOOGLE_SHEET_CSV_URL="your-published-google-sheet-csv-url"
+export CUELINKS_CHANNEL_ID="your-cuelinks-channel-id"
+python3 scripts/deals_channel.py --config config/google-sheet-cuelinks.json --dry-run
 ```
 
-`config/deals.json` is pre-filled with placeholders for Amazon India, Flipkart,
-Zomato, BigBasket, Instamart, Zepto, Ajio, and Tata CLiQ. Dry runs skip
-Telegram posting but still write the WhatsApp output file.
+Dry runs skip Telegram posting but still write the WhatsApp output file.
 
 
+## Recommended setup: Google Sheet + Cuelinks + GitHub Actions
+
+This is the simplest fully scheduled workflow without a database:
+
+```text
+Google Sheet CSV feed
+        -> Python script on GitHub Actions
+        -> Cuelinks affiliate URL wrapping
+        -> Telegram auto-post
+        -> WhatsApp text artifact
+```
+
+### 1. Create the Google Sheet
+
+Create a sheet with these column headers in row 1:
+
+```text
+title,url,price,original_price,discount_percent,coupon,category,description
+```
+
+Example row:
+
+```text
+Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time audio deal
+```
+
+Required columns are `title` and `url`. The filtering works best when either
+`discount_percent` is set or both `price` and `original_price` are set.
+
+### 2. Publish the sheet as CSV
+
+In Google Sheets:
+
+1. Open **File > Share > Publish to web**.
+2. Select the sheet tab.
+3. Choose **Comma-separated values (.csv)**.
+4. Click **Publish**.
+5. Copy the generated CSV URL.
+
+Set it locally as:
+
+```bash
+export GOOGLE_SHEET_CSV_URL="https://docs.google.com/spreadsheets/d/.../pub?output=csv"
+```
+
+Or add it in GitHub as a repository secret named:
+
+```text
+GOOGLE_SHEET_CSV_URL
+```
+
+### 3. Add Cuelinks
+
+Set your Cuelinks Channel ID:
+
+```bash
+export CUELINKS_CHANNEL_ID="your-cuelinks-channel-id"
+```
+
+The script converts each accepted deal URL into a Cuelinks redirect URL before
+posting.
+
+### 4. Run it
+
+```bash
+python3 scripts/deals_channel.py --config config/google-sheet-cuelinks.json --dry-run
+```
+
+GitHub Actions is already configured to use `config/google-sheet-cuelinks.json`
+for scheduled runs. Add `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`,
+`GOOGLE_SHEET_CSV_URL`, and `CUELINKS_CHANNEL_ID` as GitHub Actions secrets,
+then the scheduled run can fetch and post automatically.
 
 ## Simplest setup with Cuelinks
 
@@ -173,19 +247,18 @@ workflow in two ways:
 
 - Manual run from the GitHub **Actions** tab with `workflow_dispatch`. Manual
   runs default to dry-run, so they create the WhatsApp file without posting to
-  Telegram unless you turn dry-run off. For the easiest start, choose
-  `config/simple-cuelinks.json` in the `config_path` input.
+  Telegram unless you turn dry-run off. The default config is
+  `config/google-sheet-cuelinks.json`.
 - Scheduled run every 6 hours using GitHub cron. Scheduled runs are real runs:
-  they fetch deals and post to Telegram when feed URL secrets and Telegram
-  secrets are configured. If you only use `config/simple-cuelinks.json`, the
-  workflow posts the deals you pasted in that file; it does not discover new
-  deals automatically without a feed/API source.
+  they fetch the Google Sheet CSV, wrap links with Cuelinks, and post to
+  Telegram when the required secrets are configured.
 
 Add your secrets in GitHub under **Settings > Secrets and variables > Actions**:
 
 ```text
 TELEGRAM_BOT_TOKEN
 TELEGRAM_CHAT_ID
+GOOGLE_SHEET_CSV_URL
 CUELINKS_CHANNEL_ID
 AMAZON_IN_FEED_URL
 FLIPKART_FEED_URL
@@ -197,11 +270,12 @@ AJIO_FEED_URL
 TATACLIQ_FEED_URL
 ```
 
-For the simple Cuelinks setup, `CUELINKS_CHANNEL_ID`, `TELEGRAM_BOT_TOKEN`, and
-`TELEGRAM_CHAT_ID` are enough. For feed/API setup, only the feed URL secrets you
-actually use are required. Optional auth secrets like `FLIPKART_AUTH_HEADER` or
-`AJIO_API_KEY` can be added if your affiliate provider requires request headers.
-After each run, GitHub uploads
+For the recommended Google Sheet setup, `GOOGLE_SHEET_CSV_URL`,
+`CUELINKS_CHANNEL_ID`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_CHAT_ID` are enough.
+For merchant feed/API setup, only the feed URL secrets you actually use are
+required. Optional auth secrets like `FLIPKART_AUTH_HEADER` or `AJIO_API_KEY`
+can be added if your affiliate provider requires request headers. After each
+run, GitHub uploads
 `out/whatsapp_deals.txt` as a workflow artifact so you can download the
 WhatsApp-ready copy.
 

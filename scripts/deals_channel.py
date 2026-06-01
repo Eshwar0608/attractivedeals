@@ -8,8 +8,10 @@ to Telegram, and writes WhatsApp-ready copy without using a database.
 from __future__ import annotations
 
 import argparse
+import csv
 import dataclasses
 import html
+import io
 import json
 import os
 import re
@@ -193,6 +195,8 @@ def parse_feed(feed: FeedConfig) -> list[Deal]:
 
     if feed_type == "json":
         return parse_json_feed(feed, body)
+    if feed_type == "csv":
+        return parse_csv_feed(feed, body)
     if feed_type in ("rss", "atom", "xml"):
         return parse_xml_feed(feed, body)
     raise ValueError(f"Unsupported feed type for {feed.name}: {feed.type}")
@@ -249,6 +253,11 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
 
     return deals
 
+
+
+def parse_csv_feed(feed: FeedConfig, body: str) -> list[Deal]:
+    reader = csv.DictReader(io.StringIO(body))
+    return parse_json_items(feed, list(reader))
 
 def parse_xml_feed(feed: FeedConfig, body: str) -> list[Deal]:
     root = ET.fromstring(body)

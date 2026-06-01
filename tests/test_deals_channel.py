@@ -140,6 +140,32 @@ class DealsChannelTests(unittest.TestCase):
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
 
+    def test_csv_feed_is_parsed_for_google_sheet_exports(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            feed_file = Path(tmp_dir) / "sheet.csv"
+            feed_file.write_text(
+                "title,url,price,original_price,coupon,category,description\n"
+                "Sheet Deal 35% off,https://example.com/sheet,650,1000,SHEET35,Kitchen,Published from Google Sheets\n",
+                encoding="utf-8",
+            )
+
+            parsed = parse_feed(
+                FeedConfig(
+                    name="google-sheet",
+                    url=str(feed_file),
+                    type="csv",
+                    currency="Rs. ",
+                )
+            )
+
+            self.assertEqual(len(parsed), 1)
+            self.assertEqual(parsed[0].title, "Sheet Deal 35% off")
+            self.assertEqual(parsed[0].url, "https://example.com/sheet")
+            self.assertEqual(parsed[0].price, 650)
+            self.assertEqual(parsed[0].original_price, 1000)
+            self.assertEqual(parsed[0].discount_percent, 35)
+
+
     def test_manual_feed_with_cuelinks_wraps_urls(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             output_file = Path(tmp_dir) / "whatsapp.txt"
