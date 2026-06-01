@@ -1,0 +1,200 @@
+{
+  "_notes": [
+    "Affiliate feed/API URLs for these merchants are account-specific and usually come from the merchant partner dashboard or an affiliate network such as Cuelinks, Admitad, Impact, vCommission, or EarnKaro.",
+    "Set the *_FEED_URL environment variables below to your real approved feed URLs before running. Optional *_AUTH_HEADER and *_API_KEY variables are sent as request headers when set.",
+    "Amazon India PA-API is a signed POST API, not a simple feed URL. Use an approved feed/export URL or a small PA-API proxy that returns JSON/RSS for this workflow."
+  ],
+  "feeds": [
+    {
+      "name": "amazon-india",
+      "enabled": true,
+      "url": "${AMAZON_IN_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${AMAZON_IN_AUTH_HEADER:-}",
+        "x-api-key": "${AMAZON_IN_API_KEY:-}"
+      },
+      "items_path": "${AMAZON_IN_ITEMS_PATH:-}",
+      "title_field": "${AMAZON_IN_TITLE_FIELD:-title}",
+      "url_field": "${AMAZON_IN_URL_FIELD:-affiliate_url}",
+      "price_field": "${AMAZON_IN_PRICE_FIELD:-price}",
+      "original_price_field": "${AMAZON_IN_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${AMAZON_IN_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${AMAZON_IN_COUPON_FIELD:-coupon}",
+      "category_field": "${AMAZON_IN_CATEGORY_FIELD:-category}",
+      "description_field": "${AMAZON_IN_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "flipkart",
+      "enabled": true,
+      "url": "${FLIPKART_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${FLIPKART_AUTH_HEADER:-}",
+        "x-api-key": "${FLIPKART_API_KEY:-}"
+      },
+      "items_path": "${FLIPKART_ITEMS_PATH:-}",
+      "title_field": "${FLIPKART_TITLE_FIELD:-title}",
+      "url_field": "${FLIPKART_URL_FIELD:-affiliate_url}",
+      "price_field": "${FLIPKART_PRICE_FIELD:-price}",
+      "original_price_field": "${FLIPKART_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${FLIPKART_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${FLIPKART_COUPON_FIELD:-coupon}",
+      "category_field": "${FLIPKART_CATEGORY_FIELD:-category}",
+      "description_field": "${FLIPKART_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "zomato",
+      "enabled": true,
+      "url": "${ZOMATO_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${ZOMATO_AUTH_HEADER:-}",
+        "x-api-key": "${ZOMATO_API_KEY:-}"
+      },
+      "items_path": "${ZOMATO_ITEMS_PATH:-}",
+      "title_field": "${ZOMATO_TITLE_FIELD:-title}",
+      "url_field": "${ZOMATO_URL_FIELD:-affiliate_url}",
+      "price_field": "${ZOMATO_PRICE_FIELD:-price}",
+      "original_price_field": "${ZOMATO_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${ZOMATO_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${ZOMATO_COUPON_FIELD:-coupon}",
+      "category_field": "${ZOMATO_CATEGORY_FIELD:-category}",
+      "description_field": "${ZOMATO_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "bigbasket",
+      "enabled": true,
+      "url": "${BIGBASKET_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${BIGBASKET_AUTH_HEADER:-}",
+        "x-api-key": "${BIGBASKET_API_KEY:-}"
+      },
+      "items_path": "${BIGBASKET_ITEMS_PATH:-}",
+      "title_field": "${BIGBASKET_TITLE_FIELD:-title}",
+      "url_field": "${BIGBASKET_URL_FIELD:-affiliate_url}",
+      "price_field": "${BIGBASKET_PRICE_FIELD:-price}",
+      "original_price_field": "${BIGBASKET_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${BIGBASKET_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${BIGBASKET_COUPON_FIELD:-coupon}",
+      "category_field": "${BIGBASKET_CATEGORY_FIELD:-category}",
+      "description_field": "${BIGBASKET_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "instamart",
+      "enabled": true,
+      "url": "${INSTAMART_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${INSTAMART_AUTH_HEADER:-}",
+        "x-api-key": "${INSTAMART_API_KEY:-}"
+      },
+      "items_path": "${INSTAMART_ITEMS_PATH:-}",
+      "title_field": "${INSTAMART_TITLE_FIELD:-title}",
+      "url_field": "${INSTAMART_URL_FIELD:-affiliate_url}",
+      "price_field": "${INSTAMART_PRICE_FIELD:-price}",
+      "original_price_field": "${INSTAMART_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${INSTAMART_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${INSTAMART_COUPON_FIELD:-coupon}",
+      "category_field": "${INSTAMART_CATEGORY_FIELD:-category}",
+      "description_field": "${INSTAMART_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "zepto",
+      "enabled": true,
+      "url": "${ZEPTO_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${ZEPTO_AUTH_HEADER:-}",
+        "x-api-key": "${ZEPTO_API_KEY:-}"
+      },
+      "items_path": "${ZEPTO_ITEMS_PATH:-}",
+      "title_field": "${ZEPTO_TITLE_FIELD:-title}",
+      "url_field": "${ZEPTO_URL_FIELD:-affiliate_url}",
+      "price_field": "${ZEPTO_PRICE_FIELD:-price}",
+      "original_price_field": "${ZEPTO_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${ZEPTO_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${ZEPTO_COUPON_FIELD:-coupon}",
+      "category_field": "${ZEPTO_CATEGORY_FIELD:-category}",
+      "description_field": "${ZEPTO_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "ajio",
+      "enabled": true,
+      "url": "${AJIO_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${AJIO_AUTH_HEADER:-}",
+        "x-api-key": "${AJIO_API_KEY:-}"
+      },
+      "items_path": "${AJIO_ITEMS_PATH:-}",
+      "title_field": "${AJIO_TITLE_FIELD:-title}",
+      "url_field": "${AJIO_URL_FIELD:-affiliate_url}",
+      "price_field": "${AJIO_PRICE_FIELD:-price}",
+      "original_price_field": "${AJIO_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${AJIO_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${AJIO_COUPON_FIELD:-coupon}",
+      "category_field": "${AJIO_CATEGORY_FIELD:-category}",
+      "description_field": "${AJIO_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "tatacliq",
+      "enabled": true,
+      "url": "${TATACLIQ_FEED_URL:-}",
+      "type": "auto",
+      "headers": {
+        "Authorization": "${TATACLIQ_AUTH_HEADER:-}",
+        "x-api-key": "${TATACLIQ_API_KEY:-}"
+      },
+      "items_path": "${TATACLIQ_ITEMS_PATH:-}",
+      "title_field": "${TATACLIQ_TITLE_FIELD:-title}",
+      "url_field": "${TATACLIQ_URL_FIELD:-affiliate_url}",
+      "price_field": "${TATACLIQ_PRICE_FIELD:-price}",
+      "original_price_field": "${TATACLIQ_ORIGINAL_PRICE_FIELD:-original_price}",
+      "discount_percent_field": "${TATACLIQ_DISCOUNT_PERCENT_FIELD:-discount_percent}",
+      "coupon_field": "${TATACLIQ_COUPON_FIELD:-coupon}",
+      "category_field": "${TATACLIQ_CATEGORY_FIELD:-category}",
+      "description_field": "${TATACLIQ_DESCRIPTION_FIELD:-description}",
+      "currency": "Rs. "
+    }
+  ],
+  "filters": {
+    "min_discount_percent": 25,
+    "min_savings_amount": 100,
+    "require_discount_data": true,
+    "blocked_keywords": [
+      "refurbished",
+      "used",
+      "renewed",
+      "expired",
+      "out of stock"
+    ],
+    "required_keywords": [],
+    "max_items": 10
+  },
+  "hashtags": [
+    "#deals",
+    "#offers",
+    "#shopping",
+    "#affiliate"
+  ],
+  "telegram": {
+    "enabled": true,
+    "bot_token_env": "TELEGRAM_BOT_TOKEN",
+    "chat_id_env": "TELEGRAM_CHAT_ID",
+    "disable_web_page_preview": false,
+    "timeout_seconds": 15,
+    "required": false
+  },
+  "whatsapp": {
+    "output_file": "out/whatsapp_deals.txt"
+  }
+}
