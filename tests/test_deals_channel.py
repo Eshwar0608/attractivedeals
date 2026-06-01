@@ -2,16 +2,20 @@ import json
 import os
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from scripts.deals_channel import (
     AffiliateConfig,
+    CleanupConfig,
+    Deal,
     FeedConfig,
     FilterConfig,
     TelegramConfig,
     WhatsAppConfig,
     WorkflowConfig,
     build_cuelinks_url,
+    cleanup_sent_deals,
     filter_deals,
     load_config,
     format_deal,
@@ -245,6 +249,46 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.errors, [])
             self.assertIn("https://www.flipkart.com/test-product", output)
             self.assertNotIn("linksredirect.com", output)
+
+
+    def test_cleanup_sent_deals_posts_original_sheet_identifiers(self):
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def read(self):
+                return b'{"ok": true, "updated": 1}'
+
+        deal = Deal(
+            source="google-sheet",
+            id="deal-1",
+            title="Cleanup test deal",
+            url="https://linksredirect.com/?cid=7102&url=https%3A%2F%2Fexample.com%2Fdeal",
+            original_url="https://example.com/deal",
+        )
+        cleanup = CleanupConfig(
+            enabled=True,
+            webhook_url="https://script.google.com/macros/s/test/exec",
+            secret="shared-secret",
+            action="delete",
+        )
+
+        with patch("scripts.deals_channel.urllib.request.urlopen", return_value=FakeResponse()) as urlopen:
+            updated, failed, errors = cleanup_sent_deals([deal], cleanup)
+
+        request = urlopen.call_args[0][0]
+        payload = json.loads(request.data.decode("utf-8"))
+
+        self.assertEqual(updated, 1)
+        self.assertEqual(failed, 0)
+        self.assertEqual(errors, [])
+        self.assertEqual(payload["secret"], "shared-secret")
+        self.assertEqual(payload["action"], "delete")
+        self.assertEqual(payload["deals"][0]["id"], "deal-1")
+        self.assertEqual(payload["deals"][0]["url"], "https://example.com/deal")
 
 
     def test_run_workflow_skips_unconfigured_feed_urls(self):

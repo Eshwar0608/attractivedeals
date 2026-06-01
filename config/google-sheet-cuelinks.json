@@ -1,8 +1,9 @@
 {
   "_notes": [
     "Fully scheduled simple setup: publish a Google Sheet as CSV, set GOOGLE_SHEET_CSV_URL, set CUELINKS_CHANNEL_ID, and GitHub Actions can fetch/post automatically.",
-    "Expected sheet columns: title, url, price, original_price, discount_percent, coupon, category, description.",
-    "The script wraps each accepted URL through Cuelinks linksredirect.com before Telegram and WhatsApp output."
+    "Expected sheet columns: id, title, url, price, original_price, discount_percent, coupon, category, description. id is optional but recommended for cleanup.",
+    "The script wraps each accepted URL through Cuelinks linksredirect.com before Telegram and WhatsApp output.",
+    "Optional cleanup: set GOOGLE_SHEET_CLEANUP_WEBHOOK_URL and GOOGLE_SHEET_CLEANUP_SECRET to delete sent rows after a successful Telegram run."
   ],
   "feeds": [
     {
@@ -18,7 +19,8 @@
       "coupon_field": "coupon",
       "category_field": "category",
       "description_field": "description",
-      "currency": "Rs. "
+      "currency": "Rs. ",
+      "id_field": "id"
     }
   ],
   "affiliate": {
@@ -32,11 +34,21 @@
     "min_discount_percent": 20,
     "min_savings_amount": 0,
     "require_discount_data": true,
-    "blocked_keywords": ["refurbished", "used", "renewed", "expired", "out of stock"],
+    "blocked_keywords": [
+      "refurbished",
+      "used",
+      "renewed",
+      "expired",
+      "out of stock"
+    ],
     "required_keywords": [],
     "max_items": 10
   },
-  "hashtags": ["#deals", "#offers", "#shopping"],
+  "hashtags": [
+    "#deals",
+    "#offers",
+    "#shopping"
+  ],
   "telegram": {
     "enabled": true,
     "bot_token_env": "TELEGRAM_BOT_TOKEN",
@@ -47,5 +59,13 @@
   },
   "whatsapp": {
     "output_file": "out/whatsapp_deals.txt"
+  },
+  "cleanup": {
+    "enabled": true,
+    "webhook_url": "${GOOGLE_SHEET_CLEANUP_WEBHOOK_URL:-}",
+    "secret": "${GOOGLE_SHEET_CLEANUP_SECRET:-}",
+    "action": "delete",
+    "timeout_seconds": 15,
+    "required": false
   }
 }

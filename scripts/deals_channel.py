@@ -38,6 +38,7 @@ class FeedConfig:
     headers: dict[str, str] = field(default_factory=dict)
     items: list[dict[str, Any]] = field(default_factory=list)
     items_path: str | None = None
+    id_field: str = "id"
     title_field: str = "title"
     url_field: str = "url"
     price_field: str = "price"
@@ -85,11 +86,24 @@ class AffiliateConfig:
 
 
 @dataclass
+class CleanupConfig:
+    enabled: bool = False
+    webhook_url: str = ""
+    webhook_url_env: str = "GOOGLE_SHEET_CLEANUP_WEBHOOK_URL"
+    secret: str = ""
+    secret_env: str = "GOOGLE_SHEET_CLEANUP_SECRET"
+    action: str = "delete"
+    timeout_seconds: int = 15
+    required: bool = False
+
+
+@dataclass
 class WorkflowConfig:
     feeds: list[FeedConfig]
     filters: FilterConfig = field(default_factory=FilterConfig)
     hashtags: list[str] = field(default_factory=lambda: ["#deals"])
     affiliate: AffiliateConfig = field(default_factory=AffiliateConfig)
+    cleanup: CleanupConfig = field(default_factory=CleanupConfig)
     telegram: TelegramConfig = field(default_factory=TelegramConfig)
     whatsapp: WhatsAppConfig = field(default_factory=WhatsAppConfig)
 
@@ -99,6 +113,8 @@ class Deal:
     source: str
     title: str
     url: str
+    id: str | None = None
+    original_url: str | None = None
     price: float | None = None
     original_price: float | None = None
     discount_percent: float | None = None
@@ -123,6 +139,10 @@ class RunSummary:
     telegram_posted: int = 0
     telegram_failed: int = 0
     whatsapp_file: str | None = None
+    affiliate_failed: int = 0
+    cleanup_sent: int = 0
+    cleanup_failed: int = 0
+    cleanup_skipped: list[str] = field(default_factory=list)
     skipped_feeds: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
@@ -140,6 +160,7 @@ def load_config(path: Path) -> WorkflowConfig:
         filters=FilterConfig(**raw.get("filters", {})),
         hashtags=raw.get("hashtags", ["#deals"]),
         affiliate=AffiliateConfig(**raw.get("affiliate", {})),
+        cleanup=CleanupConfig(**raw.get("cleanup", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
         whatsapp=WhatsAppConfig(**raw.get("whatsapp", {})),
     )
@@ -236,11 +257,21 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             price,
         )
 
+        deal_id = clean_optional_text(
+            first_text(
+                get_nested(item, feed.id_field),
+                get_nested(item, "deal_id"),
+                get_nested(item, "sku"),
+            )
+        )
+
         deals.append(
             Deal(
                 source=feed.name,
                 title=clean_text(title),
                 url=clean_text(url),
+                id=deal_id,
+                original_url=clean_text(url),
                 price=price,
                 original_price=original_price,
                 discount_percent=discount_percent,
@@ -538,6 +569,7 @@ def run_workflow(
     affiliate_errors = [] if skip_affiliate else apply_affiliate_links(accepted, config.affiliate)
     summary.accepted = len(accepted)
     summary.skipped = summary.fetched - summary.accepted
+    summary.affiliate_failed = len(affiliate_errors)
     summary.errors.extend(affiliate_errors)
 
     messages = [format_deal(deal, config.hashtags) for deal in accepted]
@@ -551,6 +583,25 @@ def run_workflow(
     summary.telegram_posted = posted
     summary.telegram_failed = failed
     summary.errors.extend(errors)
+
+    should_cleanup = (
+        config.cleanup.enabled
+        and not dry_run
+        and not skip_telegram
+        and config.telegram.enabled
+        and posted == len(accepted)
+        and failed == 0
+        and bool(accepted)
+    )
+    if should_cleanup:
+        cleanup_sent, cleanup_failed, cleanup_errors = cleanup_sent_deals(accepted, config.cleanup)
+        summary.cleanup_sent = cleanup_sent
+        summary.cleanup_failed = cleanup_failed
+        summary.errors.extend(cleanup_errors)
+        if cleanup_sent == 0 and cleanup_failed == 0 and not cleanup_errors:
+            summary.cleanup_skipped.append(f"Cleanup skipped: set {config.cleanup.webhook_url_env}.")
+    elif config.cleanup.enabled:
+        summary.cleanup_skipped.append("Cleanup skipped because this was not a fully successful Telegram posting run.")
 
     return summary
 
@@ -570,6 +621,7 @@ def apply_affiliate_links(deals: list[Deal], affiliate: AffiliateConfig) -> list
         return [message] if affiliate.required else []
 
     for deal in deals:
+        deal.original_url = deal.original_url or deal.url
         deal.url = build_cuelinks_url(deal.url, channel_id, affiliate.source)
     return []
 
@@ -586,6 +638,52 @@ def build_cuelinks_url(url: str, channel_id: str, source: str = "linkkit") -> st
         }
     )
     return f"https://linksredirect.com/?{query}"
+
+
+def cleanup_sent_deals(deals: list[Deal], cleanup: CleanupConfig) -> tuple[int, int, list[str]]:
+    webhook_url = cleanup.webhook_url or os.environ.get(cleanup.webhook_url_env, "")
+    if not webhook_url:
+        message = f"Google Sheet cleanup skipped: set {cleanup.webhook_url_env}."
+        return 0, len(deals) if cleanup.required else 0, [message] if cleanup.required else []
+
+    secret = cleanup.secret or os.environ.get(cleanup.secret_env, "")
+    payload = {
+        "secret": secret,
+        "action": cleanup.action,
+        "deals": [
+            {
+                "id": deal.id or "",
+                "url": deal.original_url or deal.url,
+                "title": deal.title,
+            }
+            for deal in deals
+        ],
+    }
+    request = urllib.request.Request(
+        webhook_url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=cleanup.timeout_seconds) as response:
+            body = response.read().decode("utf-8")
+            result = json.loads(body) if body else {}
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
+        return 0, len(deals), [f"Google Sheet cleanup failed: {exc}"]
+
+    if result.get("ok") is False:
+        return 0, len(deals), [f"Google Sheet cleanup failed: {result}"]
+
+    updated = result.get("updated", len(deals))
+    try:
+        updated_count = int(updated)
+    except (TypeError, ValueError):
+        updated_count = len(deals)
+    failed_count = max(len(deals) - updated_count, 0)
+    errors = [] if failed_count == 0 else [f"Google Sheet cleanup missed {failed_count} sent deal rows."]
+    return updated_count, failed_count, errors
 
 def first_text(*values: Any) -> str | None:
     for value in values:
@@ -679,7 +777,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if summary.telegram_failed:
         return 1
-    if config.affiliate.required and not args.skip_affiliate and summary.errors:
+    if config.affiliate.required and not args.skip_affiliate and summary.affiliate_failed:
+        return 1
+    if config.cleanup.required and summary.cleanup_failed:
         return 1
     if summary.fetched == 0 and (summary.errors or summary.skipped_feeds):
         return 1

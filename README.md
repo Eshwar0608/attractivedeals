@@ -42,17 +42,18 @@ Google Sheet CSV feed
 Create a sheet with these column headers in row 1:
 
 ```text
-title,url,price,original_price,discount_percent,coupon,category,description
+id,title,url,price,original_price,discount_percent,coupon,category,description
 ```
 
 Example row:
 
 ```text
-Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time audio deal
+deal-001,Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time audio deal
 ```
 
-Required columns are `title` and `url`. The filtering works best when either
-`discount_percent` is set or both `price` and `original_price` are set.
+Required columns are `title` and `url`. The `id` column is optional but
+recommended because it makes cleanup reliable. The filtering works best when
+either `discount_percent` is set or both `price` and `original_price` are set.
 
 ### 2. Publish the sheet as CSV
 
@@ -97,6 +98,87 @@ GitHub Actions is already configured to use `config/google-sheet-cuelinks.json`
 for scheduled runs. Add `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`,
 `GOOGLE_SHEET_CSV_URL`, and `CUELINKS_CHANNEL_ID` as GitHub Actions secrets,
 then the scheduled run can fetch and post automatically.
+
+### 5. Optional: delete sent rows after Telegram posting
+
+A published Google Sheet CSV is read-only, so the Python script cannot delete
+rows directly. To remove rows after they are successfully posted to Telegram,
+add this Google Apps Script to the same spreadsheet.
+
+In Google Sheets, open **Extensions > Apps Script**, paste this code, and replace
+`change-this-secret` with any long random value:
+
+```javascript
+const CLEANUP_SECRET = 'change-this-secret';
+
+function doPost(e) {
+  const payload = JSON.parse(e.postData.contents || '{}');
+  if (payload.secret !== CLEANUP_SECRET) {
+    return jsonResponse({ ok: false, error: 'unauthorized' });
+  }
+
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  const values = sheet.getDataRange().getValues();
+  if (values.length < 2) {
+    return jsonResponse({ ok: true, updated: 0 });
+  }
+
+  const headers = values[0].map(function (header) {
+    return String(header).trim().toLowerCase();
+  });
+  const idCol = headers.indexOf('id');
+  const urlCol = headers.indexOf('url');
+  const statusCol = headers.indexOf('status');
+
+  const sentKeys = {};
+  (payload.deals || []).forEach(function (deal) {
+    if (deal.id) sentKeys[String(deal.id)] = true;
+    if (deal.url) sentKeys[String(deal.url)] = true;
+  });
+
+  let updated = 0;
+  for (let rowIndex = values.length - 1; rowIndex >= 1; rowIndex--) {
+    const row = values[rowIndex];
+    const id = idCol >= 0 ? String(row[idCol]) : '';
+    const url = urlCol >= 0 ? String(row[urlCol]) : '';
+    if (!sentKeys[id] && !sentKeys[url]) continue;
+
+    if ((payload.action || 'delete') === 'mark_sent' && statusCol >= 0) {
+      sheet.getRange(rowIndex + 1, statusCol + 1).setValue('sent');
+    } else {
+      sheet.deleteRow(rowIndex + 1);
+    }
+    updated++;
+  }
+
+  return jsonResponse({ ok: true, updated: updated });
+}
+
+function jsonResponse(body) {
+  return ContentService
+    .createTextOutput(JSON.stringify(body))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+```
+
+Deploy it as a web app:
+
+1. Click **Deploy > New deployment**.
+2. Select **Web app**.
+3. Set **Execute as** to **Me**.
+4. Set **Who has access** to **Anyone with the link**.
+5. Deploy and copy the web app URL.
+
+Add these GitHub Actions secrets:
+
+```text
+GOOGLE_SHEET_CLEANUP_WEBHOOK_URL = your Apps Script web app URL
+GOOGLE_SHEET_CLEANUP_SECRET = the same secret from CLEANUP_SECRET
+```
+
+Cleanup only runs after a non-dry-run where every accepted deal was posted to
+Telegram successfully. Dry runs and failed Telegram runs do not delete rows.
+Google's published CSV can take a few minutes to refresh after rows are deleted.
 
 ## Simplest setup with Cuelinks
 
@@ -293,6 +375,8 @@ TELEGRAM_BOT_TOKEN
 TELEGRAM_CHAT_ID
 GOOGLE_SHEET_CSV_URL
 CUELINKS_CHANNEL_ID
+GOOGLE_SHEET_CLEANUP_WEBHOOK_URL
+GOOGLE_SHEET_CLEANUP_SECRET
 AMAZON_IN_FEED_URL
 FLIPKART_FEED_URL
 ZOMATO_FEED_URL
@@ -305,10 +389,11 @@ TATACLIQ_FEED_URL
 
 For the recommended Google Sheet setup, `GOOGLE_SHEET_CSV_URL`,
 `CUELINKS_CHANNEL_ID`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_CHAT_ID` are enough.
-For merchant feed/API setup, only the feed URL secrets you actually use are
-required. Optional auth secrets like `FLIPKART_AUTH_HEADER` or `AJIO_API_KEY`
-can be added if your affiliate provider requires request headers. After each
-run, GitHub uploads
+Add `GOOGLE_SHEET_CLEANUP_WEBHOOK_URL` and `GOOGLE_SHEET_CLEANUP_SECRET` only
+when you want sent rows deleted after successful Telegram posting. For merchant
+feed/API setup, only the feed URL secrets you actually use are required.
+Optional auth secrets like `FLIPKART_AUTH_HEADER` or `AJIO_API_KEY` can be added
+if your affiliate provider requires request headers. After each run, GitHub uploads
 `out/whatsapp_deals.txt` as a workflow artifact so you can download the
 WhatsApp-ready copy.
 
