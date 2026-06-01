@@ -1,0 +1,94 @@
+name: Run Deals Channel
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build WhatsApp output without posting to Telegram"
+        required: true
+        type: boolean
+        default: true
+      limit:
+        description: "Maximum deals to process"
+        required: true
+        type: number
+        default: 10
+  schedule:
+    # Runs every 6 hours. GitHub cron uses UTC.
+    - cron: "0 */6 * * *"
+
+jobs:
+  run-deals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      AMAZON_IN_FEED_URL: ${{ secrets.AMAZON_IN_FEED_URL }}
+      AMAZON_IN_AUTH_HEADER: ${{ secrets.AMAZON_IN_AUTH_HEADER }}
+      AMAZON_IN_API_KEY: ${{ secrets.AMAZON_IN_API_KEY }}
+
+      FLIPKART_FEED_URL: ${{ secrets.FLIPKART_FEED_URL }}
+      FLIPKART_AUTH_HEADER: ${{ secrets.FLIPKART_AUTH_HEADER }}
+      FLIPKART_API_KEY: ${{ secrets.FLIPKART_API_KEY }}
+
+      ZOMATO_FEED_URL: ${{ secrets.ZOMATO_FEED_URL }}
+      ZOMATO_AUTH_HEADER: ${{ secrets.ZOMATO_AUTH_HEADER }}
+      ZOMATO_API_KEY: ${{ secrets.ZOMATO_API_KEY }}
+
+      BIGBASKET_FEED_URL: ${{ secrets.BIGBASKET_FEED_URL }}
+      BIGBASKET_AUTH_HEADER: ${{ secrets.BIGBASKET_AUTH_HEADER }}
+      BIGBASKET_API_KEY: ${{ secrets.BIGBASKET_API_KEY }}
+
+      INSTAMART_FEED_URL: ${{ secrets.INSTAMART_FEED_URL }}
+      INSTAMART_AUTH_HEADER: ${{ secrets.INSTAMART_AUTH_HEADER }}
+      INSTAMART_API_KEY: ${{ secrets.INSTAMART_API_KEY }}
+
+      ZEPTO_FEED_URL: ${{ secrets.ZEPTO_FEED_URL }}
+      ZEPTO_AUTH_HEADER: ${{ secrets.ZEPTO_AUTH_HEADER }}
+      ZEPTO_API_KEY: ${{ secrets.ZEPTO_API_KEY }}
+
+      AJIO_FEED_URL: ${{ secrets.AJIO_FEED_URL }}
+      AJIO_AUTH_HEADER: ${{ secrets.AJIO_AUTH_HEADER }}
+      AJIO_API_KEY: ${{ secrets.AJIO_API_KEY }}
+
+      TATACLIQ_FEED_URL: ${{ secrets.TATACLIQ_FEED_URL }}
+      TATACLIQ_AUTH_HEADER: ${{ secrets.TATACLIQ_AUTH_HEADER }}
+      TATACLIQ_API_KEY: ${{ secrets.TATACLIQ_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set run options
+        id: options
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "limit=${{ inputs.limit }}" >> "$GITHUB_OUTPUT"
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              echo "telegram_flag=--dry-run" >> "$GITHUB_OUTPUT"
+            else
+              echo "telegram_flag=" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "limit=10" >> "$GITHUB_OUTPUT"
+            echo "telegram_flag=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run deals workflow
+        run: |
+          python3 scripts/deals_channel.py \
+            --config config/deals.json \
+            --limit "${{ steps.options.outputs.limit }}" \
+            ${{ steps.options.outputs.telegram_flag }}
+
+      - name: Upload WhatsApp message file
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: whatsapp-deals
+          path: out/whatsapp_deals.txt
+          if-no-files-found: ignore

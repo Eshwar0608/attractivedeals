@@ -139,6 +139,43 @@ Override it for a single run:
 python3 scripts/deals_channel.py --config config/deals.json --output out/today.txt --dry-run
 ```
 
+
+## Run automatically with GitHub Actions
+
+The repository includes `.github/workflows/run-deals.yml`, which runs the deals
+workflow in two ways:
+
+- Manual run from the GitHub **Actions** tab with `workflow_dispatch`. Manual
+  runs default to dry-run, so they create the WhatsApp file without posting to
+  Telegram unless you turn dry-run off.
+- Scheduled run every 6 hours using GitHub cron. Scheduled runs are real runs:
+  they fetch deals and post to Telegram when feed URL secrets and Telegram
+  secrets are configured.
+
+Add your secrets in GitHub under **Settings > Secrets and variables > Actions**:
+
+```text
+TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID
+AMAZON_IN_FEED_URL
+FLIPKART_FEED_URL
+ZOMATO_FEED_URL
+BIGBASKET_FEED_URL
+INSTAMART_FEED_URL
+ZEPTO_FEED_URL
+AJIO_FEED_URL
+TATACLIQ_FEED_URL
+```
+
+Only the feed URL secrets you actually use are required. Optional auth secrets
+like `FLIPKART_AUTH_HEADER` or `AJIO_API_KEY` can be added if your affiliate
+provider requires request headers. After each run, GitHub uploads
+`out/whatsapp_deals.txt` as a workflow artifact so you can download the
+WhatsApp-ready copy.
+
+To change the schedule, edit the cron value in `.github/workflows/run-deals.yml`.
+GitHub cron times are in UTC.
+
 ## Automation
 
 Run the script from cron, GitHub Actions, or any scheduler. A common safe setup
