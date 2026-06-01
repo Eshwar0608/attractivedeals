@@ -1,0 +1,45 @@
+{
+  "feeds": [
+    {
+      "name": "sample-affiliate-json",
+      "url": "https://example.com/affiliate-feed.json",
+      "type": "json",
+      "items_path": "deals",
+      "title_field": "title",
+      "url_field": "affiliate_url",
+      "price_field": "price",
+      "original_price_field": "mrp",
+      "discount_percent_field": "discount_percent",
+      "coupon_field": "coupon_code",
+      "category_field": "category",
+      "description_field": "description",
+      "currency": "Rs. "
+    },
+    {
+      "name": "sample-rss-feed",
+      "url": "https://example.com/deals.rss",
+      "type": "rss",
+      "currency": "Rs. "
+    }
+  ],
+  "filters": {
+    "min_discount_percent": 25,
+    "min_savings_amount": 100,
+    "require_discount_data": true,
+    "blocked_keywords": ["refurbished", "used", "renewed"],
+    "required_keywords": [],
+    "max_items": 10
+  },
+  "hashtags": ["#deals", "#offers", "#affiliate"],
+  "telegram": {
+    "enabled": true,
+    "bot_token_env": "TELEGRAM_BOT_TOKEN",
+    "chat_id_env": "TELEGRAM_CHAT_ID",
+    "disable_web_page_preview": false,
+    "timeout_seconds": 15,
+    "required": false
+  },
+  "whatsapp": {
+    "output_file": "out/whatsapp_deals.txt"
+  }
+}
