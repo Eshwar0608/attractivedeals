@@ -215,6 +215,38 @@ class DealsChannelTests(unittest.TestCase):
         )
 
 
+    def test_skip_affiliate_leaves_urls_unwrapped_even_when_required(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_file = Path(tmp_dir) / "whatsapp.txt"
+            config = WorkflowConfig(
+                feeds=[
+                    FeedConfig(
+                        name="manual",
+                        type="manual",
+                        items=[
+                            {
+                                "title": "Telegram test deal 50% off",
+                                "url": "https://www.flipkart.com/test-product",
+                                "price": "500",
+                                "original_price": "1000",
+                            }
+                        ],
+                    )
+                ],
+                filters=FilterConfig(min_discount_percent=25, require_discount_data=True),
+                affiliate=AffiliateConfig(enabled=True, network="cuelinks", required=True),
+                telegram=TelegramConfig(enabled=False),
+                whatsapp=WhatsAppConfig(output_file=str(output_file)),
+            )
+
+            summary = run_workflow(config, skip_telegram=True, skip_affiliate=True)
+            output = output_file.read_text(encoding="utf-8")
+
+            self.assertEqual(summary.errors, [])
+            self.assertIn("https://www.flipkart.com/test-product", output)
+            self.assertNotIn("linksredirect.com", output)
+
+
     def test_run_workflow_skips_unconfigured_feed_urls(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             output_file = Path(tmp_dir) / "whatsapp.txt"

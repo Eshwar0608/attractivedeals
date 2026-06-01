@@ -13,6 +13,11 @@ on:
         required: true
         type: number
         default: 10
+      skip_affiliate:
+        description: "Skip Cuelinks wrapping for Telegram delivery tests"
+        required: true
+        type: boolean
+        default: false
       config_path:
         description: "Config file to run"
         required: true
@@ -84,11 +89,18 @@ jobs:
               echo "telegram_flag=--dry-run" >> "$GITHUB_OUTPUT"
             else
               echo "telegram_flag=" >> "$GITHUB_OUTPUT"
+            echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
+            fi
+            if [ "${{ inputs.skip_affiliate }}" = "true" ]; then
+              echo "affiliate_flag=--skip-affiliate" >> "$GITHUB_OUTPUT"
+            else
+              echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
             fi
           else
             echo "limit=10" >> "$GITHUB_OUTPUT"
             echo "config_path=config/google-sheet-cuelinks.json" >> "$GITHUB_OUTPUT"
             echo "telegram_flag=" >> "$GITHUB_OUTPUT"
+            echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run deals workflow
@@ -96,7 +108,8 @@ jobs:
           python3 scripts/deals_channel.py \
             --config "${{ steps.options.outputs.config_path }}" \
             --limit "${{ steps.options.outputs.limit }}" \
-            ${{ steps.options.outputs.telegram_flag }}
+            ${{ steps.options.outputs.telegram_flag }} \
+            ${{ steps.options.outputs.affiliate_flag }}
 
       - name: Upload WhatsApp message file
         if: always()

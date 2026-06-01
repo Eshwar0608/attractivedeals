@@ -210,6 +210,38 @@ Use the `filters` section to control what gets posted:
 When both discount percentage and savings filters are set, a deal can pass by
 meeting either threshold.
 
+
+## Test Telegram before adding Cuelinks
+
+If you have `GOOGLE_SHEET_CSV_URL`, `TELEGRAM_BOT_TOKEN`, and
+`TELEGRAM_CHAT_ID`, but you have not added `CUELINKS_CHANNEL_ID` yet, run a
+manual Telegram delivery test by skipping affiliate wrapping.
+
+From GitHub:
+
+1. Open **Actions > Run Deals Channel > Run workflow**.
+2. Set `dry_run` to `false`.
+3. Set `skip_affiliate` to `true`.
+4. Keep `config_path` as `config/google-sheet-cuelinks.json`.
+5. Set `limit` to `1`.
+6. Run the workflow.
+
+This posts one deal to Telegram using the original URL from the Google Sheet.
+After Telegram posting is confirmed, add `CUELINKS_CHANNEL_ID` and run again
+with `skip_affiliate` set to `false` so links are monetized.
+
+Local equivalent:
+
+```bash
+GOOGLE_SHEET_CSV_URL="your-published-csv-url" \
+TELEGRAM_BOT_TOKEN="your-bot-token" \
+TELEGRAM_CHAT_ID="@your_channel" \
+python3 scripts/deals_channel.py \
+  --config config/google-sheet-cuelinks.json \
+  --limit 1 \
+  --skip-affiliate
+```
+
 ## Telegram posting
 
 Create a Telegram bot and set these environment variables before running without
@@ -248,7 +280,8 @@ workflow in two ways:
 - Manual run from the GitHub **Actions** tab with `workflow_dispatch`. Manual
   runs default to dry-run, so they create the WhatsApp file without posting to
   Telegram unless you turn dry-run off. The default config is
-  `config/google-sheet-cuelinks.json`.
+  `config/google-sheet-cuelinks.json`. Use `skip_affiliate=true` when testing
+  Telegram before adding `CUELINKS_CHANNEL_ID`.
 - Scheduled run every 6 hours using GitHub cron. Scheduled runs are real runs:
   they fetch the Google Sheet CSV, wrap links with Cuelinks, and post to
   Telegram when the required secrets are configured.

@@ -514,6 +514,7 @@ def run_workflow(
     config: WorkflowConfig,
     dry_run: bool = False,
     skip_telegram: bool = False,
+    skip_affiliate: bool = False,
     output_override: str | None = None,
 ) -> RunSummary:
     summary = RunSummary()
@@ -534,7 +535,7 @@ def run_workflow(
             summary.errors.append(f"{feed.name}: {exc}")
 
     accepted = filter_deals(all_deals, config.filters)
-    affiliate_errors = apply_affiliate_links(accepted, config.affiliate)
+    affiliate_errors = [] if skip_affiliate else apply_affiliate_links(accepted, config.affiliate)
     summary.accepted = len(accepted)
     summary.skipped = summary.fetched - summary.accepted
     summary.errors.extend(affiliate_errors)
@@ -657,6 +658,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--limit", type=int, help="Override max deals for this run.")
     parser.add_argument("--dry-run", action="store_true", help="Build messages without posting to Telegram.")
     parser.add_argument("--skip-telegram", action="store_true", help="Disable Telegram posting for this run.")
+    parser.add_argument("--skip-affiliate", action="store_true", help="Do not wrap deal URLs with affiliate tracking for this run.")
     return parser.parse_args(argv)
 
 
@@ -670,13 +672,14 @@ def main(argv: list[str] | None = None) -> int:
         config,
         dry_run=args.dry_run,
         skip_telegram=args.skip_telegram,
+        skip_affiliate=args.skip_affiliate,
         output_override=args.output,
     )
     print(json.dumps(dataclasses.asdict(summary), indent=2, sort_keys=True))
 
     if summary.telegram_failed:
         return 1
-    if config.affiliate.required and summary.errors:
+    if config.affiliate.required and not args.skip_affiliate and summary.errors:
         return 1
     if summary.fetched == 0 and (summary.errors or summary.skipped_feeds):
         return 1
