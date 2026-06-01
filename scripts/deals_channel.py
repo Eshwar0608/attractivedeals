@@ -8,8 +8,10 @@ to Telegram, and writes WhatsApp-ready copy without using a database.
 from __future__ import annotations
 
 import argparse
+import csv
 import dataclasses
 import html
+import io
 import json
 import os
 import re
@@ -30,10 +32,11 @@ ENV_PLACEHOLDER_RE = re.compile(r"\$\{([A-Za-z_][A-Za-z0-9_]*)(?::-(.*?))?\}")
 @dataclass
 class FeedConfig:
     name: str
-    url: str
+    url: str = ""
     enabled: bool = True
     type: str = "auto"
     headers: dict[str, str] = field(default_factory=dict)
+    items: list[dict[str, Any]] = field(default_factory=list)
     items_path: str | None = None
     title_field: str = "title"
     url_field: str = "url"
@@ -72,10 +75,21 @@ class WhatsAppConfig:
 
 
 @dataclass
+class AffiliateConfig:
+    enabled: bool = False
+    network: str = "none"
+    channel_id: str = ""
+    channel_id_env: str = "CUELINKS_CHANNEL_ID"
+    source: str = "linkkit"
+    required: bool = False
+
+
+@dataclass
 class WorkflowConfig:
     feeds: list[FeedConfig]
     filters: FilterConfig = field(default_factory=FilterConfig)
     hashtags: list[str] = field(default_factory=lambda: ["#deals"])
+    affiliate: AffiliateConfig = field(default_factory=AffiliateConfig)
     telegram: TelegramConfig = field(default_factory=TelegramConfig)
     whatsapp: WhatsAppConfig = field(default_factory=WhatsAppConfig)
 
@@ -125,6 +139,7 @@ def load_config(path: Path) -> WorkflowConfig:
         feeds=feeds,
         filters=FilterConfig(**raw.get("filters", {})),
         hashtags=raw.get("hashtags", ["#deals"]),
+        affiliate=AffiliateConfig(**raw.get("affiliate", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
         whatsapp=WhatsAppConfig(**raw.get("whatsapp", {})),
     )
@@ -169,14 +184,19 @@ def fetch_text(url: str, headers: dict[str, str] | None = None, timeout: int = 2
 
 
 def parse_feed(feed: FeedConfig) -> list[Deal]:
-    body = fetch_text(feed.url, feed.headers)
     feed_type = feed.type.lower()
+    if feed_type in ("manual", "inline"):
+        return parse_json_items(feed, feed.items)
+
+    body = fetch_text(feed.url, feed.headers)
     if feed_type == "auto":
         stripped = body.lstrip()
         feed_type = "json" if stripped.startswith(("{", "[")) else "rss"
 
     if feed_type == "json":
         return parse_json_feed(feed, body)
+    if feed_type == "csv":
+        return parse_csv_feed(feed, body)
     if feed_type in ("rss", "atom", "xml"):
         return parse_xml_feed(feed, body)
     raise ValueError(f"Unsupported feed type for {feed.name}: {feed.type}")
@@ -184,7 +204,10 @@ def parse_feed(feed: FeedConfig) -> list[Deal]:
 
 def parse_json_feed(feed: FeedConfig, body: str) -> list[Deal]:
     payload = json.loads(body)
-    items = extract_items(payload, feed.items_path)
+    return parse_json_items(feed, extract_items(payload, feed.items_path))
+
+
+def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
     deals: list[Deal] = []
 
     for item in items:
@@ -230,6 +253,11 @@ def parse_json_feed(feed: FeedConfig, body: str) -> list[Deal]:
 
     return deals
 
+
+
+def parse_csv_feed(feed: FeedConfig, body: str) -> list[Deal]:
+    reader = csv.DictReader(io.StringIO(body))
+    return parse_json_items(feed, list(reader))
 
 def parse_xml_feed(feed: FeedConfig, body: str) -> list[Deal]:
     root = ET.fromstring(body)
@@ -495,7 +523,7 @@ def run_workflow(
         if not feed.enabled:
             summary.skipped_feeds.append(f"{feed.name}: disabled")
             continue
-        if not feed.url:
+        if feed.type.lower() not in ("manual", "inline") and not feed.url:
             summary.skipped_feeds.append(f"{feed.name}: missing feed URL")
             continue
         try:
@@ -506,8 +534,10 @@ def run_workflow(
             summary.errors.append(f"{feed.name}: {exc}")
 
     accepted = filter_deals(all_deals, config.filters)
+    affiliate_errors = apply_affiliate_links(accepted, config.affiliate)
     summary.accepted = len(accepted)
     summary.skipped = summary.fetched - summary.accepted
+    summary.errors.extend(affiliate_errors)
 
     messages = [format_deal(deal, config.hashtags) for deal in accepted]
     output_file = Path(output_override or config.whatsapp.output_file)
@@ -523,6 +553,38 @@ def run_workflow(
 
     return summary
 
+
+
+def apply_affiliate_links(deals: list[Deal], affiliate: AffiliateConfig) -> list[str]:
+    if not affiliate.enabled:
+        return []
+
+    network = affiliate.network.lower()
+    if network != "cuelinks":
+        return [f"Unsupported affiliate network: {affiliate.network}"] if affiliate.required else []
+
+    channel_id = affiliate.channel_id or os.environ.get(affiliate.channel_id_env, "")
+    if not channel_id:
+        message = f"Cuelinks skipped: set {affiliate.channel_id_env} to wrap deal URLs."
+        return [message] if affiliate.required else []
+
+    for deal in deals:
+        deal.url = build_cuelinks_url(deal.url, channel_id, affiliate.source)
+    return []
+
+
+def build_cuelinks_url(url: str, channel_id: str, source: str = "linkkit") -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.netloc.lower() == "linksredirect.com":
+        return url
+    query = urllib.parse.urlencode(
+        {
+            "cid": channel_id,
+            "source": source or "linkkit",
+            "url": url,
+        }
+    )
+    return f"https://linksredirect.com/?{query}"
 
 def first_text(*values: Any) -> str | None:
     for value in values:
@@ -613,6 +675,8 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps(dataclasses.asdict(summary), indent=2, sort_keys=True))
 
     if summary.telegram_failed:
+        return 1
+    if config.affiliate.required and summary.errors:
         return 1
     if summary.fetched == 0 and (summary.errors or summary.skipped_feeds):
         return 1

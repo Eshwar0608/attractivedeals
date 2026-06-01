@@ -196,5 +196,12 @@
   },
   "whatsapp": {
     "output_file": "out/whatsapp_deals.txt"
+  },
+  "affiliate": {
+    "enabled": true,
+    "network": "cuelinks",
+    "channel_id_env": "CUELINKS_CHANNEL_ID",
+    "source": "linkkit",
+    "required": false
   }
 }

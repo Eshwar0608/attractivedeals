@@ -13,6 +13,15 @@ on:
         required: true
         type: number
         default: 10
+      config_path:
+        description: "Config file to run"
+        required: true
+        type: choice
+        default: "config/google-sheet-cuelinks.json"
+        options:
+          - "config/google-sheet-cuelinks.json"
+          - "config/simple-cuelinks.json"
+          - "config/deals.json"
   schedule:
     # Runs every 6 hours. GitHub cron uses UTC.
     - cron: "0 */6 * * *"
@@ -25,6 +34,8 @@ jobs:
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      CUELINKS_CHANNEL_ID: ${{ secrets.CUELINKS_CHANNEL_ID }}
+      GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
 
       AMAZON_IN_FEED_URL: ${{ secrets.AMAZON_IN_FEED_URL }}
       AMAZON_IN_AUTH_HEADER: ${{ secrets.AMAZON_IN_AUTH_HEADER }}
@@ -68,6 +79,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "limit=${{ inputs.limit }}" >> "$GITHUB_OUTPUT"
+            echo "config_path=${{ inputs.config_path }}" >> "$GITHUB_OUTPUT"
             if [ "${{ inputs.dry_run }}" = "true" ]; then
               echo "telegram_flag=--dry-run" >> "$GITHUB_OUTPUT"
             else
@@ -75,13 +87,14 @@ jobs:
             fi
           else
             echo "limit=10" >> "$GITHUB_OUTPUT"
+            echo "config_path=config/google-sheet-cuelinks.json" >> "$GITHUB_OUTPUT"
             echo "telegram_flag=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run deals workflow
         run: |
           python3 scripts/deals_channel.py \
-            --config config/deals.json \
+            --config "${{ steps.options.outputs.config_path }}" \
             --limit "${{ steps.options.outputs.limit }}" \
             ${{ steps.options.outputs.telegram_flag }}
 
