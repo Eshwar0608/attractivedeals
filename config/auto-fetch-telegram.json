@@ -1,0 +1,67 @@
+{
+  "_notes": [
+    "Primary automated pipeline: fetch live offers from Cuelinks API, export to out/deals.csv, wrap links, post to Telegram.",
+    "Set CUELINKS_API_TOKEN (from Cuelinks after API approval). Optional GOOGLE_SHEET_CSV_URL adds manual/curated rows from a sheet.",
+    "If your account uses a custom Offers API URL, set CUELINKS_OFFERS_URL."
+  ],
+  "feeds": [
+    {
+      "name": "cuelinks-offers",
+      "enabled": true,
+      "type": "cuelinks_offers",
+      "url": "${CUELINKS_OFFERS_URL:-}",
+      "items_path": "${CUELINKS_OFFERS_ITEMS_PATH:-}",
+      "api_token_env": "CUELINKS_API_TOKEN",
+      "max_pages": 5,
+      "per_page": 50,
+      "category": "${CUELINKS_OFFERS_CATEGORY:-}",
+      "currency": "Rs. "
+    },
+    {
+      "name": "google-sheet-curated",
+      "enabled": true,
+      "url": "${GOOGLE_SHEET_CSV_URL:-}",
+      "type": "csv",
+      "title_field": "title",
+      "url_field": "url",
+      "price_field": "price",
+      "original_price_field": "original_price",
+      "discount_percent_field": "discount_percent",
+      "coupon_field": "coupon",
+      "category_field": "category",
+      "description_field": "description",
+      "currency": "Rs. "
+    }
+  ],
+  "export_csv": {
+    "enabled": true,
+    "output_file": "out/deals.csv"
+  },
+  "affiliate": {
+    "enabled": true,
+    "network": "cuelinks",
+    "channel_id_env": "CUELINKS_CHANNEL_ID",
+    "source": "linkkit",
+    "required": true
+  },
+  "filters": {
+    "min_discount_percent": 10,
+    "min_savings_amount": 0,
+    "require_discount_data": false,
+    "blocked_keywords": ["refurbished", "used", "renewed", "expired", "out of stock"],
+    "required_keywords": [],
+    "max_items": 10
+  },
+  "hashtags": ["#deals", "#offers", "#shopping"],
+  "telegram": {
+    "enabled": true,
+    "bot_token_env": "TELEGRAM_BOT_TOKEN",
+    "chat_id_env": "TELEGRAM_CHAT_ID",
+    "disable_web_page_preview": false,
+    "timeout_seconds": 15,
+    "required": true
+  },
+  "whatsapp": {
+    "output_file": "out/whatsapp_deals.txt"
+  }
+}

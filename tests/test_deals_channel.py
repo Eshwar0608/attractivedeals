@@ -6,18 +6,22 @@ from pathlib import Path
 
 from scripts.deals_channel import (
     AffiliateConfig,
+    ExportCsvConfig,
     FeedConfig,
     FilterConfig,
     TelegramConfig,
     WhatsAppConfig,
     WorkflowConfig,
     build_cuelinks_url,
+    discover_cuelinks_items,
+    fetch_cuelinks_offers_from_url,
     filter_deals,
     load_config,
     format_deal,
     main,
     parse_feed,
     run_workflow,
+    save_deals_csv,
 )
 
 
@@ -140,6 +144,94 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.telegram_posted, 0)
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
+
+    def test_discover_cuelinks_items_from_offers_payload(self):
+        payload = {
+            "offers": [
+                {
+                    "title": "Flipkart 40% off",
+                    "offer_url": "https://www.flipkart.com/deal",
+                    "description": "Limited time",
+                    "category": "Shopping",
+                }
+            ]
+        }
+        items = discover_cuelinks_items(payload)
+        self.assertEqual(len(items), 1)
+
+    def test_fetch_cuelinks_offers_from_local_json_file(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            offers_file = Path(tmp_dir) / "offers.json"
+            offers_file.write_text(
+                json.dumps(
+                    {
+                        "data": {
+                            "offers": [
+                                {
+                                    "offer_title": "Ajio 50% off",
+                                    "landing_url": "https://www.ajio.com/deal",
+                                    "coupon_code": "AJIO50",
+                                }
+                            ]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            feed = FeedConfig(
+                name="cuelinks-offers",
+                url=str(offers_file),
+                type="cuelinks_offers",
+                items_path="data.offers",
+                api_token_env="TEST_CUELINKS_TOKEN",
+                max_pages=1,
+                per_page=50,
+            )
+            os.environ["TEST_CUELINKS_TOKEN"] = "test-token-123456789012345678901234"
+            try:
+                deals = fetch_cuelinks_offers_from_url(
+                    feed,
+                    str(offers_file),
+                    {"Authorization": 'Token token="x"'},
+                )
+            finally:
+                os.environ.pop("TEST_CUELINKS_TOKEN", None)
+
+            self.assertEqual(len(deals), 1)
+            self.assertEqual(deals[0].title, "Ajio 50% off")
+            self.assertEqual(deals[0].coupon, "AJIO50")
+
+    def test_run_workflow_writes_csv_and_whatsapp(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            csv_file = Path(tmp_dir) / "deals.csv"
+            whatsapp_file = Path(tmp_dir) / "whatsapp.txt"
+            config = WorkflowConfig(
+                feeds=[
+                    FeedConfig(
+                        name="manual",
+                        type="manual",
+                        items=[
+                            {
+                                "title": "Test deal 30% off",
+                                "url": "https://example.com/product",
+                                "price": "700",
+                                "original_price": "1000",
+                            }
+                        ],
+                    )
+                ],
+                filters=FilterConfig(min_discount_percent=20, require_discount_data=True),
+                telegram=TelegramConfig(enabled=False),
+                whatsapp=WhatsAppConfig(output_file=str(whatsapp_file)),
+                export_csv=ExportCsvConfig(enabled=True, output_file=str(csv_file)),
+            )
+
+            summary = run_workflow(config, skip_telegram=True)
+
+            self.assertEqual(summary.accepted, 1)
+            self.assertTrue(csv_file.exists())
+            self.assertIn("Test deal 30% off", csv_file.read_text(encoding="utf-8"))
+            self.assertEqual(summary.csv_file, str(csv_file))
 
     def test_csv_feed_accepts_title_case_headers(self):
         with tempfile.TemporaryDirectory() as tmp_dir:

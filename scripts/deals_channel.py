@@ -27,6 +27,11 @@ from typing import Any
 
 DEFAULT_USER_AGENT = "deals-channel-workflow/1.0"
 ENV_PLACEHOLDER_RE = re.compile(r"\$\{([A-Za-z_][A-Za-z0-9_]*)(?::-(.*?))?\}")
+DEFAULT_CUELINKS_OFFERS_URLS = (
+    "https://www.cuelinks.com/api/v2/offers.json",
+    "https://www.cuelinks.com/api/v1/offers.json",
+)
+CUELINKS_ITEM_PATHS = ("offers", "data.offers", "data", "results", "items", "coupons", "deals")
 
 
 @dataclass
@@ -47,6 +52,16 @@ class FeedConfig:
     category_field: str = "category"
     description_field: str = "description"
     currency: str = ""
+    api_token_env: str = "CUELINKS_API_TOKEN"
+    max_pages: int = 5
+    per_page: int = 50
+    category: str = ""
+
+
+@dataclass
+class ExportCsvConfig:
+    enabled: bool = True
+    output_file: str = "out/deals.csv"
 
 
 @dataclass
@@ -92,6 +107,7 @@ class WorkflowConfig:
     affiliate: AffiliateConfig = field(default_factory=AffiliateConfig)
     telegram: TelegramConfig = field(default_factory=TelegramConfig)
     whatsapp: WhatsAppConfig = field(default_factory=WhatsAppConfig)
+    export_csv: ExportCsvConfig = field(default_factory=ExportCsvConfig)
 
 
 @dataclass
@@ -123,18 +139,27 @@ class RunSummary:
     telegram_posted: int = 0
     telegram_failed: int = 0
     whatsapp_file: str | None = None
+    csv_file: str | None = None
     skipped_feeds: list[str] = field(default_factory=list)
     feed_details: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+
+
+def config_fields(cls: type) -> set[str]:
+    return {item.name for item in dataclasses.fields(cls)}
 
 
 def load_config(path: Path) -> WorkflowConfig:
     with path.open("r", encoding="utf-8") as config_file:
         raw = expand_config_env(json.load(config_file))
 
-    feeds = [FeedConfig(**feed) for feed in raw.get("feeds", [])]
+    feed_fields = config_fields(FeedConfig)
+    feeds = [FeedConfig(**{k: v for k, v in feed.items() if k in feed_fields}) for feed in raw.get("feeds", [])]
     if not feeds:
         raise ValueError("Config must include at least one feed.")
+
+    export_raw = raw.get("export_csv", {})
+    export_fields = config_fields(ExportCsvConfig)
 
     return WorkflowConfig(
         feeds=feeds,
@@ -143,6 +168,7 @@ def load_config(path: Path) -> WorkflowConfig:
         affiliate=AffiliateConfig(**raw.get("affiliate", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
         whatsapp=WhatsAppConfig(**raw.get("whatsapp", {})),
+        export_csv=ExportCsvConfig(**{k: v for k, v in export_raw.items() if k in export_fields}),
     )
 
 
@@ -184,10 +210,109 @@ def fetch_text(url: str, headers: dict[str, str] | None = None, timeout: int = 2
         return response.read().decode(charset)
 
 
+def cuelinks_auth_header(token: str) -> dict[str, str]:
+    return {
+        "Authorization": f'Token token="{token}"',
+        "Content-Type": "application/json",
+        "User-Agent": DEFAULT_USER_AGENT,
+    }
+
+
+def normalize_item_keys(item: dict[str, Any]) -> dict[str, Any]:
+    return {str(key).strip().lower().replace(" ", "_"): value for key, value in item.items() if key is not None}
+
+
+def discover_cuelinks_items(payload: Any, items_path: str | None = None) -> list[Any]:
+    if items_path:
+        items = extract_items(payload, items_path)
+        if items:
+            return items
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict):
+        for path in CUELINKS_ITEM_PATHS:
+            items = extract_items(payload, path)
+            if items:
+                return items
+    return []
+
+
+def fetch_cuelinks_offers(feed: FeedConfig) -> list[Deal]:
+    token = os.environ.get(feed.api_token_env, "").strip()
+    if not token:
+        raise ValueError(
+            f"Set {feed.api_token_env} to fetch live offers from Cuelinks. "
+            "Request API access from sales@cuelinks.com (publisher account required)."
+        )
+
+    candidate_urls: list[str] = []
+    if feed.url:
+        candidate_urls.append(feed.url)
+    for default_url in DEFAULT_CUELINKS_OFFERS_URLS:
+        if default_url not in candidate_urls:
+            candidate_urls.append(default_url)
+
+    headers = cuelinks_auth_header(token)
+    headers.update({key: value for key, value in feed.headers.items() if value})
+    last_error: Exception | None = None
+    deals: list[Deal] = []
+
+    for base_url in candidate_urls:
+        try:
+            deals = fetch_cuelinks_offers_from_url(feed, base_url, headers)
+            if deals:
+                return deals
+        except (urllib.error.URLError, urllib.error.HTTPError, ValueError, json.JSONDecodeError) as exc:
+            last_error = exc
+
+    if last_error:
+        raise ValueError(
+            f"Could not fetch Cuelinks offers from configured URLs. Last error: {last_error}. "
+            "Set CUELINKS_OFFERS_URL to the Offers API URL from your Cuelinks API documentation."
+        ) from last_error
+    raise ValueError("Cuelinks offers API returned no deals.")
+
+
+def fetch_cuelinks_offers_from_url(
+    feed: FeedConfig,
+    base_url: str,
+    headers: dict[str, str],
+) -> list[Deal]:
+    deals: list[Deal] = []
+    remote = urllib.parse.urlparse(base_url).scheme in ("http", "https")
+    max_pages = max(feed.max_pages, 1) if remote else 1
+    for page in range(1, max_pages + 1):
+        page_url = base_url
+        if remote:
+            query: dict[str, str] = {
+                "page": str(page),
+                "per_page": str(feed.per_page),
+            }
+            if feed.category:
+                query["category"] = feed.category
+            separator = "&" if "?" in base_url else "?"
+            page_url = f"{base_url}{separator}{urllib.parse.urlencode(query)}"
+
+        body = fetch_text(page_url, headers=headers)
+        payload = json.loads(body)
+        items = discover_cuelinks_items(payload, feed.items_path)
+        normalized_items = [
+            normalize_item_keys(item) if isinstance(item, dict) else item for item in items
+        ]
+        page_deals = parse_json_items(feed, normalized_items)
+        deals.extend(page_deals)
+        if not page_deals or len(items) < feed.per_page:
+            break
+
+    return deals
+
+
 def parse_feed(feed: FeedConfig) -> list[Deal]:
     feed_type = feed.type.lower()
     if feed_type in ("manual", "inline"):
         return parse_json_items(feed, feed.items)
+    if feed_type == "cuelinks_offers":
+        return fetch_cuelinks_offers(feed)
 
     body = fetch_text(feed.url, feed.headers)
     if feed_type == "auto":
@@ -218,12 +343,19 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             get_nested(item, feed.title_field),
             get_nested(item, "name"),
             get_nested(item, "product_name"),
+            get_nested(item, "offer_title"),
+            get_nested(item, "offer_name"),
+            get_nested(item, "campaign_name"),
         )
         url = first_text(
             get_nested(item, feed.url_field),
             get_nested(item, "link"),
             get_nested(item, "deeplink"),
             get_nested(item, "affiliate_url"),
+            get_nested(item, "offer_url"),
+            get_nested(item, "landing_url"),
+            get_nested(item, "merchant_url"),
+            get_nested(item, "tracking_url"),
         )
         if not title or not url:
             continue
@@ -245,7 +377,13 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
                 price=price,
                 original_price=original_price,
                 discount_percent=discount_percent,
-                coupon=clean_optional_text(get_nested(item, feed.coupon_field)),
+                coupon=clean_optional_text(
+                    first_text(
+                        get_nested(item, feed.coupon_field),
+                        get_nested(item, "coupon_code"),
+                        get_nested(item, "promo_code"),
+                    )
+                ),
                 category=clean_optional_text(get_nested(item, feed.category_field)),
                 description=clean_optional_text(get_nested(item, feed.description_field)),
                 currency=feed.currency,
@@ -513,6 +651,38 @@ def save_whatsapp_messages(messages: list[str], output_file: Path) -> None:
     output_file.write_text("\n\n---\n\n".join(messages) + ("\n" if messages else ""), encoding="utf-8")
 
 
+def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = [
+        "source",
+        "title",
+        "url",
+        "price",
+        "original_price",
+        "discount_percent",
+        "coupon",
+        "category",
+        "description",
+    ]
+    with output_file.open("w", encoding="utf-8", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        for deal in deals:
+            writer.writerow(
+                {
+                    "source": deal.source,
+                    "title": deal.title,
+                    "url": deal.url,
+                    "price": deal.price if deal.price is not None else "",
+                    "original_price": deal.original_price if deal.original_price is not None else "",
+                    "discount_percent": deal.discount_percent if deal.discount_percent is not None else "",
+                    "coupon": deal.coupon or "",
+                    "category": deal.category or "",
+                    "description": deal.description or "",
+                }
+            )
+
+
 def post_messages_to_telegram(
     messages: list[str],
     telegram: TelegramConfig,
@@ -581,7 +751,8 @@ def run_workflow(
         if not feed.enabled:
             summary.skipped_feeds.append(f"{feed.name}: disabled")
             continue
-        if feed.type.lower() not in ("manual", "inline") and not feed.url:
+        feed_type = feed.type.lower()
+        if feed_type not in ("manual", "inline", "cuelinks_offers") and not feed.url:
             summary.skipped_feeds.append(f"{feed.name}: missing feed URL")
             continue
         try:
@@ -608,6 +779,11 @@ def run_workflow(
     output_file = Path(output_override or config.whatsapp.output_file)
     save_whatsapp_messages(messages, output_file)
     summary.whatsapp_file = str(output_file)
+
+    if config.export_csv.enabled and accepted:
+        csv_file = Path(config.export_csv.output_file)
+        save_deals_csv(accepted, csv_file)
+        summary.csv_file = str(csv_file)
 
     if skip_telegram:
         config.telegram.enabled = False
@@ -730,7 +906,11 @@ def format_number(value: float) -> str:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the semi-automated deals channel workflow.")
-    parser.add_argument("--config", default="config/deals.json", help="Path to workflow JSON config.")
+    parser.add_argument(
+        "--config",
+        default="config/auto-fetch-telegram.json",
+        help="Path to workflow JSON config.",
+    )
     parser.add_argument("--output", help="Override WhatsApp output file path.")
     parser.add_argument("--limit", type=int, help="Override max deals for this run.")
     parser.add_argument("--dry-run", action="store_true", help="Build messages without posting to Telegram.")

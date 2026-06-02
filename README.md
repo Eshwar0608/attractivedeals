@@ -3,11 +3,21 @@
 This repository contains a lightweight semi-automated workflow for running an
 affiliate deals channel:
 
-1. Fetch affiliate feeds or APIs.
+1. **Fetch deals automatically** from the **Cuelinks Offers API** (and optionally a Google Sheet CSV).
 2. Remove weak deals with configurable filters.
-3. Format shareable messages with hashtags.
-4. Post approved deals to Telegram.
-5. Save a WhatsApp-ready text file for manual sharing.
+3. **Export accepted deals to `out/deals.csv`** (audit/history).
+4. Wrap links with **Cuelinks** tracking (`CUELINKS_CHANNEL_ID`).
+5. Format shareable messages with hashtags.
+6. **Post to Telegram** and save WhatsApp-ready copy.
+
+```text
+Cuelinks Offers API  ──┐
+Google Sheet CSV     ──┼→ filter → out/deals.csv → Telegram + out/whatsapp_deals.txt
+Manual JSON items    ──┘
+```
+
+**Default config:** `config/auto-fetch-telegram.json` (used by GitHub Actions).
+**Legacy manual-only config:** `config/google-sheet-cuelinks.json` (sheet is the only source).
 
 The workflow intentionally does not use a database. It deduplicates deals only
 within each run.
@@ -35,9 +45,31 @@ The script now **fails the workflow** when no deals are accepted or Telegram doe
 5. **Test Telegram**: Actions → Run Deals Channel → `dry_run: false`, `skip_affiliate: true`, `limit: 1`
 6. **Production**: scheduled runs use `config/google-sheet-cuelinks.json` with Cuelinks enabled (`skip_affiliate: false`)
 
-## Quick start
+## Quick start (auto-fetch → CSV → Telegram)
 
-Best simple setup:
+1. Get **Cuelinks API token** (email sales@cuelinks.com — publisher account, API access required).
+2. Set secrets/env vars below.
+3. Run:
+
+```bash
+export CUELINKS_API_TOKEN="your-32-char-api-token"
+export CUELINKS_CHANNEL_ID="your-cuelinks-channel-id"
+export TELEGRAM_BOT_TOKEN="your-bot-token"
+export TELEGRAM_CHAT_ID="@your_channel"
+python3 scripts/deals_channel.py --config config/auto-fetch-telegram.json --dry-run --verbose
+```
+
+Outputs: `out/deals.csv` (accepted deals) and `out/whatsapp_deals.txt`. Remove `--dry-run` to post to Telegram.
+
+### Google Sheet as optional extra source
+
+You can still merge curated rows from a published sheet:
+
+```bash
+export GOOGLE_SHEET_CSV_URL="https://docs.google.com/spreadsheets/d/.../pub?output=csv"
+```
+
+## Quick start (sheet-only legacy)
 
 ```bash
 export GOOGLE_SHEET_CSV_URL="your-published-google-sheet-csv-url"
@@ -326,8 +358,18 @@ AJIO_FEED_URL
 TATACLIQ_FEED_URL
 ```
 
-For the recommended Google Sheet setup, `GOOGLE_SHEET_CSV_URL`,
-`CUELINKS_CHANNEL_ID`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_CHAT_ID` are enough.
+For **auto-fetch** (`config/auto-fetch-telegram.json`), set:
+
+```text
+CUELINKS_API_TOKEN
+CUELINKS_CHANNEL_ID
+TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID
+```
+
+Optional: `GOOGLE_SHEET_CSV_URL`, `CUELINKS_OFFERS_URL`, `CUELINKS_OFFERS_ITEMS_PATH`, `CUELINKS_OFFERS_CATEGORY`.
+
+For sheet-only setup, `GOOGLE_SHEET_CSV_URL`, `CUELINKS_CHANNEL_ID`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_CHAT_ID` are enough.
 For merchant feed/API setup, only the feed URL secrets you actually use are
 required. Optional auth secrets like `FLIPKART_AUTH_HEADER` or `AJIO_API_KEY`
 can be added if your affiliate provider requires request headers. After each
