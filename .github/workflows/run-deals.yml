@@ -70,7 +70,7 @@ jobs:
       AJIO_AUTH_HEADER: ${{ secrets.AJIO_AUTH_HEADER }}
       AJIO_API_KEY: ${{ secrets.AJIO_API_KEY }}
 
-      TATACLIQ_FEED_URL: ${{ secrets.TATACLIQ_FEED_URL }}
+      TATACLIQ_FEED_URL: "https://linksredirect.com/?cid=292882&source=linkkit&url=https%3A%2F%2Fwww.tatacliq.com%2F"
       TATACLIQ_AUTH_HEADER: ${{ secrets.TATACLIQ_AUTH_HEADER }}
       TATACLIQ_API_KEY: ${{ secrets.TATACLIQ_API_KEY }}
 
