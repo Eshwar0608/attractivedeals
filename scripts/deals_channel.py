@@ -124,6 +124,7 @@ class RunSummary:
     telegram_failed: int = 0
     whatsapp_file: str | None = None
     skipped_feeds: list[str] = field(default_factory=list)
+    feed_details: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
 
@@ -255,9 +256,55 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
 
 
 
+def looks_like_html_feed(body: str) -> bool:
+    sample = body.lstrip()[:800].lower()
+    return sample.startswith("<") or "<!doctype html" in sample or "<html" in sample
+
+
+def normalize_sheet_row(row: dict[str, Any]) -> dict[str, Any]:
+    """Normalize Google Sheet / CSV column names (BOM, case, common aliases)."""
+    normalized: dict[str, Any] = {}
+    for key, value in row.items():
+        if key is None:
+            continue
+        clean_key = str(key).strip().lstrip("\ufeff").lower().replace(" ", "_")
+        if clean_key:
+            normalized[clean_key] = value
+    if "link" in normalized and "url" not in normalized:
+        normalized["url"] = normalized["link"]
+    if "product_url" in normalized and "url" not in normalized:
+        normalized["url"] = normalized["product_url"]
+    return normalized
+
+
 def parse_csv_feed(feed: FeedConfig, body: str) -> list[Deal]:
-    reader = csv.DictReader(io.StringIO(body))
-    return parse_json_items(feed, list(reader))
+    if looks_like_html_feed(body):
+        raise ValueError(
+            "Feed response looks like HTML, not CSV. Publish the Google Sheet as CSV "
+            "(File > Share > Publish to web > Comma-separated values) and set "
+            "GOOGLE_SHEET_CSV_URL to that published URL."
+        )
+
+    text = body.lstrip("\ufeff")
+    reader = csv.DictReader(io.StringIO(text))
+    if reader.fieldnames:
+        reader.fieldnames = [
+            (name or "").strip().lstrip("\ufeff") for name in reader.fieldnames
+        ]
+    rows = [normalize_sheet_row(row) for row in reader]
+    if not rows:
+        raise ValueError(
+            "CSV feed has no data rows. Add at least one deal row below the header "
+            "(required columns: title, url)."
+        )
+    deals = parse_json_items(feed, rows)
+    if not deals:
+        headers = ", ".join(reader.fieldnames or [])
+        raise ValueError(
+            "CSV has data rows but none produced deals. Required columns: title, url "
+            f"(detected headers: {headers or 'none'})."
+        )
+    return deals
 
 def parse_xml_feed(feed: FeedConfig, body: str) -> list[Deal]:
     root = ET.fromstring(body)
@@ -312,12 +359,22 @@ def get_nested(value: Any, path: str | None) -> Any:
     current = value
     for part in path.split("."):
         if isinstance(current, dict):
-            current = current.get(part)
+            current = dict_lookup(current, part)
         elif isinstance(current, list) and part.isdigit():
             current = current[int(part)]
         else:
             return None
     return current
+
+
+def dict_lookup(data: dict[str, Any], key: str) -> Any:
+    if key in data:
+        return data[key]
+    lowered = key.lower()
+    for candidate, value in data.items():
+        if str(candidate).lower() == lowered:
+            return value
+    return None
 
 
 def child_text(element: ET.Element, child_name: str) -> str | None:
@@ -530,6 +587,7 @@ def run_workflow(
         try:
             deals = parse_feed(feed)
             summary.fetched += len(deals)
+            summary.feed_details.append(f"{feed.name}: parsed {len(deals)} deal(s)")
             all_deals.extend(deals)
         except Exception as exc:  # Keep other feeds moving if one source is unhealthy.
             summary.errors.append(f"{feed.name}: {exc}")
@@ -539,6 +597,12 @@ def run_workflow(
     summary.accepted = len(accepted)
     summary.skipped = summary.fetched - summary.accepted
     summary.errors.extend(affiliate_errors)
+    if summary.fetched and not summary.accepted:
+        summary.errors.append(
+            f"All {summary.fetched} fetched deal(s) were filtered out. "
+            "Check discount/price columns and filters.min_discount_percent / "
+            "filters.require_discount_data in your config."
+        )
 
     messages = [format_deal(deal, config.hashtags) for deal in accepted]
     output_file = Path(output_override or config.whatsapp.output_file)
@@ -551,6 +615,19 @@ def run_workflow(
     summary.telegram_posted = posted
     summary.telegram_failed = failed
     summary.errors.extend(errors)
+
+    if (
+        accepted
+        and config.telegram.enabled
+        and not skip_telegram
+        and not dry_run
+        and posted == 0
+        and failed == 0
+    ):
+        summary.errors.append(
+            "Telegram was not posted: set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, "
+            "or run with --dry-run for a test."
+        )
 
     return summary
 
@@ -659,6 +736,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true", help="Build messages without posting to Telegram.")
     parser.add_argument("--skip-telegram", action="store_true", help="Disable Telegram posting for this run.")
     parser.add_argument("--skip-affiliate", action="store_true", help="Do not wrap deal URLs with affiliate tracking for this run.")
+    parser.add_argument(
+        "--allow-empty",
+        action="store_true",
+        help="Exit successfully even when no deals were fetched or accepted.",
+    )
+    parser.add_argument("--verbose", action="store_true", help="Print feed diagnostics to stderr.")
     return parser.parse_args(argv)
 
 
@@ -675,13 +758,30 @@ def main(argv: list[str] | None = None) -> int:
         skip_affiliate=args.skip_affiliate,
         output_override=args.output,
     )
+    if args.verbose:
+        for detail in summary.feed_details:
+            print(detail, file=sys.stderr)
+        for skipped in summary.skipped_feeds:
+            print(f"skipped: {skipped}", file=sys.stderr)
     print(json.dumps(dataclasses.asdict(summary), indent=2, sort_keys=True))
+
+    if args.allow_empty:
+        return 1 if summary.telegram_failed else 0
 
     if summary.telegram_failed:
         return 1
     if config.affiliate.required and not args.skip_affiliate and summary.errors:
         return 1
-    if summary.fetched == 0 and (summary.errors or summary.skipped_feeds):
+    if summary.skipped_feeds and summary.fetched == 0:
+        return 1
+    if summary.fetched == 0 or summary.accepted == 0:
+        return 1
+    if (
+        config.telegram.enabled
+        and not args.skip_telegram
+        and not args.dry_run
+        and summary.telegram_posted == 0
+    ):
         return 1
     return 0
 

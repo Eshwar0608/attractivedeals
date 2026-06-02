@@ -43,7 +43,7 @@
     "chat_id_env": "TELEGRAM_CHAT_ID",
     "disable_web_page_preview": false,
     "timeout_seconds": 15,
-    "required": false
+    "required": true
   },
   "whatsapp": {
     "output_file": "out/whatsapp_deals.txt"

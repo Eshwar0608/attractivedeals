@@ -15,6 +15,7 @@ from scripts.deals_channel import (
     filter_deals,
     load_config,
     format_deal,
+    main,
     parse_feed,
     run_workflow,
 )
@@ -139,6 +140,59 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.telegram_posted, 0)
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
+
+    def test_csv_feed_accepts_title_case_headers(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            feed_file = Path(tmp_dir) / "sheet.csv"
+            feed_file.write_text(
+                "Title,URL,price,original_price,discount_percent\n"
+                "Case Deal 40% off,https://example.com/case,600,1000,40\n",
+                encoding="utf-8",
+            )
+            parsed = parse_feed(
+                FeedConfig(name="google-sheet", url=str(feed_file), type="csv", currency="Rs. ")
+            )
+            self.assertEqual(len(parsed), 1)
+            self.assertEqual(parsed[0].title, "Case Deal 40% off")
+
+    def test_csv_feed_rejects_html_publish_mistake(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            feed_file = Path(tmp_dir) / "bad.html"
+            feed_file.write_text("<!DOCTYPE html><html><body>Sign in</body></html>", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                parse_feed(FeedConfig(name="google-sheet", url=str(feed_file), type="csv"))
+
+    def test_csv_feed_requires_data_rows(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            feed_file = Path(tmp_dir) / "headers-only.csv"
+            feed_file.write_text("title,url,price,original_price\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                parse_feed(FeedConfig(name="google-sheet", url=str(feed_file), type="csv"))
+
+    def test_main_fails_when_no_deals_accepted(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            config_file = Path(tmp_dir) / "config.json"
+            output_file = Path(tmp_dir) / "whatsapp.txt"
+            config_file.write_text(
+                json.dumps(
+                    {
+                        "feeds": [{"name": "manual", "type": "manual", "items": []}],
+                        "affiliate": {"enabled": False},
+                        "telegram": {"enabled": False},
+                        "whatsapp": {"output_file": str(output_file)},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            exit_code = main(
+                [
+                    "--config",
+                    str(config_file),
+                    "--skip-telegram",
+                    "--skip-affiliate",
+                ]
+            )
+            self.assertEqual(exit_code, 1)
 
     def test_csv_feed_is_parsed_for_google_sheet_exports(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
