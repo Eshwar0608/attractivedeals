@@ -89,7 +89,6 @@ jobs:
               echo "telegram_flag=--dry-run" >> "$GITHUB_OUTPUT"
             else
               echo "telegram_flag=" >> "$GITHUB_OUTPUT"
-            echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
             fi
             if [ "${{ inputs.skip_affiliate }}" = "true" ]; then
               echo "affiliate_flag=--skip-affiliate" >> "$GITHUB_OUTPUT"
@@ -102,6 +101,13 @@ jobs:
             echo "telegram_flag=" >> "$GITHUB_OUTPUT"
             echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Debug run options
+        run: |
+          echo "Using config_path=${{ steps.options.outputs.config_path }}"
+          echo "Using limit=${{ steps.options.outputs.limit }}"
+          echo "Using telegram_flag='${{ steps.options.outputs.telegram_flag }}'"
+          echo "Using affiliate_flag='${{ steps.options.outputs.affiliate_flag }}'"
 
       - name: Run deals workflow
         run: |
