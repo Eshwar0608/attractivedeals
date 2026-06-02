@@ -29,8 +29,8 @@ on:
           - "config/simple-cuelinks.json"
           - "config/deals.json"
   schedule:
-    # Runs every 6 hours. GitHub cron uses UTC.
-    - cron: "0 */6 * * *"
+    # Runs every 30 minutes. GitHub cron uses UTC (may be delayed during high load).
+    - cron: "*/30 * * * *"
 
 jobs:
   run-deals:

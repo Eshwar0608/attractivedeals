@@ -337,9 +337,11 @@ workflow in two ways:
   Telegram unless you turn dry-run off. The default config is
   `config/google-sheet-cuelinks.json`. Use `skip_affiliate=true` when testing
   Telegram before adding `CUELINKS_CHANNEL_ID`.
-- Scheduled run every 6 hours using GitHub cron. Scheduled runs are real runs:
-  they fetch the Google Sheet CSV, wrap links with Cuelinks, and post to
-  Telegram when the required secrets are configured.
+- Scheduled run every **30 minutes** using GitHub cron (UTC). Scheduled runs are real runs:
+  they auto-fetch offers (Cuelinks API), optionally merge a Google Sheet CSV, write
+  `out/deals.csv`, wrap links with Cuelinks, and post up to `max_items` deals to
+  Telegram. The same offer can be posted again on a later run (deduplication is
+  only within a single run, not across runs).
 
 Add your secrets in GitHub under **Settings > Secrets and variables > Actions**:
 
