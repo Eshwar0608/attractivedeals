@@ -312,19 +312,48 @@ If Telegram credentials are missing, the script skips auto-posting and still
 writes the WhatsApp file. Set `telegram.required` to `true` in the config if a
 missing Telegram credential should fail the run.
 
-## WhatsApp output
+## WhatsApp: file + optional auto-send
 
-The script writes ready-to-copy messages to the configured output path, default:
+### 1. Text file (always)
 
-```text
-out/whatsapp_deals.txt
+Messages are saved to `out/whatsapp_deals.txt` for manual copy/paste.
+
+### 2. Auto-send via WhatsApp Cloud API (Meta)
+
+The repo can send the same deal messages automatically using the **official**
+[WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api).
+
+**You need:**
+
+1. [Meta Business](https://business.facebook.com/) account  
+2. [WhatsApp Business Platform](https://developers.facebook.com/docs/whatsapp/cloud-api/get-started) app  
+3. A **test/production phone number** connected to the app  
+4. **Permanent access token**, **Phone number ID**, and recipient number  
+
+**GitHub Actions secrets:**
+
+| Secret | Example / notes |
+|--------|------------------|
+| `WHATSAPP_ACCESS_TOKEN` | From Meta App → WhatsApp → API setup |
+| `WHATSAPP_PHONE_NUMBER_ID` | Numeric ID (not the phone number itself) |
+| `WHATSAPP_TO_PHONE` | Who receives deals, country code, no `+` required: `919876543210` |
+
+In `config/auto-fetch-telegram.json`, `whatsapp.auto_send` is `true`.  
+If secrets are missing, the run still saves `out/whatsapp_deals.txt` and posts to Telegram.
+
+**Limits (Meta):**
+
+- Usually starts in **test mode** — recipient numbers must be added in Meta dashboard  
+- Not the same as posting to a **WhatsApp group** via the app; API sends to **one phone number** (yours, a teammate, or a broadcast list manager)  
+- For a **group**, common workarounds: send to admin phone, or use Telegram for the channel  
+
+**Disable auto-send** (file only):
+
+```json
+"whatsapp": { "auto_send": false, "output_file": "out/whatsapp_deals.txt" }
 ```
 
-Override it for a single run:
-
-```bash
-python3 scripts/deals_channel.py --config config/deals.json --output out/today.txt --dry-run
-```
+Or run with `--skip-whatsapp`.
 
 
 ## Run automatically with GitHub Actions
@@ -366,6 +395,9 @@ CUELINKS_API_TOKEN
 CUELINKS_CHANNEL_ID
 TELEGRAM_BOT_TOKEN
 TELEGRAM_CHAT_ID
+WHATSAPP_ACCESS_TOKEN
+WHATSAPP_PHONE_NUMBER_ID
+WHATSAPP_TO_PHONE
 ```
 
 Optional: `GOOGLE_SHEET_CSV_URL`, `CUELINKS_OFFERS_URL`, `CUELINKS_OFFERS_ITEMS_PATH`, `CUELINKS_OFFERS_CATEGORY`.

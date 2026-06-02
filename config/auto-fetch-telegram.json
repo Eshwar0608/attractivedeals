@@ -68,6 +68,11 @@
     "required": true
   },
   "whatsapp": {
-    "output_file": "out/whatsapp_deals.txt"
+    "output_file": "out/whatsapp_deals.txt",
+    "auto_send": true,
+    "access_token_env": "WHATSAPP_ACCESS_TOKEN",
+    "phone_number_id_env": "WHATSAPP_PHONE_NUMBER_ID",
+    "to_phone_env": "WHATSAPP_TO_PHONE",
+    "required": false
   }
 }

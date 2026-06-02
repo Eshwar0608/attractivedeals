@@ -15,6 +15,7 @@ from scripts.deals_channel import (
     WorkflowConfig,
     build_cuelinks_url,
     discover_cuelinks_items,
+    normalize_whatsapp_phone,
     fetch_cuelinks_offers_from_url,
     filter_deals,
     load_config,
@@ -147,6 +148,9 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.telegram_posted, 0)
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
+
+    def test_normalize_whatsapp_phone_strips_formatting(self):
+        self.assertEqual(normalize_whatsapp_phone("+91 98765-43210"), "919876543210")
 
     def test_merchant_deal_key_unwraps_cuelinks_redirect(self):
         deal = __import__("scripts.deals_channel", fromlist=["Deal"]).Deal(
