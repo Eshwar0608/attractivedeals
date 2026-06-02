@@ -12,6 +12,29 @@ affiliate deals channel:
 The workflow intentionally does not use a database. It deduplicates deals only
 within each run.
 
+## Troubleshooting (deals not reaching Telegram)
+
+If GitHub Actions is green but nothing posts, open the latest **Run Deals Channel** log and check the JSON summary:
+
+| Summary field | Meaning |
+|---------------|---------|
+| `skipped_feeds` contains `missing feed URL` | Set `GOOGLE_SHEET_CSV_URL` in GitHub Actions secrets |
+| `errors` mentions HTML | Sheet is not **published as CSV** — use Publish to web, not only Share |
+| `fetched: 0` with no errors | Sheet CSV is empty, wrong tab published, or column names do not include `title` and `url` |
+| `fetched` > 0 but `accepted: 0` | Deals failed filters — add `discount_percent` or `price` + `original_price` |
+| `telegram_posted: 0` on a scheduled run | Missing `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`, or manual run left **`dry_run: true`** |
+
+The script now **fails the workflow** when no deals are accepted or Telegram does not post (except `--dry-run` / `--allow-empty`), so silent empty runs should no longer show as success.
+
+### Checklist
+
+1. **Google Sheet row 1** (exact names, lowercase): `title`, `url`, `price`, `original_price`, `discount_percent`, `coupon`, `category`, `description`
+2. **At least one data row** with non-empty `title` and `url`
+3. **Publish to web** → CSV for the correct sheet tab; copy URL into secret `GOOGLE_SHEET_CSV_URL`
+4. **GitHub secrets**: `GOOGLE_SHEET_CSV_URL`, `CUELINKS_CHANNEL_ID`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
+5. **Test Telegram**: Actions → Run Deals Channel → `dry_run: false`, `skip_affiliate: true`, `limit: 1`
+6. **Production**: scheduled runs use `config/google-sheet-cuelinks.json` with Cuelinks enabled (`skip_affiliate: false`)
+
 ## Quick start
 
 Best simple setup:

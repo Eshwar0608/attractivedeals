@@ -111,11 +111,14 @@ jobs:
 
       - name: Run deals workflow
         run: |
+          set -o pipefail
           python3 scripts/deals_channel.py \
             --config "${{ steps.options.outputs.config_path }}" \
             --limit "${{ steps.options.outputs.limit }}" \
+            --verbose \
             ${{ steps.options.outputs.telegram_flag }} \
-            ${{ steps.options.outputs.affiliate_flag }}
+            ${{ steps.options.outputs.affiliate_flag }} \
+            2>&1 | tee run-summary.json
 
       - name: Upload WhatsApp message file
         if: always()
