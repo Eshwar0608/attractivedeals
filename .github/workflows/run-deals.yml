@@ -22,8 +22,9 @@ on:
         description: "Config file to run"
         required: true
         type: choice
-        default: "config/google-sheet-cuelinks.json"
+        default: "config/auto-fetch-telegram.json"
         options:
+          - "config/auto-fetch-telegram.json"
           - "config/google-sheet-cuelinks.json"
           - "config/simple-cuelinks.json"
           - "config/deals.json"
@@ -41,6 +42,10 @@ jobs:
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       CUELINKS_CHANNEL_ID: ${{ secrets.CUELINKS_CHANNEL_ID }}
       GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
+      CUELINKS_API_TOKEN: ${{ secrets.CUELINKS_API_TOKEN }}
+      CUELINKS_OFFERS_URL: ${{ secrets.CUELINKS_OFFERS_URL }}
+      CUELINKS_OFFERS_ITEMS_PATH: ${{ secrets.CUELINKS_OFFERS_ITEMS_PATH }}
+      CUELINKS_OFFERS_CATEGORY: ${{ secrets.CUELINKS_OFFERS_CATEGORY }}
 
       AMAZON_IN_FEED_URL: ${{ secrets.AMAZON_IN_FEED_URL }}
       AMAZON_IN_AUTH_HEADER: ${{ secrets.AMAZON_IN_AUTH_HEADER }}
@@ -97,7 +102,7 @@ jobs:
             fi
           else
             echo "limit=10" >> "$GITHUB_OUTPUT"
-            echo "config_path=config/google-sheet-cuelinks.json" >> "$GITHUB_OUTPUT"
+            echo "config_path=config/auto-fetch-telegram.json" >> "$GITHUB_OUTPUT"
             echo "telegram_flag=" >> "$GITHUB_OUTPUT"
             echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
           fi
@@ -120,10 +125,12 @@ jobs:
             ${{ steps.options.outputs.affiliate_flag }} \
             2>&1 | tee run-summary.json
 
-      - name: Upload WhatsApp message file
+      - name: Upload deal outputs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: whatsapp-deals
-          path: out/whatsapp_deals.txt
+          name: deals-output
+          path: |
+            out/whatsapp_deals.txt
+            out/deals.csv
           if-no-files-found: ignore
