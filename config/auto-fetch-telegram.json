@@ -37,6 +37,12 @@
     "enabled": true,
     "output_file": "out/deals.csv"
   },
+  "dedupe": {
+    "enabled": true,
+    "state_file": "out/posted_deals.json",
+    "max_entries": 10000,
+    "record_on_dry_run": false
+  },
   "affiliate": {
     "enabled": true,
     "network": "cuelinks",
