@@ -337,9 +337,10 @@ workflow in two ways:
   Telegram unless you turn dry-run off. The default config is
   `config/google-sheet-cuelinks.json`. Use `skip_affiliate=true` when testing
   Telegram before adding `CUELINKS_CHANNEL_ID`.
-- Scheduled run every 6 hours using GitHub cron. Scheduled runs are real runs:
-  they fetch the Google Sheet CSV, wrap links with Cuelinks, and post to
-  Telegram when the required secrets are configured.
+- Scheduled run every **30 minutes** on **GitHub's cloud runners** (cron, UTC).
+  Each run auto-fetches offers, writes `out/deals.csv`, and posts **only new deals**
+  to Telegram. Posted URLs are remembered in `out/posted_deals.json` (Actions cache).
+  Overlapping runs are prevented with workflow **concurrency**.
 
 Add your secrets in GitHub under **Settings > Secrets and variables > Actions**:
 
@@ -379,6 +380,16 @@ WhatsApp-ready copy.
 
 To change the schedule, edit the cron value in `.github/workflows/run-deals.yml`.
 GitHub cron times are in UTC.
+
+### GitHub Free plan notes
+
+| Topic | Detail |
+|-------|--------|
+| **Where it runs** | GitHub-hosted `ubuntu-latest` runners (cloud), triggered by `schedule` |
+| **Public repos** | Standard Actions minutes are typically **unlimited** for public repositories |
+| **Private repos** | ~2,000 minutes/month free; ~48 runs/day × ~1 min ≈ well within that |
+| **Timing** | Scheduled jobs can be **delayed** a few minutes; not exact real-time |
+| **Duplicates** | Cross-run dedupe uses cached `out/posted_deals.json` (up to 10k URLs) |
 
 ## Automation
 

@@ -6,6 +6,7 @@ from pathlib import Path
 
 from scripts.deals_channel import (
     AffiliateConfig,
+    DedupeConfig,
     ExportCsvConfig,
     FeedConfig,
     FilterConfig,
@@ -19,6 +20,8 @@ from scripts.deals_channel import (
     load_config,
     format_deal,
     main,
+    mark_deals_posted,
+    merchant_deal_key,
     parse_feed,
     run_workflow,
     save_deals_csv,
@@ -144,6 +147,64 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.telegram_posted, 0)
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
+
+    def test_merchant_deal_key_unwraps_cuelinks_redirect(self):
+        deal = __import__("scripts.deals_channel", fromlist=["Deal"]).Deal(
+            source="t",
+            title="Deal",
+            url="https://linksredirect.com/?cid=1&url=https%3A%2F%2Fwww.flipkart.com%2Fp%2F123",
+        )
+        self.assertEqual(merchant_deal_key(deal), "https://www.flipkart.com/p/123")
+
+    def test_cross_run_dedupe_skips_previously_posted_deal(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            state_file = Path(tmp_dir) / "posted.json"
+            whatsapp_file = Path(tmp_dir) / "whatsapp.txt"
+            mark_deals_posted(
+                state_file,
+                [
+                    __import__("scripts.deals_channel", fromlist=["Deal"]).Deal(
+                        source="t",
+                        title="Old deal 40% off",
+                        url="https://www.flipkart.com/p/123",
+                    )
+                ],
+                max_entries=100,
+            )
+            config = WorkflowConfig(
+                feeds=[
+                    FeedConfig(
+                        name="manual",
+                        type="manual",
+                        items=[
+                            {
+                                "title": "Old deal 40% off",
+                                "url": "https://www.flipkart.com/p/123",
+                                "price": "600",
+                                "original_price": "1000",
+                            },
+                            {
+                                "title": "New deal 50% off",
+                                "url": "https://www.ajio.com/p/456",
+                                "price": "500",
+                                "original_price": "1000",
+                            },
+                        ],
+                    )
+                ],
+                filters=FilterConfig(min_discount_percent=20, require_discount_data=True, max_items=10),
+                telegram=TelegramConfig(enabled=False),
+                whatsapp=WhatsAppConfig(output_file=str(whatsapp_file)),
+                dedupe=DedupeConfig(enabled=True, state_file=str(state_file)),
+                affiliate=AffiliateConfig(enabled=False),
+            )
+
+            summary = run_workflow(config, skip_telegram=True)
+
+            self.assertEqual(summary.duplicates_skipped, 1)
+            self.assertEqual(summary.accepted, 1)
+            self.assertIn("New deal 50% off", whatsapp_file.read_text(encoding="utf-8"))
+            self.assertNotIn("Old deal 40% off", whatsapp_file.read_text(encoding="utf-8"))
 
     def test_discover_cuelinks_items_from_offers_payload(self):
         payload = {

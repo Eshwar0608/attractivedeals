@@ -65,6 +65,14 @@ class ExportCsvConfig:
 
 
 @dataclass
+class DedupeConfig:
+    enabled: bool = True
+    state_file: str = "out/posted_deals.json"
+    max_entries: int = 10000
+    record_on_dry_run: bool = False
+
+
+@dataclass
 class FilterConfig:
     min_discount_percent: float = 25.0
     min_savings_amount: float = 0.0
@@ -108,6 +116,7 @@ class WorkflowConfig:
     telegram: TelegramConfig = field(default_factory=TelegramConfig)
     whatsapp: WhatsAppConfig = field(default_factory=WhatsAppConfig)
     export_csv: ExportCsvConfig = field(default_factory=ExportCsvConfig)
+    dedupe: DedupeConfig = field(default_factory=DedupeConfig)
 
 
 @dataclass
@@ -140,6 +149,7 @@ class RunSummary:
     telegram_failed: int = 0
     whatsapp_file: str | None = None
     csv_file: str | None = None
+    duplicates_skipped: int = 0
     skipped_feeds: list[str] = field(default_factory=list)
     feed_details: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
@@ -160,6 +170,8 @@ def load_config(path: Path) -> WorkflowConfig:
 
     export_raw = raw.get("export_csv", {})
     export_fields = config_fields(ExportCsvConfig)
+    dedupe_raw = raw.get("dedupe", {})
+    dedupe_fields = config_fields(DedupeConfig)
 
     return WorkflowConfig(
         feeds=feeds,
@@ -169,6 +181,7 @@ def load_config(path: Path) -> WorkflowConfig:
         telegram=TelegramConfig(**raw.get("telegram", {})),
         whatsapp=WhatsAppConfig(**raw.get("whatsapp", {})),
         export_csv=ExportCsvConfig(**{k: v for k, v in export_raw.items() if k in export_fields}),
+        dedupe=DedupeConfig(**{k: v for k, v in dedupe_raw.items() if k in dedupe_fields}),
     )
 
 
@@ -547,12 +560,81 @@ def filter_deals(deals: list[Deal], filters: FilterConfig) -> list[Deal]:
     return accepted
 
 
-def deal_key(deal: Deal) -> str:
-    parsed = urllib.parse.urlparse(deal.url)
-    normalized_url = urllib.parse.urlunparse(
+def normalize_deal_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    return urllib.parse.urlunparse(
         (parsed.scheme, parsed.netloc.lower(), parsed.path.rstrip("/"), "", "", "")
     )
+
+
+def deal_key(deal: Deal) -> str:
+    normalized_url = normalize_deal_url(deal.url)
     return normalized_url or deal.title.lower()
+
+
+def merchant_deal_key(deal: Deal) -> str:
+    """Stable key for cross-run dedupe (unwraps Cuelinks redirect URLs)."""
+    url = deal.url
+    parsed = urllib.parse.urlparse(url)
+    if parsed.netloc.lower() == "linksredirect.com":
+        embedded = urllib.parse.parse_qs(parsed.query).get("url", [None])[0]
+        if embedded:
+            url = urllib.parse.unquote(embedded)
+    normalized = normalize_deal_url(url)
+    return normalized or deal.title.lower()
+
+
+def load_posted_keys(state_file: Path) -> list[str]:
+    if not state_file.exists():
+        return []
+    try:
+        payload = json.loads(state_file.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    if isinstance(payload, dict):
+        keys = payload.get("keys", [])
+        if isinstance(keys, list):
+            return [str(key) for key in keys if key]
+    return []
+
+
+def save_posted_keys(state_file: Path, keys: list[str], max_entries: int) -> None:
+    state_file.parent.mkdir(parents=True, exist_ok=True)
+    trimmed = keys[-max_entries:] if max_entries > 0 else keys
+    state_file.write_text(json.dumps({"keys": trimmed}, indent=2) + "\n", encoding="utf-8")
+
+
+def filter_already_posted(
+    deals: list[Deal],
+    posted_keys: list[str],
+) -> tuple[list[Deal], int]:
+    posted_set = set(posted_keys)
+    fresh: list[Deal] = []
+    skipped = 0
+    for deal in deals:
+        if merchant_deal_key(deal) in posted_set:
+            skipped += 1
+            continue
+        fresh.append(deal)
+    return fresh, skipped
+
+
+def mark_deals_posted(
+    state_file: Path,
+    deals: list[Deal],
+    max_entries: int,
+) -> None:
+    if not deals:
+        return
+    keys = load_posted_keys(state_file)
+    known = set(keys)
+    for deal in deals:
+        key = merchant_deal_key(deal)
+        if key in known:
+            continue
+        keys.append(key)
+        known.add(key)
+    save_posted_keys(state_file, keys, max_entries)
 
 
 def is_allowed_by_keywords(deal: Deal, filters: FilterConfig) -> bool:
@@ -687,9 +769,10 @@ def post_messages_to_telegram(
     messages: list[str],
     telegram: TelegramConfig,
     dry_run: bool = False,
-) -> tuple[int, int, list[str]]:
+    deals: list[Deal] | None = None,
+) -> tuple[int, int, list[str], list[Deal]]:
     if dry_run or not telegram.enabled:
-        return 0, 0, []
+        return 0, 0, [], []
 
     token = os.environ.get(telegram.bot_token_env)
     chat_id = os.environ.get(telegram.chat_id_env)
@@ -699,20 +782,23 @@ def post_messages_to_telegram(
             f"{telegram.chat_id_env} to auto-post."
         )
         if telegram.required:
-            return 0, len(messages), [message]
-        return 0, 0, [message]
+            return 0, len(messages), [message], []
+        return 0, 0, [message], []
 
     posted = 0
     failed = 0
     errors: list[str] = []
-    for message in messages:
+    posted_deals: list[Deal] = []
+    for index, message in enumerate(messages):
         try:
             send_telegram_message(token, chat_id, message, telegram)
             posted += 1
+            if deals and index < len(deals):
+                posted_deals.append(deals[index])
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
             failed += 1
             errors.append(f"Telegram post failed: {exc}")
-    return posted, failed, errors
+    return posted, failed, errors, posted_deals
 
 
 def send_telegram_message(
@@ -763,37 +849,60 @@ def run_workflow(
         except Exception as exc:  # Keep other feeds moving if one source is unhealthy.
             summary.errors.append(f"{feed.name}: {exc}")
 
-    accepted = filter_deals(all_deals, config.filters)
-    affiliate_errors = [] if skip_affiliate else apply_affiliate_links(accepted, config.affiliate)
-    summary.accepted = len(accepted)
-    summary.skipped = summary.fetched - summary.accepted
+    filtered = filter_deals(all_deals, config.filters)
+    summary.skipped = summary.fetched - len(filtered)
+
+    to_publish = filtered
+    if config.dedupe.enabled:
+        state_file = Path(config.dedupe.state_file)
+        posted_keys = load_posted_keys(state_file)
+        to_publish, summary.duplicates_skipped = filter_already_posted(filtered, posted_keys)
+        if summary.duplicates_skipped:
+            summary.feed_details.append(
+                f"cross-run dedupe: skipped {summary.duplicates_skipped} already posted deal(s)"
+            )
+
+    affiliate_errors = [] if skip_affiliate else apply_affiliate_links(to_publish, config.affiliate)
+    summary.accepted = len(to_publish)
     summary.errors.extend(affiliate_errors)
-    if summary.fetched and not summary.accepted:
+    if summary.fetched and not filtered:
         summary.errors.append(
             f"All {summary.fetched} fetched deal(s) were filtered out. "
             "Check discount/price columns and filters.min_discount_percent / "
             "filters.require_discount_data in your config."
         )
 
-    messages = [format_deal(deal, config.hashtags) for deal in accepted]
+    messages = [format_deal(deal, config.hashtags) for deal in to_publish]
     output_file = Path(output_override or config.whatsapp.output_file)
     save_whatsapp_messages(messages, output_file)
     summary.whatsapp_file = str(output_file)
 
-    if config.export_csv.enabled and accepted:
+    if config.export_csv.enabled and to_publish:
         csv_file = Path(config.export_csv.output_file)
-        save_deals_csv(accepted, csv_file)
+        save_deals_csv(to_publish, csv_file)
         summary.csv_file = str(csv_file)
 
     if skip_telegram:
         config.telegram.enabled = False
-    posted, failed, errors = post_messages_to_telegram(messages, config.telegram, dry_run=dry_run)
+    posted, failed, errors, posted_deals = post_messages_to_telegram(
+        messages,
+        config.telegram,
+        dry_run=dry_run,
+        deals=to_publish,
+    )
     summary.telegram_posted = posted
     summary.telegram_failed = failed
     summary.errors.extend(errors)
 
+    should_record = config.dedupe.enabled and (
+        (not dry_run and posted_deals) or (dry_run and config.dedupe.record_on_dry_run and to_publish)
+    )
+    if should_record:
+        record_deals = posted_deals if not dry_run else to_publish
+        mark_deals_posted(Path(config.dedupe.state_file), record_deals, config.dedupe.max_entries)
+
     if (
-        accepted
+        to_publish
         and config.telegram.enabled
         and not skip_telegram
         and not dry_run
@@ -922,6 +1031,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Exit successfully even when no deals were fetched or accepted.",
     )
     parser.add_argument("--verbose", action="store_true", help="Print feed diagnostics to stderr.")
+    parser.add_argument(
+        "--reset-posted",
+        action="store_true",
+        help="Clear cross-run dedupe state before running.",
+    )
     return parser.parse_args(argv)
 
 
@@ -930,6 +1044,10 @@ def main(argv: list[str] | None = None) -> int:
     config = load_config(Path(args.config))
     if args.limit is not None:
         config.filters.max_items = args.limit
+    if args.reset_posted:
+        state_file = Path(config.dedupe.state_file)
+        if state_file.exists():
+            state_file.unlink()
 
     summary = run_workflow(
         config,
@@ -954,7 +1072,11 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     if summary.skipped_feeds and summary.fetched == 0:
         return 1
-    if summary.fetched == 0 or summary.accepted == 0:
+    if summary.fetched == 0:
+        return 1
+    if summary.accepted == 0:
+        if summary.duplicates_skipped > 0:
+            return 1 if summary.telegram_failed else 0
         return 1
     if (
         config.telegram.enabled
