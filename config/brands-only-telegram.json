@@ -95,8 +95,7 @@
     "timeout_seconds": 25,
     "required": true
   },
-  "whatsapp": {
-    "output_file": "out/whatsapp_deals.txt",
-    "auto_send": false
+  "messages_output": {
+    "output_file": "out/messages.txt"
   }
 }
