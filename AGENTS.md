@@ -18,6 +18,8 @@ Single Python 3 CLI (`scripts/deals_channel.py`): **Cuelinks Offers API** (`type
 
 ### Gotchas
 
+- `allowed_merchants_file` paths are resolved **relative to the config JSON’s directory** (e.g. a config under `out/` needs `"../config/allowed-merchants.json"`, not `"config/allowed-merchants.json"`).
+- No Ruff/Black/mypy/pre-commit in repo; optional syntax check: `python3 -m py_compile scripts/deals_channel.py tests/test_deals_channel.py`.
 - `main()` exits **1** when `fetched == 0` or `accepted == 0` unless `--allow-empty`.
 - Production config sets `telegram.required` and `affiliate.required` to **true**.
 - Manual workflow_dispatch defaults `dry_run: true` (no Telegram).
