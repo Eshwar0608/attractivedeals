@@ -140,6 +140,13 @@ jobs:
             ${{ steps.options.outputs.affiliate_flag }} \
             2>&1 | tee run-summary.json
 
+      - name: Save dedupe state for next run
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: out/posted_deals.json
+          key: deals-posted-${{ github.repository }}
+
       - name: Upload deal outputs
         if: always()
         uses: actions/upload-artifact@v4

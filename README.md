@@ -35,6 +35,9 @@ If GitHub Actions is green but nothing posts, open the latest **Run Deals Channe
 | `telegram_posted: 0` on a scheduled run | Missing `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`, or manual run left **`dry_run: true`** |
 | Every merchant posts (Nykaa, etc.) | Config has no merchant filter — use `config/merchant-allowlist-telegram.json` or ensure `allowed_merchants_file` is set; check log for `merchant filter: rejected N deal(s)` |
 | `merchant_rejected` is high, `accepted: 0` | Sheet/API URLs are not from allowed domains — use direct store links (see `config/allowed-merchants.json`) |
+| Still all merchants / duplicates | **Merge PR #12** (or `main` with merchant filter). Log must show `merchant allowlist active: N brand(s)`. For duplicates, run once with `--reset-posted` only if you want to repost everything |
+
+**Duplicate deals:** The workflow remembers posted campaigns in `out/posted_deals.json` (GitHub Actions cache). Same title + same store from API and sheet counts as one campaign. To clear history: `python3 scripts/deals_channel.py --config config/auto-fetch-telegram.json --reset-posted --dry-run`
 
 The script now **fails the workflow** when no deals are accepted or Telegram does not post (except `--dry-run` / `--allow-empty`), so silent empty runs should no longer show as success.
 

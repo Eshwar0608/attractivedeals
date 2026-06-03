@@ -64,6 +64,7 @@
     "require_discount_data": false,
     "blocked_keywords": ["refurbished", "used", "renewed", "expired", "out of stock"],
     "required_keywords": [],
+    "require_allowed_merchants": true,
     "max_items": 10
   },
   "hashtags": ["#deals", "#offers", "#shopping"],
