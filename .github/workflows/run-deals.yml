@@ -90,13 +90,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare dedupe directory
+        run: mkdir -p out
+
       - name: Restore posted-deals dedupe cache
-        uses: actions/cache@v4
+        id: dedupe_cache
+        uses: actions/cache/restore@v4
         with:
           path: out/posted_deals.json
           key: deals-posted-${{ github.repository }}
           restore-keys: |
+            deals-posted-${{ github.repository }}
             deals-posted-
+
+      - name: Init dedupe file if cache miss
+        run: |
+          if [ ! -f out/posted_deals.json ]; then
+            echo '{"keys": []}' > out/posted_deals.json
+            echo "No dedupe cache yet — starting with empty posted list (first run or expired cache)."
+          else
+            echo "Restored dedupe cache (cache_hit=${{ steps.dedupe_cache.outputs.cache-hit }})."
+            wc -c out/posted_deals.json
+          fi
 
       - name: Set run options
         id: options
@@ -139,6 +154,14 @@ jobs:
             ${{ steps.options.outputs.telegram_flag }} \
             ${{ steps.options.outputs.affiliate_flag }} \
             2>&1 | tee run-summary.json
+
+      - name: Ensure dedupe file exists before cache save
+        if: always()
+        run: |
+          mkdir -p out
+          if [ ! -f out/posted_deals.json ]; then
+            echo '{"keys": []}' > out/posted_deals.json
+          fi
 
       - name: Save dedupe state for next run
         if: always()
