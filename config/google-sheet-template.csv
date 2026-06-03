@@ -1,4 +1,6 @@
-merchant,title,url,price,original_price,discount_percent,coupon,category,description,image_url
-flipkart,Boat Rockerz 45% off,https://www.flipkart.com/example-product,1099,1999,45,SAVE45,Electronics,Limited-time audio deal,https://example.com/product.jpg
-amazon,Nike shoes sale,https://www.amazon.in/dp/example,2999,4999,40,,Fashion,Today only,
-zomato,Zomato 60% off,https://www.zomato.com/...,,,60,ZOMATO60,Food,New users,
+merchant,title,url,links,coupon,bank_offer,price,original_price,discount_percent,category,description,image_url,message
+myntra,Upto 50% Off On Nike + Extra 10% Code + 10% Bank Offer.,https://myntr.it/5axwTbN,"Men : https://myntr.it/5axwTbN
+Women : https://myntr.it/olGTq7m
+Boys : https://myntr.it/HKA0vBt
+Girls : https://myntr.it/e6A8QNu",NIKEPREPAID10,+ 10% Off With HDFC CC (Min. ₹3500),,,,Fashion,,
+flipkart,Boat Rockerz 45% off,https://www.flipkart.com/example-product,,SAVE45,,1099,1999,45,Electronics,Limited-time audio deal,https://example.com/product.jpg,
