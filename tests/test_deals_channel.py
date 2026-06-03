@@ -34,6 +34,11 @@ from scripts.deals_channel import (
 
 
 class DealsChannelTests(unittest.TestCase):
+    def test_load_config_reads_allowed_merchants_file(self):
+        config = load_config(Path("config/merchant-allowlist-telegram.json"))
+        self.assertIn("amazon", [m.lower() for m in config.filters.allowed_merchants])
+        self.assertIn("flipkart", [m.lower() for m in config.filters.allowed_merchants])
+
     def test_allowed_merchants_filter_by_domain(self):
         deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
         Deal = deal_mod.Deal
@@ -54,9 +59,30 @@ class DealsChannelTests(unittest.TestCase):
             url="https://www.example.com/deal",
             discount_percent=30,
         )
-        accepted = filter_deals([flipkart, other], filters)
+        accepted, rejected = filter_deals([flipkart, other], filters)
         self.assertEqual(len(accepted), 1)
         self.assertEqual(accepted[0].url, flipkart.url)
+        self.assertEqual(rejected, 1)
+
+    def test_allowed_merchants_rejects_title_only_match(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        fake = Deal(
+            source="t",
+            title="Amazon mega sale today",
+            url="https://www.someotherstore.com/deal",
+            discount_percent=50,
+        )
+        accepted, rejected = filter_deals(
+            [fake],
+            FilterConfig(
+                allowed_merchants=["amazon"],
+                min_discount_percent=0,
+                require_discount_data=False,
+            ),
+        )
+        self.assertEqual(len(accepted), 0)
+        self.assertEqual(rejected, 1)
 
     def test_allowed_merchants_unwrap_cuelinks_redirect(self):
         deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
@@ -128,7 +154,7 @@ class DealsChannelTests(unittest.TestCase):
             )
 
             parsed = parse_feed(feed)
-            accepted = filter_deals(
+            accepted, _rejected = filter_deals(
                 parsed,
                 FilterConfig(
                     min_discount_percent=25,

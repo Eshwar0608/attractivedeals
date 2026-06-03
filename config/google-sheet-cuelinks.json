@@ -2,8 +2,10 @@
   "_notes": [
     "Fully scheduled simple setup: publish a Google Sheet as CSV, set GOOGLE_SHEET_CSV_URL, set CUELINKS_CHANNEL_ID, and GitHub Actions can fetch/post automatically.",
     "Expected sheet columns: title, url, price, original_price, discount_percent, coupon, category, description.",
-    "The script wraps each accepted URL through Cuelinks linksredirect.com before Telegram and WhatsApp output."
+    "The script wraps each accepted URL through Cuelinks linksredirect.com before Telegram and WhatsApp output.",
+    "Only URLs from stores in allowed-merchants.json are posted."
   ],
+  "allowed_merchants_file": "allowed-merchants.json",
   "feeds": [
     {
       "name": "google-sheet-deals",

@@ -190,6 +190,7 @@ class RunSummary:
     whatsapp_file: str | None = None
     csv_file: str | None = None
     duplicates_skipped: int = 0
+    merchant_rejected: int = 0
     skipped_feeds: list[str] = field(default_factory=list)
     feed_details: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
@@ -215,9 +216,19 @@ def load_config(path: Path) -> WorkflowConfig:
     whatsapp_raw = raw.get("whatsapp", {})
     whatsapp_fields = config_fields(WhatsAppConfig)
 
+    filters_raw = dict(raw.get("filters", {}))
+    merchants_file = raw.get("allowed_merchants_file")
+    if merchants_file and not filters_raw.get("allowed_merchants"):
+        merchants_path = Path(merchants_file)
+        if not merchants_path.is_absolute():
+            merchants_path = path.parent / merchants_path
+        with merchants_path.open("r", encoding="utf-8") as merchants_handle:
+            merchants_payload = json.load(merchants_handle)
+        filters_raw["allowed_merchants"] = merchants_payload.get("allowed_merchants", [])
+
     return WorkflowConfig(
         feeds=feeds,
-        filters=FilterConfig(**raw.get("filters", {})),
+        filters=FilterConfig(**filters_raw),
         hashtags=raw.get("hashtags", ["#deals"]),
         affiliate=AffiliateConfig(**raw.get("affiliate", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
@@ -598,9 +609,10 @@ def strip_namespace(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
-def filter_deals(deals: list[Deal], filters: FilterConfig) -> list[Deal]:
+def filter_deals(deals: list[Deal], filters: FilterConfig) -> tuple[list[Deal], int]:
     accepted: list[Deal] = []
     seen: set[str] = set()
+    merchant_rejected = 0
 
     for deal in deals:
         key = deal_key(deal)
@@ -611,6 +623,8 @@ def filter_deals(deals: list[Deal], filters: FilterConfig) -> list[Deal]:
         if not is_allowed_by_keywords(deal, filters):
             continue
         if not is_allowed_merchant(deal, filters):
+            if filters.allowed_merchants:
+                merchant_rejected += 1
             continue
         if not is_strong_enough(deal, filters):
             continue
@@ -618,7 +632,7 @@ def filter_deals(deals: list[Deal], filters: FilterConfig) -> list[Deal]:
         if filters.max_items and len(accepted) >= filters.max_items:
             break
 
-    return accepted
+    return accepted, merchant_rejected
 
 
 def normalize_deal_url(url: str) -> str:
@@ -717,8 +731,8 @@ def resolve_allowed_domains(allowed_merchants: list[str]) -> set[str]:
 
 def unwrap_deal_url(url: str) -> str:
     parsed = urllib.parse.urlparse(url)
-    host = parsed.netloc.lower()
-    if host in ("linksredirect.com", "www.linksredirect.com"):
+    host = parsed.netloc.lower().removeprefix("www.")
+    if host in ("linksredirect.com", "cuelinks.com", "clnk.in", "clk.li"):
         embedded = urllib.parse.parse_qs(parsed.query).get("url", [None])[0]
         if embedded:
             return urllib.parse.unquote(embedded)
@@ -744,14 +758,14 @@ def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
     if not filters.allowed_merchants:
         return True
     allowed_domains = resolve_allowed_domains(filters.allowed_merchants)
+    if not allowed_domains:
+        return False
     if host_matches_allowed(deal.url, allowed_domains):
         return True
-    searchable = " ".join(
-        value for value in [deal.title, deal.description or "", deal.category or ""] if value
-    ).lower()
-    for merchant in filters.allowed_merchants:
-        if merchant.lower() in searchable:
-            return True
+    # Strict: title-only matches are not enough (prevents unrelated merchants slipping through).
+    host = deal_host(deal.url)
+    if host in ("linksredirect.com", "cuelinks.com", "clnk.in", "clk.li", ""):
+        return False
     return False
 
 
@@ -1090,8 +1104,13 @@ def run_workflow(
         except Exception as exc:  # Keep other feeds moving if one source is unhealthy.
             summary.errors.append(f"{feed.name}: {exc}")
 
-    filtered = filter_deals(all_deals, config.filters)
+    filtered, summary.merchant_rejected = filter_deals(all_deals, config.filters)
     summary.skipped = summary.fetched - len(filtered)
+    if summary.merchant_rejected:
+        summary.feed_details.append(
+            f"merchant filter: rejected {summary.merchant_rejected} deal(s) "
+            f"(not on allowed store domains)"
+        )
 
     to_publish = filtered
     if config.dedupe.enabled:

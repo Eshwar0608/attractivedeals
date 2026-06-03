@@ -2,8 +2,10 @@
   "_notes": [
     "Primary automated pipeline: fetch live offers from Cuelinks API, export to out/deals.csv, wrap links, post to Telegram.",
     "Set CUELINKS_API_TOKEN (from Cuelinks after API approval). Optional GOOGLE_SHEET_CSV_URL adds manual/curated rows from a sheet.",
-    "If your account uses a custom Offers API URL, set CUELINKS_OFFERS_URL."
+    "If your account uses a custom Offers API URL, set CUELINKS_OFFERS_URL.",
+    "Only allowed store domains are posted — see allowed-merchants.json."
   ],
+  "allowed_merchants_file": "allowed-merchants.json",
   "feeds": [
     {
       "name": "cuelinks-offers",
@@ -58,6 +60,7 @@
     "required_keywords": [],
     "max_items": 10
   },
+  "_merchant_filter": "Deals from stores not in allowed-merchants.json are dropped before Telegram.",
   "hashtags": ["#deals", "#offers", "#shopping"],
   "telegram": {
     "enabled": true,
