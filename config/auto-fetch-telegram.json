@@ -1,9 +1,9 @@
 {
   "_notes": [
-    "Primary automated pipeline: fetch live offers from Cuelinks API, export to out/deals.csv, wrap links, post to Telegram.",
-    "Set CUELINKS_API_TOKEN (from Cuelinks after API approval). Optional GOOGLE_SHEET_CSV_URL adds manual/curated rows from a sheet.",
-    "If your account uses a custom Offers API URL, set CUELINKS_OFFERS_URL.",
-    "Only allowed store domains are posted — see allowed-merchants.json."
+    "Recommended production setup: Cuelinks Offers API + your Google Sheet, merchant allowlist, Telegram (with photos from sheet).",
+    "Secrets: CUELINKS_API_TOKEN, CUELINKS_CHANNEL_ID, GOOGLE_SHEET_CSV_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.",
+    "Sheet row 1 headers — see config/google-sheet-template.csv. Only stores in allowed-merchants.json are posted.",
+    "Cuelinks API deals are filtered by URL domain; sheet rows should use allowed store URLs + optional merchant column."
   ],
   "allowed_merchants_file": "allowed-merchants.json",
   "feeds": [
@@ -17,6 +17,7 @@
       "max_pages": 5,
       "per_page": 50,
       "category": "${CUELINKS_OFFERS_CATEGORY:-}",
+      "merchant_field": "merchant",
       "currency": "Rs. "
     },
     {
@@ -32,6 +33,8 @@
       "coupon_field": "coupon",
       "category_field": "category",
       "description_field": "description",
+      "image_field": "image_url",
+      "merchant_field": "merchant",
       "currency": "Rs. "
     }
   ],
@@ -60,22 +63,19 @@
     "required_keywords": [],
     "max_items": 10
   },
-  "_merchant_filter": "Deals from stores not in allowed-merchants.json are dropped before Telegram.",
   "hashtags": ["#deals", "#offers", "#shopping"],
   "telegram": {
     "enabled": true,
     "bot_token_env": "TELEGRAM_BOT_TOKEN",
     "chat_id_env": "TELEGRAM_CHAT_ID",
     "disable_web_page_preview": false,
-    "timeout_seconds": 15,
+    "send_photo_when_image_available": true,
+    "photo_caption_max_length": 1024,
+    "timeout_seconds": 20,
     "required": true
   },
   "whatsapp": {
     "output_file": "out/whatsapp_deals.txt",
-    "auto_send": true,
-    "access_token_env": "WHATSAPP_ACCESS_TOKEN",
-    "phone_number_id_env": "WHATSAPP_PHONE_NUMBER_ID",
-    "to_phone_env": "WHATSAPP_TO_PHONE",
-    "required": false
+    "auto_send": false
   }
 }
