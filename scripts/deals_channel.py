@@ -33,6 +33,32 @@ DEFAULT_CUELINKS_OFFERS_URLS = (
 )
 CUELINKS_ITEM_PATHS = ("offers", "data.offers", "data", "results", "items", "coupons", "deals")
 
+# Domains for filters.allowed_merchants (keys are normalized with normalize_merchant_key).
+MERCHANT_DOMAIN_MAP: dict[str, tuple[str, ...]] = {
+    "amazon": ("amazon.in", "amazon.com", "amzn.to", "amzn.in"),
+    "flipkart": ("flipkart.com",),
+    "myntra": ("myntra.com",),
+    "meesho": ("meesho.com", "meesho.io"),
+    "ajio": ("ajio.com",),
+    "rare_rabbit": ("rarerabbit.com", "thehouseofrare.com", "houseofrare.com"),
+    "lenskart": ("lenskart.com",),
+    "nike": ("nike.com", "nike.in"),
+    "woodland": ("woodlandworldwide.com",),
+    "zomato": ("zomato.com",),
+    "blinkit": ("blinkit.com", "grofers.com"),
+    "swiggy": ("swiggy.com",),
+    "zepto": ("zepto.com",),
+    "bigbasket": ("bigbasket.com",),
+    "rapido": ("rapido.bike", "rapido.app"),
+    "uber": ("uber.com",),
+    "ola": ("olacabs.com", "ola.com"),
+    "fnp": ("fnp.com", "fernsnpetals.com"),
+    "kfc": ("kfc.co.in", "kfc.com", "online.kfc.co.in"),
+    "phonepe": ("phonepe.com",),
+    "paytm": ("paytm.com",),
+    "recharge": ("paytm.com", "phonepe.com"),
+}
+
 
 @dataclass
 class FeedConfig:
@@ -51,6 +77,7 @@ class FeedConfig:
     coupon_field: str = "coupon"
     category_field: str = "category"
     description_field: str = "description"
+    image_field: str = "image_url"
     currency: str = ""
     api_token_env: str = "CUELINKS_API_TOKEN"
     max_pages: int = 5
@@ -79,6 +106,7 @@ class FilterConfig:
     require_discount_data: bool = False
     blocked_keywords: list[str] = field(default_factory=list)
     required_keywords: list[str] = field(default_factory=list)
+    allowed_merchants: list[str] = field(default_factory=list)
     max_items: int = 10
 
 
@@ -88,6 +116,8 @@ class TelegramConfig:
     bot_token_env: str = "TELEGRAM_BOT_TOKEN"
     chat_id_env: str = "TELEGRAM_CHAT_ID"
     disable_web_page_preview: bool = False
+    send_photo_when_image_available: bool = True
+    photo_caption_max_length: int = 1024
     timeout_seconds: int = 15
     required: bool = False
 
@@ -137,6 +167,7 @@ class Deal:
     coupon: str | None = None
     category: str | None = None
     description: str | None = None
+    image_url: str | None = None
     currency: str = ""
 
     @property
@@ -393,6 +424,18 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             price,
         )
 
+        image_url = clean_optional_text(
+            first_text(
+                get_nested(item, feed.image_field),
+                get_nested(item, "image"),
+                get_nested(item, "image_url"),
+                get_nested(item, "thumbnail"),
+                get_nested(item, "product_image"),
+                get_nested(item, "banner_image"),
+                get_nested(item, "offer_image"),
+            )
+        )
+
         deals.append(
             Deal(
                 source=feed.name,
@@ -410,6 +453,7 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
                 ),
                 category=clean_optional_text(get_nested(item, feed.category_field)),
                 description=clean_optional_text(get_nested(item, feed.description_field)),
+                image_url=image_url,
                 currency=feed.currency,
             )
         )
@@ -436,6 +480,10 @@ def normalize_sheet_row(row: dict[str, Any]) -> dict[str, Any]:
         normalized["url"] = normalized["link"]
     if "product_url" in normalized and "url" not in normalized:
         normalized["url"] = normalized["product_url"]
+    if "img" in normalized and "image_url" not in normalized:
+        normalized["image_url"] = normalized["img"]
+    if "image" in normalized and "image_url" not in normalized:
+        normalized["image_url"] = normalized["image"]
     return normalized
 
 
@@ -562,6 +610,8 @@ def filter_deals(deals: list[Deal], filters: FilterConfig) -> list[Deal]:
 
         if not is_allowed_by_keywords(deal, filters):
             continue
+        if not is_allowed_merchant(deal, filters):
+            continue
         if not is_strong_enough(deal, filters):
             continue
         accepted.append(deal)
@@ -646,6 +696,63 @@ def mark_deals_posted(
         keys.append(key)
         known.add(key)
     save_posted_keys(state_file, keys, max_entries)
+
+
+def normalize_merchant_key(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", name.strip().lower()).strip("_")
+
+
+def resolve_allowed_domains(allowed_merchants: list[str]) -> set[str]:
+    domains: set[str] = set()
+    for merchant in allowed_merchants:
+        key = normalize_merchant_key(merchant)
+        mapped = MERCHANT_DOMAIN_MAP.get(key)
+        if mapped:
+            domains.update(mapped)
+            continue
+        if "." in merchant:
+            domains.add(merchant.lower().strip())
+    return domains
+
+
+def unwrap_deal_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    host = parsed.netloc.lower()
+    if host in ("linksredirect.com", "www.linksredirect.com"):
+        embedded = urllib.parse.parse_qs(parsed.query).get("url", [None])[0]
+        if embedded:
+            return urllib.parse.unquote(embedded)
+    return url
+
+
+def deal_host(url: str) -> str:
+    return urllib.parse.urlparse(unwrap_deal_url(url)).netloc.lower().removeprefix("www.")
+
+
+def host_matches_allowed(url: str, allowed_domains: set[str]) -> bool:
+    if not allowed_domains:
+        return True
+    host = deal_host(url)
+    for domain in allowed_domains:
+        candidate = domain.lower().removeprefix("www.")
+        if host == candidate or host.endswith(f".{candidate}"):
+            return True
+    return False
+
+
+def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
+    if not filters.allowed_merchants:
+        return True
+    allowed_domains = resolve_allowed_domains(filters.allowed_merchants)
+    if host_matches_allowed(deal.url, allowed_domains):
+        return True
+    searchable = " ".join(
+        value for value in [deal.title, deal.description or "", deal.category or ""] if value
+    ).lower()
+    for merchant in filters.allowed_merchants:
+        if merchant.lower() in searchable:
+            return True
+    return False
 
 
 def is_allowed_by_keywords(deal: Deal, filters: FilterConfig) -> bool:
@@ -756,6 +863,7 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
         "coupon",
         "category",
         "description",
+        "image_url",
     ]
     with output_file.open("w", encoding="utf-8", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -772,6 +880,7 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
                     "coupon": deal.coupon or "",
                     "category": deal.category or "",
                     "description": deal.description or "",
+                    "image_url": deal.image_url or "",
                 }
             )
 
@@ -801,15 +910,31 @@ def post_messages_to_telegram(
     errors: list[str] = []
     posted_deals: list[Deal] = []
     for index, message in enumerate(messages):
+        deal = deals[index] if deals and index < len(deals) else None
         try:
-            send_telegram_message(token, chat_id, message, telegram)
+            if (
+                deal
+                and deal.image_url
+                and telegram.send_photo_when_image_available
+            ):
+                send_telegram_photo(token, chat_id, deal.image_url, message, telegram)
+            else:
+                send_telegram_message(token, chat_id, message, telegram)
             posted += 1
-            if deals and index < len(deals):
-                posted_deals.append(deals[index])
+            if deal:
+                posted_deals.append(deal)
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
             failed += 1
             errors.append(f"Telegram post failed: {exc}")
     return posted, failed, errors, posted_deals
+
+
+def truncate_telegram_caption(text: str, max_length: int) -> str:
+    if max_length <= 0 or len(text) <= max_length:
+        return text
+    if max_length <= 3:
+        return text[:max_length]
+    return text[: max_length - 3] + "..."
 
 
 def send_telegram_message(
@@ -832,6 +957,32 @@ def send_telegram_message(
         result = json.loads(body)
         if not result.get("ok"):
             raise ValueError(result)
+
+
+def send_telegram_photo(
+    token: str,
+    chat_id: str,
+    photo_url: str,
+    caption: str,
+    telegram: TelegramConfig,
+) -> None:
+    api_url = f"https://api.telegram.org/bot{token}/sendPhoto"
+    payload = urllib.parse.urlencode(
+        {
+            "chat_id": chat_id,
+            "photo": photo_url,
+            "caption": truncate_telegram_caption(caption, telegram.photo_caption_max_length),
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(api_url, data=payload, method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=telegram.timeout_seconds) as response:
+            body = response.read().decode("utf-8")
+            result = json.loads(body)
+            if not result.get("ok"):
+                raise ValueError(result)
+    except (urllib.error.URLError, urllib.error.HTTPError, ValueError):
+        send_telegram_message(token, chat_id, caption, telegram)
 
 
 def normalize_whatsapp_phone(value: str) -> str:

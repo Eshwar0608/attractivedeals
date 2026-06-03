@@ -97,17 +97,30 @@ Google Sheet CSV feed
 Create a sheet with these column headers in row 1:
 
 ```text
-title,url,price,original_price,discount_percent,coupon,category,description
+title,url,price,original_price,discount_percent,coupon,category,description,image_url
 ```
 
 Example row:
 
 ```text
-Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time audio deal
+Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time audio deal,https://example.com/product.jpg
 ```
 
 Required columns are `title` and `url`. The filtering works best when either
 `discount_percent` is set or both `price` and `original_price` are set.
+
+Optional `image_url` — direct HTTPS image link; when set, Telegram posts use
+**sendPhoto** (see `config/merchant-allowlist-telegram.json`).
+
+### Merchant-only channel (Amazon, Flipkart, Zomato, etc.)
+
+Use `config/merchant-allowlist-telegram.json` to **only post deals** whose URL
+belongs to merchants you allow (Amazon, Flipkart, Myntra, Meesho, Ajio, Rare Rabbit,
+Lenskart, Nike, Woodland, Zomato, Blinkit, Swiggy, Zepto, BigBasket, Rapido, Uber,
+Ola, FNP, KFC, PhonePe/Paytm/recharge). Edit `filters.allowed_merchants` in that
+file to add or remove brands.
+
+GitHub Actions: choose **config_path** = `config/merchant-allowlist-telegram.json`.
 
 ### 2. Publish the sheet as CSV
 

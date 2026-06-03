@@ -28,6 +28,7 @@ on:
           - "config/google-sheet-cuelinks.json"
           - "config/simple-cuelinks.json"
           - "config/deals.json"
+          - "config/merchant-allowlist-telegram.json"
   schedule:
     # Runs every 30 minutes. GitHub cron uses UTC (may be delayed during high load).
     - cron: "*/30 * * * *"
