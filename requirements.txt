@@ -1,0 +1,2 @@
+# Optional: Google Docs append (service account). Core CLI uses Python stdlib only.
+google-auth>=2.29.0,<3

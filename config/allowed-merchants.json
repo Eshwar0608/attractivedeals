@@ -1,5 +1,5 @@
 {
-  "_notes": "Single list used by deal configs via allowed_merchants_file. Only URLs on these domains are posted.",
+  "_notes": "Used via allowed_merchants_file. Empty list = post all merchants. Add brand names to filter (e.g. flipkart, amazon).",
   "allowed_merchants": [
     "amazon",
     "flipkart",
