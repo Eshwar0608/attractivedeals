@@ -11,6 +11,7 @@ from scripts.deals_channel import (
     ExportCsvConfig,
     FeedConfig,
     FilterConfig,
+    MessageFormatConfig,
     TelegramConfig,
     WhatsAppConfig,
     WorkflowConfig,
@@ -19,11 +20,13 @@ from scripts.deals_channel import (
     normalize_whatsapp_phone,
     fetch_cuelinks_offers_from_url,
     filter_deals,
+    format_deal_message,
     host_matches_allowed,
     load_config,
     format_deal,
     resolve_allowed_domains,
     unwrap_deal_url,
+    wrap_urls_in_text,
     main,
     mark_deals_posted,
     merchant_deal_key,
@@ -34,6 +37,55 @@ from scripts.deals_channel import (
 
 
 class DealsChannelTests(unittest.TestCase):
+    def test_format_promo_deal_matches_channel_style(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(
+            source="sheet",
+            title="Upto 50% Off On Nike + Extra 10% Code + 10% Bank Offer.",
+            url="https://myntr.it/5axwTbN",
+            merchant="myntra",
+            links_text=(
+                "Men : https://myntr.it/5axwTbN\n"
+                "Women : https://myntr.it/olGTq7m"
+            ),
+            coupon="NIKEPREPAID10",
+            bank_offer="+ 10% Off With HDFC CC (Min. ₹3500)",
+        )
+        message = format_deal_message(
+            deal,
+            ["#deals"],
+            MessageFormatConfig(style="promo", include_hashtags=False),
+        )
+        self.assertIn("Myntra : Upto 50% Off On Nike", message)
+        self.assertIn("Men : https://myntr.it/5axwTbN", message)
+        self.assertIn("Apply Code : NIKEPREPAID10", message)
+        self.assertIn("HDFC CC", message)
+
+    def test_custom_message_column_overrides_template(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(
+            source="sheet",
+            title="ignored",
+            url="https://www.flipkart.com/p/1",
+            telegram_message="Custom post body with https://www.flipkart.com/p/1",
+        )
+        message = format_deal_message(
+            deal,
+            [],
+            MessageFormatConfig(style="promo"),
+        )
+        self.assertEqual(message, "Custom post body with https://www.flipkart.com/p/1")
+
+    def test_wrap_urls_in_text_rewrites_each_link(self):
+        wrapped = wrap_urls_in_text(
+            "Men : https://myntr.it/abc\nWomen : https://myntr.it/def",
+            "12345",
+            "linkkit",
+        )
+        self.assertEqual(wrapped.count("linksredirect.com"), 2)
+
     def test_load_config_reads_allowed_merchants_file(self):
         config = load_config(Path("config/merchant-allowlist-telegram.json"))
         self.assertIn("amazon", [m.lower() for m in config.filters.allowed_merchants])
@@ -211,7 +263,9 @@ class DealsChannelTests(unittest.TestCase):
             )
             deal = parse_feed(FeedConfig(name="local", url=str(feed_file), type="json", currency="Rs. "))[0]
 
-            message = format_deal(deal, ["#Deals", "Top Picks"])
+            message = format_deal_message(
+                deal, ["#Deals", "Top Picks"], MessageFormatConfig(style="compact")
+            )
 
             self.assertIn("🔥 Headphones 50% off", message)
             self.assertIn("Price: Rs. 999 (was Rs. 1,998)", message)

@@ -27,6 +27,17 @@ from typing import Any
 
 DEFAULT_USER_AGENT = "deals-channel-workflow/1.0"
 ENV_PLACEHOLDER_RE = re.compile(r"\$\{([A-Za-z_][A-Za-z0-9_]*)(?::-(.*?))?\}")
+URL_IN_TEXT_RE = re.compile(r"https?://[^\s<>\"']+", re.IGNORECASE)
+
+DEFAULT_PROMO_TEMPLATE = (
+    "{merchant} : {title}\n"
+    "\n"
+    "{links}\n"
+    "\n"
+    "Apply Code : {coupon}\n"
+    "\n"
+    "{bank_offer}"
+)
 DEFAULT_CUELINKS_OFFERS_URLS = (
     "https://www.cuelinks.com/api/v2/offers.json",
     "https://www.cuelinks.com/api/v1/offers.json",
@@ -37,7 +48,7 @@ CUELINKS_ITEM_PATHS = ("offers", "data.offers", "data", "results", "items", "cou
 MERCHANT_DOMAIN_MAP: dict[str, tuple[str, ...]] = {
     "amazon": ("amazon.in", "amazon.com", "amzn.to", "amzn.in"),
     "flipkart": ("flipkart.com",),
-    "myntra": ("myntra.com",),
+    "myntra": ("myntra.com", "myntr.it", "myntra.in"),
     "meesho": ("meesho.com", "meesho.io"),
     "ajio": ("ajio.com",),
     "rare_rabbit": ("rarerabbit.com", "thehouseofrare.com", "houseofrare.com"),
@@ -79,6 +90,9 @@ class FeedConfig:
     description_field: str = "description"
     image_field: str = "image_url"
     merchant_field: str = "merchant"
+    links_field: str = "links"
+    bank_offer_field: str = "bank_offer"
+    message_field: str = "message"
     currency: str = ""
     api_token_env: str = "CUELINKS_API_TOKEN"
     max_pages: int = 5
@@ -136,6 +150,15 @@ class WhatsAppConfig:
 
 
 @dataclass
+@dataclass
+class MessageFormatConfig:
+    style: str = "compact"
+    template: str = ""
+    custom_message_field: str = "message"
+    include_hashtags: bool = False
+
+
+@dataclass
 class AffiliateConfig:
     enabled: bool = False
     network: str = "none"
@@ -155,6 +178,7 @@ class WorkflowConfig:
     whatsapp: WhatsAppConfig = field(default_factory=WhatsAppConfig)
     export_csv: ExportCsvConfig = field(default_factory=ExportCsvConfig)
     dedupe: DedupeConfig = field(default_factory=DedupeConfig)
+    message_format: MessageFormatConfig = field(default_factory=MessageFormatConfig)
 
 
 @dataclass
@@ -170,6 +194,9 @@ class Deal:
     description: str | None = None
     image_url: str | None = None
     merchant: str | None = None
+    links_text: str | None = None
+    bank_offer: str | None = None
+    telegram_message: str | None = None
     currency: str = ""
 
     @property
@@ -215,6 +242,8 @@ def load_config(path: Path) -> WorkflowConfig:
     export_fields = config_fields(ExportCsvConfig)
     dedupe_raw = raw.get("dedupe", {})
     dedupe_fields = config_fields(DedupeConfig)
+    message_format_raw = raw.get("message_format", {})
+    message_format_fields = config_fields(MessageFormatConfig)
     whatsapp_raw = raw.get("whatsapp", {})
     whatsapp_fields = config_fields(WhatsAppConfig)
 
@@ -237,6 +266,9 @@ def load_config(path: Path) -> WorkflowConfig:
         whatsapp=WhatsAppConfig(**{k: v for k, v in whatsapp_raw.items() if k in whatsapp_fields}),
         export_csv=ExportCsvConfig(**{k: v for k, v in export_raw.items() if k in export_fields}),
         dedupe=DedupeConfig(**{k: v for k, v in dedupe_raw.items() if k in dedupe_fields}),
+        message_format=MessageFormatConfig(
+            **{k: v for k, v in message_format_raw.items() if k in message_format_fields}
+        ),
     )
 
 
@@ -415,6 +447,27 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             get_nested(item, "offer_name"),
             get_nested(item, "campaign_name"),
         )
+        links_text = clean_optional_text(
+            first_text(
+                get_nested(item, feed.links_field),
+                get_nested(item, "link_lines"),
+                get_nested(item, "links_text"),
+            )
+        )
+        telegram_message = clean_optional_text(
+            first_text(
+                get_nested(item, feed.message_field),
+                get_nested(item, "telegram_message"),
+                get_nested(item, "post_text"),
+            )
+        )
+        bank_offer = clean_optional_text(
+            first_text(
+                get_nested(item, feed.bank_offer_field),
+                get_nested(item, "bank_offer"),
+                get_nested(item, "bank_offers"),
+            )
+        )
         url = first_text(
             get_nested(item, feed.url_field),
             get_nested(item, "link"),
@@ -425,6 +478,8 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             get_nested(item, "merchant_url"),
             get_nested(item, "tracking_url"),
         )
+        if not url:
+            url = first_url_in_text(links_text) or first_url_in_text(telegram_message)
         if not title or not url:
             continue
 
@@ -479,6 +534,9 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
                 description=clean_optional_text(get_nested(item, feed.description_field)),
                 image_url=image_url,
                 merchant=merchant,
+                links_text=links_text,
+                bank_offer=bank_offer,
+                telegram_message=telegram_message,
                 currency=feed.currency,
             )
         )
@@ -513,6 +571,10 @@ def normalize_sheet_row(row: dict[str, Any]) -> dict[str, Any]:
         normalized["merchant"] = normalized["store"]
     if "brand" in normalized and "merchant" not in normalized:
         normalized["merchant"] = normalized["brand"]
+    if "link_lines" in normalized and "links" not in normalized:
+        normalized["links"] = normalized["link_lines"]
+    if "post_text" in normalized and "message" not in normalized:
+        normalized["message"] = normalized["post_text"]
     return normalized
 
 
@@ -783,6 +845,27 @@ def merchant_label_matches_allowed(label: str, allowed_merchants: list[str]) -> 
     return False
 
 
+def first_url_in_text(text: str | None) -> str | None:
+    if not text:
+        return None
+    match = URL_IN_TEXT_RE.search(text)
+    return match.group(0) if match else None
+
+
+def urls_in_deal_text(deal: Deal) -> list[str]:
+    found: list[str] = []
+    for chunk in (deal.url, deal.links_text, deal.telegram_message, deal.description):
+        if chunk:
+            found.extend(URL_IN_TEXT_RE.findall(chunk))
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for url in found:
+        if url not in seen:
+            deduped.append(url)
+            seen.add(url)
+    return deduped
+
+
 def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
     if not filters.allowed_merchants:
         return True
@@ -791,9 +874,9 @@ def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
         return False
     if deal.merchant and not merchant_label_matches_allowed(deal.merchant, filters.allowed_merchants):
         return False
-    if host_matches_allowed(deal.url, allowed_domains):
-        return True
-    # Strict: title-only matches are not enough (prevents unrelated merchants slipping through).
+    for url in urls_in_deal_text(deal):
+        if host_matches_allowed(url, allowed_domains):
+            return True
     host = deal_host(deal.url)
     if host in ("linksredirect.com", "cuelinks.com", "clnk.in", "clk.li", ""):
         return False
@@ -832,6 +915,89 @@ def is_strong_enough(deal: Deal, filters: FilterConfig) -> bool:
     if discount_ok or savings_ok:
         return True
     return not filters.require_discount_data and not has_discount_signal
+
+
+def apply_template(template: str, values: dict[str, str]) -> str:
+    result = template
+    for key, value in values.items():
+        result = result.replace("{" + key + "}", value)
+    return collapse_extra_blank_lines(result)
+
+
+def collapse_extra_blank_lines(text: str) -> str:
+    lines = text.splitlines()
+    cleaned: list[str] = []
+    blank = False
+    for line in lines:
+        if line.strip():
+            cleaned.append(line.rstrip())
+            blank = False
+        elif not blank:
+            cleaned.append("")
+            blank = True
+    return "\n".join(cleaned).strip()
+
+
+def format_merchant_display(merchant: str | None) -> str:
+    if not merchant:
+        return "Deal"
+    cleaned = merchant.strip()
+    if cleaned.lower() == "myntra":
+        return "Myntra"
+    return cleaned[:1].upper() + cleaned[1:]
+
+
+def format_promo_deal(deal: Deal, template: str) -> str:
+    merchant = format_merchant_display(deal.merchant)
+    links = (deal.links_text or "").strip()
+    if not links and deal.url:
+        links = deal.url
+    coupon = (deal.coupon or "").strip()
+    bank_offer = (deal.bank_offer or "").strip() or summarize(deal.description) or ""
+
+    if template.strip() and template.strip() != DEFAULT_PROMO_TEMPLATE.strip():
+        return collapse_extra_blank_lines(
+            apply_template(
+                template,
+                {
+                    "merchant": merchant,
+                    "title": deal.title.strip(),
+                    "links": links,
+                    "coupon": coupon,
+                    "bank_offer": bank_offer,
+                },
+            )
+        )
+
+    lines = [f"{merchant} : {deal.title.strip()}"]
+    if links:
+        lines.extend(["", links])
+    if coupon:
+        lines.extend(["", f"Apply Code : {coupon}"])
+    if bank_offer:
+        lines.extend(["", bank_offer])
+    return "\n".join(lines).strip()
+
+
+def format_deal_message(
+    deal: Deal,
+    hashtags: list[str],
+    message_format: MessageFormatConfig,
+) -> str:
+    if deal.telegram_message:
+        return deal.telegram_message.strip()
+
+    style = (message_format.style or "compact").lower()
+    if style == "promo":
+        template = message_format.template.strip() or DEFAULT_PROMO_TEMPLATE
+        message = format_promo_deal(deal, template)
+        if message_format.include_hashtags:
+            tags = build_hashtags(hashtags, deal.category)
+            if tags:
+                message = f"{message}\n\n{' '.join(tags)}"
+        return message
+
+    return format_deal(deal, hashtags)
 
 
 def format_deal(deal: Deal, hashtags: list[str]) -> str:
@@ -910,6 +1076,9 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
         "description",
         "image_url",
         "merchant",
+        "links",
+        "bank_offer",
+        "message",
     ]
     with output_file.open("w", encoding="utf-8", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -928,6 +1097,9 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
                     "description": deal.description or "",
                     "image_url": deal.image_url or "",
                     "merchant": deal.merchant or "",
+                    "links": deal.links_text or "",
+                    "bank_offer": deal.bank_offer or "",
+                    "message": deal.telegram_message or "",
                 }
             )
 
@@ -1165,7 +1337,9 @@ def run_workflow(
             "filters.require_discount_data in your config."
         )
 
-    messages = [format_deal(deal, config.hashtags) for deal in to_publish]
+    messages = [
+        format_deal_message(deal, config.hashtags, config.message_format) for deal in to_publish
+    ]
     output_file = Path(output_override or config.whatsapp.output_file)
     save_whatsapp_messages(messages, output_file)
     summary.whatsapp_file = str(output_file)
@@ -1257,7 +1431,25 @@ def apply_affiliate_links(deals: list[Deal], affiliate: AffiliateConfig) -> list
 
     for deal in deals:
         deal.url = build_cuelinks_url(deal.url, channel_id, affiliate.source)
+        if deal.links_text:
+            deal.links_text = wrap_urls_in_text(deal.links_text, channel_id, affiliate.source)
+        if deal.telegram_message:
+            deal.telegram_message = wrap_urls_in_text(
+                deal.telegram_message, channel_id, affiliate.source
+            )
+        if deal.description:
+            deal.description = wrap_urls_in_text(deal.description, channel_id, affiliate.source)
     return []
+
+
+def wrap_urls_in_text(text: str, channel_id: str, source: str) -> str:
+    def replace(match: re.Match[str]) -> str:
+        original = match.group(0)
+        if urllib.parse.urlparse(original).netloc.lower() == "linksredirect.com":
+            return original
+        return build_cuelinks_url(original, channel_id, source)
+
+    return URL_IN_TEXT_RE.sub(replace, text)
 
 
 def build_cuelinks_url(url: str, channel_id: str, source: str = "linkkit") -> str:

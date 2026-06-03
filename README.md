@@ -114,8 +114,28 @@ zomato,Zomato 60% off new users,https://www.zomato.com/...,,,60,ZOMATO60,Food,To
 | `merchant` | Recommended | e.g. `flipkart`, `amazon` — must match allowlist; wrong label rejects the row |
 | `price` / `original_price` or `discount_percent` | Recommended | So quality filters can run |
 | `image_url` | Optional | Direct HTTPS image → Telegram **photo** post for sheet deals |
+| `links` | Optional | Multi-line labeled URLs (`Men : https://...`) — see promo format below |
+| `bank_offer` | Optional | e.g. `+ 10% Off With HDFC CC (Min. ₹3500)` |
+| `message` | Optional | Full post text override (all URLs inside are affiliate-wrapped) |
 
-Cuelinks API deals do not use your sheet columns; they are filtered by **URL domain** only. Use the sheet for hand-picked deals, images, and extra offers.
+### Telegram promo format (like deal channels)
+
+With `message_format.style: promo` in `config/auto-fetch-telegram.json`, posts look like:
+
+```text
+Myntra : Upto 50% Off On Nike + Extra 10% Code + 10% Bank Offer.
+
+Men : https://myntr.it/...
+Women : https://myntr.it/...
+
+Apply Code : NIKEPREPAID10
+
++ 10% Off With HDFC CC (Min. ₹3500)
+```
+
+Fill `merchant`, `title`, `links`, `coupon`, `bank_offer` in the sheet — or paste the full text in `message`.
+
+Cuelinks API deals use the same promo layout when sheet-style fields are present; otherwise a shorter auto line is used.
 
 ### Google sheet for API + manual deals
 

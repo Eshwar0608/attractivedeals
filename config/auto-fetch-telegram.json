@@ -35,6 +35,9 @@
       "description_field": "description",
       "image_field": "image_url",
       "merchant_field": "merchant",
+      "links_field": "links",
+      "bank_offer_field": "bank_offer",
+      "message_field": "message",
       "currency": "Rs. "
     }
   ],
@@ -64,6 +67,11 @@
     "max_items": 10
   },
   "hashtags": ["#deals", "#offers", "#shopping"],
+  "message_format": {
+    "style": "promo",
+    "include_hashtags": false,
+    "template": "{merchant} : {title}\n\n{links}\n\nApply Code : {coupon}\n\n{bank_offer}"
+  },
   "telegram": {
     "enabled": true,
     "bot_token_env": "TELEGRAM_BOT_TOKEN",
