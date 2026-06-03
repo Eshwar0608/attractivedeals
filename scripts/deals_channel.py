@@ -78,6 +78,7 @@ class FeedConfig:
     category_field: str = "category"
     description_field: str = "description"
     image_field: str = "image_url"
+    merchant_field: str = "merchant"
     currency: str = ""
     api_token_env: str = "CUELINKS_API_TOKEN"
     max_pages: int = 5
@@ -168,6 +169,7 @@ class Deal:
     category: str | None = None
     description: str | None = None
     image_url: str | None = None
+    merchant: str | None = None
     currency: str = ""
 
     @property
@@ -447,6 +449,17 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             )
         )
 
+        merchant = clean_optional_text(
+            first_text(
+                get_nested(item, feed.merchant_field),
+                get_nested(item, "merchant_name"),
+                get_nested(item, "store"),
+                get_nested(item, "store_name"),
+                get_nested(item, "brand"),
+                get_nested(item, "advertiser"),
+            )
+        )
+
         deals.append(
             Deal(
                 source=feed.name,
@@ -465,6 +478,7 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
                 category=clean_optional_text(get_nested(item, feed.category_field)),
                 description=clean_optional_text(get_nested(item, feed.description_field)),
                 image_url=image_url,
+                merchant=merchant,
                 currency=feed.currency,
             )
         )
@@ -495,6 +509,10 @@ def normalize_sheet_row(row: dict[str, Any]) -> dict[str, Any]:
         normalized["image_url"] = normalized["img"]
     if "image" in normalized and "image_url" not in normalized:
         normalized["image_url"] = normalized["image"]
+    if "store" in normalized and "merchant" not in normalized:
+        normalized["merchant"] = normalized["store"]
+    if "brand" in normalized and "merchant" not in normalized:
+        normalized["merchant"] = normalized["brand"]
     return normalized
 
 
@@ -754,11 +772,24 @@ def host_matches_allowed(url: str, allowed_domains: set[str]) -> bool:
     return False
 
 
+def merchant_label_matches_allowed(label: str, allowed_merchants: list[str]) -> bool:
+    key = normalize_merchant_key(label)
+    if not key:
+        return False
+    for merchant in allowed_merchants:
+        candidate = normalize_merchant_key(merchant)
+        if key == candidate or key in candidate or candidate in key:
+            return True
+    return False
+
+
 def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
     if not filters.allowed_merchants:
         return True
     allowed_domains = resolve_allowed_domains(filters.allowed_merchants)
     if not allowed_domains:
+        return False
+    if deal.merchant and not merchant_label_matches_allowed(deal.merchant, filters.allowed_merchants):
         return False
     if host_matches_allowed(deal.url, allowed_domains):
         return True
@@ -878,6 +909,7 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
         "category",
         "description",
         "image_url",
+        "merchant",
     ]
     with output_file.open("w", encoding="utf-8", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -895,6 +927,7 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
                     "category": deal.category or "",
                     "description": deal.description or "",
                     "image_url": deal.image_url or "",
+                    "merchant": deal.merchant or "",
                 }
             )
 

@@ -64,6 +64,27 @@ class DealsChannelTests(unittest.TestCase):
         self.assertEqual(accepted[0].url, flipkart.url)
         self.assertEqual(rejected, 1)
 
+    def test_allowed_merchants_rejects_wrong_merchant_column(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        row = Deal(
+            source="sheet",
+            title="Nykaa lipstick sale",
+            url="https://www.nykaa.com/product/1",
+            merchant="nykaa",
+            discount_percent=40,
+        )
+        accepted, rejected = filter_deals(
+            [row],
+            FilterConfig(
+                allowed_merchants=["flipkart", "amazon"],
+                min_discount_percent=0,
+                require_discount_data=False,
+            ),
+        )
+        self.assertEqual(len(accepted), 0)
+        self.assertEqual(rejected, 1)
+
     def test_allowed_merchants_rejects_title_only_match(self):
         deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
         Deal = deal_mod.Deal

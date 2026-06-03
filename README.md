@@ -47,29 +47,26 @@ The script now **fails the workflow** when no deals are accepted or Telegram doe
 5. **Test Telegram**: Actions → Run Deals Channel → `dry_run: false`, `skip_affiliate: true`, `limit: 1`
 6. **Production**: scheduled runs use `config/google-sheet-cuelinks.json` with Cuelinks enabled (`skip_affiliate: false`)
 
-## Quick start (auto-fetch → CSV → Telegram)
+## Quick start (Cuelinks API + Google Sheet → Telegram)
 
-1. Get **Cuelinks API token** (email sales@cuelinks.com — publisher account, API access required).
-2. Set secrets/env vars below.
-3. Run:
+**Default config:** `config/auto-fetch-telegram.json` — fetches Cuelinks offers **and** your sheet, keeps only stores in `config/allowed-merchants.json`, posts to Telegram.
+
+1. Get **Cuelinks API token** (email sales@cuelinks.com).
+2. Publish a Google Sheet (see [Sheet template](#google-sheet-for-api--manual-deals)) and set `GOOGLE_SHEET_CSV_URL`.
+3. Set secrets (below) and run:
 
 ```bash
 export CUELINKS_API_TOKEN="your-32-char-api-token"
 export CUELINKS_CHANNEL_ID="your-cuelinks-channel-id"
+export GOOGLE_SHEET_CSV_URL="https://docs.google.com/spreadsheets/d/.../pub?output=csv"
 export TELEGRAM_BOT_TOKEN="your-bot-token"
 export TELEGRAM_CHAT_ID="@your_channel"
 python3 scripts/deals_channel.py --config config/auto-fetch-telegram.json --dry-run --verbose
 ```
 
-Outputs: `out/deals.csv` (accepted deals) and `out/whatsapp_deals.txt`. Remove `--dry-run` to post to Telegram.
+Outputs: `out/deals.csv` (accepted deals only) and `out/whatsapp_deals.txt`. Remove `--dry-run` to post to Telegram.
 
-### Google Sheet as optional extra source
-
-You can still merge curated rows from a published sheet:
-
-```bash
-export GOOGLE_SHEET_CSV_URL="https://docs.google.com/spreadsheets/d/.../pub?output=csv"
-```
+GitHub Actions scheduled runs use this same config by default.
 
 ## Quick start (sheet-only legacy)
 
@@ -98,31 +95,34 @@ Google Sheet CSV feed
 
 Create a sheet with these column headers in row 1:
 
-```text
-title,url,price,original_price,discount_percent,coupon,category,description,image_url
-```
-
-Example row:
+Copy headers from `config/google-sheet-template.csv`:
 
 ```text
-Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time audio deal,https://example.com/product.jpg
+merchant,title,url,price,original_price,discount_percent,coupon,category,description,image_url
 ```
 
-Required columns are `title` and `url`. The filtering works best when either
-`discount_percent` is set or both `price` and `original_price` are set.
+Example rows:
 
-Optional `image_url` — direct HTTPS image link; when set, Telegram posts use
-**sendPhoto** (see `config/merchant-allowlist-telegram.json`).
+```text
+flipkart,Boat headphones 45% off,https://www.flipkart.com/example,1099,1999,45,SAVE45,Electronics,Limited-time,https://.../image.jpg
+zomato,Zomato 60% off new users,https://www.zomato.com/...,,,60,ZOMATO60,Food,Today only,
+```
 
-### Merchant-only channel (Amazon, Flipkart, Zomato, etc.)
+| Column | Required | Notes |
+|--------|----------|--------|
+| `title`, `url` | Yes | `url` must be an **allowed store** link (see `config/allowed-merchants.json`) |
+| `merchant` | Recommended | e.g. `flipkart`, `amazon` — must match allowlist; wrong label rejects the row |
+| `price` / `original_price` or `discount_percent` | Recommended | So quality filters can run |
+| `image_url` | Optional | Direct HTTPS image → Telegram **photo** post for sheet deals |
 
-Use `config/merchant-allowlist-telegram.json` to **only post deals** whose URL
-belongs to merchants you allow (Amazon, Flipkart, Myntra, Meesho, Ajio, Rare Rabbit,
-Lenskart, Nike, Woodland, Zomato, Blinkit, Swiggy, Zepto, BigBasket, Rapido, Uber,
-Ola, FNP, KFC, PhonePe/Paytm/recharge). Edit `filters.allowed_merchants` in that
-file to add or remove brands.
+Cuelinks API deals do not use your sheet columns; they are filtered by **URL domain** only. Use the sheet for hand-picked deals, images, and extra offers.
 
-GitHub Actions: choose **config_path** = `config/merchant-allowlist-telegram.json`.
+### Google sheet for API + manual deals
+
+Production uses **`config/auto-fetch-telegram.json`** (API + sheet + merchant filter).  
+Sheet-only fallback: `config/merchant-allowlist-telegram.json`.
+
+Edit allowed stores in **`config/allowed-merchants.json`** (one list for API and sheet).
 
 ### 2. Publish the sheet as CSV
 

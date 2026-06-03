@@ -1,7 +1,7 @@
 {
   "_notes": [
     "Fully scheduled simple setup: publish a Google Sheet as CSV, set GOOGLE_SHEET_CSV_URL, set CUELINKS_CHANNEL_ID, and GitHub Actions can fetch/post automatically.",
-    "Expected sheet columns: title, url, price, original_price, discount_percent, coupon, category, description.",
+    "Expected sheet columns: merchant, title, url, price, original_price, discount_percent, coupon, category, description, image_url (see google-sheet-template.csv).",
     "The script wraps each accepted URL through Cuelinks linksredirect.com before Telegram and WhatsApp output.",
     "Only URLs from stores in allowed-merchants.json are posted."
   ],
@@ -20,6 +20,8 @@
       "coupon_field": "coupon",
       "category_field": "category",
       "description_field": "description",
+      "image_field": "image_url",
+      "merchant_field": "merchant",
       "currency": "Rs. "
     }
   ],
@@ -44,7 +46,9 @@
     "bot_token_env": "TELEGRAM_BOT_TOKEN",
     "chat_id_env": "TELEGRAM_CHAT_ID",
     "disable_web_page_preview": false,
-    "timeout_seconds": 15,
+    "send_photo_when_image_available": true,
+    "photo_caption_max_length": 1024,
+    "timeout_seconds": 20,
     "required": true
   },
   "whatsapp": {
