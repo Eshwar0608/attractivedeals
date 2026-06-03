@@ -1,9 +1,8 @@
 {
   "_notes": [
-    "Recommended production setup: Cuelinks Offers API + your Google Sheet, merchant allowlist, Telegram (with photos from sheet).",
-    "Secrets: CUELINKS_API_TOKEN, CUELINKS_CHANNEL_ID, GOOGLE_SHEET_CSV_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.",
-    "Sheet row 1 headers — see config/google-sheet-template.csv. Only stores in allowed-merchants.json are posted.",
-    "Cuelinks API deals are filtered by URL domain; sheet rows should use allowed store URLs + optional merchant column."
+    "Production: Cuelinks API only, famous-brand allowlist, strong dedupe, promo Telegram format.",
+    "Secrets: CUELINKS_API_TOKEN, CUELINKS_CHANNEL_ID, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.",
+    "Runs every 15 minutes via GitHub Actions. Same offer is never posted twice (posted_deals.json cache)."
   ],
   "allowed_merchants_file": "allowed-merchants.json",
   "feeds": [
@@ -22,7 +21,7 @@
     },
     {
       "name": "google-sheet-curated",
-      "enabled": true,
+      "enabled": false,
       "url": "${GOOGLE_SHEET_CSV_URL:-}",
       "type": "csv",
       "title_field": "title",
@@ -48,7 +47,7 @@
   "dedupe": {
     "enabled": true,
     "state_file": "out/posted_deals.json",
-    "max_entries": 10000,
+    "max_entries": 20000,
     "record_on_dry_run": false
   },
   "affiliate": {
@@ -59,7 +58,7 @@
     "required": true
   },
   "filters": {
-    "min_discount_percent": 10,
+    "min_discount_percent": 0,
     "min_savings_amount": 0,
     "require_discount_data": false,
     "blocked_keywords": [
@@ -73,6 +72,7 @@
       "snapdeal",
       "shopclues",
       "dominos",
+      "pizza hut",
       "makemytrip",
       "bookmyshow"
     ],
@@ -80,11 +80,10 @@
     "require_allowed_merchants": true,
     "max_items": 8
   },
-  "hashtags": ["#deals", "#offers", "#shopping"],
+  "hashtags": [],
   "message_format": {
     "style": "promo",
-    "include_hashtags": false,
-    "template": "{merchant} : {title}\n\n{links}\n\nApply Code : {coupon}\n\n{bank_offer}"
+    "include_hashtags": false
   },
   "telegram": {
     "enabled": true,
@@ -93,7 +92,7 @@
     "disable_web_page_preview": false,
     "send_photo_when_image_available": true,
     "photo_caption_max_length": 1024,
-    "timeout_seconds": 20,
+    "timeout_seconds": 25,
     "required": true
   },
   "whatsapp": {

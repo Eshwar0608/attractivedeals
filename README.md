@@ -16,7 +16,7 @@ Google Sheet CSV     ──┼→ filter → out/deals.csv → Telegram + out/wh
 Manual JSON items    ──┘
 ```
 
-**Default config:** `config/auto-fetch-telegram.json` (used by GitHub Actions).
+**Default config:** `config/brands-only-telegram.json` — Cuelinks API + **brand-only** filter (Amazon, Flipkart, Myntra, …). Runs every **15 minutes**.
 **Legacy manual-only config:** `config/google-sheet-cuelinks.json` (sheet is the only source).
 
 The workflow intentionally does not use a database. It deduplicates deals only

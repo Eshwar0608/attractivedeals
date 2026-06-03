@@ -47,7 +47,7 @@ CUELINKS_ITEM_PATHS = ("offers", "data.offers", "data", "results", "items", "cou
 # Domains for filters.allowed_merchants (keys are normalized with normalize_merchant_key).
 MERCHANT_DOMAIN_MAP: dict[str, tuple[str, ...]] = {
     "amazon": ("amazon.in", "amazon.com", "amzn.to", "amzn.in"),
-    "flipkart": ("flipkart.com",),
+    "flipkart": ("flipkart.com", "fkrt.it", "fkrt.cc"),
     "myntra": ("myntra.com", "myntr.it", "myntra.in"),
     "meesho": ("meesho.com", "meesho.io"),
     "ajio": ("ajio.com",),
@@ -69,6 +69,52 @@ MERCHANT_DOMAIN_MAP: dict[str, tuple[str, ...]] = {
     "paytm": ("paytm.com",),
     "recharge": ("paytm.com", "phonepe.com"),
 }
+
+# Title/description hints → allowlist key (order: longer phrases first).
+MERCHANT_TITLE_HINTS: tuple[tuple[str, str], ...] = (
+    ("rare rabbit", "rare rabbit"),
+    ("rare rabbit", "rarerabbit"),
+    ("the house of rare", "rare rabbit"),
+    ("bigbasket", "bigbasket"),
+    ("big basket", "bigbasket"),
+    ("phonepe", "phonepe"),
+    ("phone pe", "phonepe"),
+    ("paytm", "paytm"),
+    ("ferns n petals", "fnp"),
+    ("fernsnpetals", "fnp"),
+    ("amazon", "amazon"),
+    ("flipkart", "flipkart"),
+    ("myntra", "myntra"),
+    ("meesho", "meesho"),
+    ("ajio", "ajio"),
+    ("lenskart", "lenskart"),
+    ("nike", "nike"),
+    ("woodland", "woodland"),
+    ("zomato", "zomato"),
+    ("blinkit", "blinkit"),
+    ("grofers", "blinkit"),
+    ("swiggy", "swiggy"),
+    ("instamart", "blinkit"),
+    ("zepto", "zepto"),
+    ("rapido", "rapido"),
+    ("uber", "uber"),
+    ("olacabs", "ola"),
+    ("ola ", "ola"),
+    ("kfc", "kfc"),
+    ("recharge", "recharge"),
+    ("bill pay", "recharge"),
+    ("dth recharge", "recharge"),
+)
+
+AFFILIATE_ONLY_HOSTS = frozenset(
+    {
+        "linksredirect.com",
+        "cuelinks.com",
+        "cuelinks.in",
+        "clnk.in",
+        "clk.li",
+    }
+)
 
 
 @dataclass
@@ -150,7 +196,6 @@ class WhatsAppConfig:
     required: bool = False
 
 
-@dataclass
 @dataclass
 class MessageFormatConfig:
     style: str = "compact"
@@ -519,10 +564,12 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             first_text(
                 get_nested(item, feed.merchant_field),
                 get_nested(item, "merchant_name"),
+                get_nested(item, "advertiser_name"),
+                get_nested(item, "advertiser"),
                 get_nested(item, "store"),
                 get_nested(item, "store_name"),
                 get_nested(item, "brand"),
-                get_nested(item, "advertiser"),
+                get_nested(item, "campaign_name"),
             )
         )
 
@@ -906,21 +953,74 @@ def urls_in_deal_text(deal: Deal) -> list[str]:
     return deduped
 
 
+def merchant_key_from_host(host: str) -> str | None:
+    for key, domains in MERCHANT_DOMAIN_MAP.items():
+        for domain in domains:
+            candidate = domain.lower().removeprefix("www.")
+            if host == candidate or host.endswith(f".{candidate}"):
+                return key
+    return None
+
+
+def infer_merchant_key_from_text(text: str) -> str | None:
+    lowered = text.lower()
+    for hint, key in MERCHANT_TITLE_HINTS:
+        if hint in lowered:
+            return key
+    return None
+
+
+def resolve_deal_merchant_key(deal: Deal) -> str | None:
+    if deal.merchant:
+        key = normalize_merchant_key(deal.merchant)
+        if key in MERCHANT_DOMAIN_MAP:
+            return key
+        for allowed_key in MERCHANT_DOMAIN_MAP:
+            if merchant_label_matches_allowed(deal.merchant, [allowed_key]):
+                return allowed_key
+
+    for url in urls_in_deal_text(deal):
+        host = deal_host(url)
+        if host in AFFILIATE_ONLY_HOSTS:
+            continue
+        from_host = merchant_key_from_host(host)
+        if from_host:
+            return from_host
+
+    text = " ".join(
+        part for part in [deal.title, deal.description or "", deal.category or ""] if part
+    )
+    from_title = infer_merchant_key_from_text(text)
+    if from_title:
+        return from_title
+
+    for url in urls_in_deal_text(deal):
+        host = deal_host(url)
+        from_host = merchant_key_from_host(host)
+        if from_host:
+            return from_host
+    return None
+
+
 def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
+    """Only famous-brand offers pass. Junk merchants never post."""
     if not filters.allowed_merchants:
         return True
+
+    brand_key = resolve_deal_merchant_key(deal)
+    if not brand_key or not merchant_label_matches_allowed(brand_key, filters.allowed_merchants):
+        return False
+
     allowed_domains = resolve_allowed_domains(filters.allowed_merchants)
-    if not allowed_domains:
-        return False
-    if deal.merchant and not merchant_label_matches_allowed(deal.merchant, filters.allowed_merchants):
-        return False
     for url in urls_in_deal_text(deal):
         if host_matches_allowed(url, allowed_domains):
             return True
+
     host = deal_host(deal.url)
-    if host in ("linksredirect.com", "cuelinks.com", "clnk.in", "clk.li", ""):
-        return False
-    return False
+    if host in AFFILIATE_ONLY_HOSTS or not host:
+        return True
+
+    return merchant_key_from_host(host) == brand_key
 
 
 def is_allowed_by_keywords(deal: Deal, filters: FilterConfig) -> bool:
@@ -1360,7 +1460,8 @@ def run_workflow(
         )
     if config.filters.allowed_merchants:
         summary.feed_details.append(
-            f"merchant allowlist active: {summary.allowed_merchants_count} brand(s)"
+            f"brand-only filter: {summary.allowed_merchants_count} allowed store(s), "
+            f"{len(filtered)} offer(s) kept"
         )
     if summary.merchant_rejected:
         summary.feed_details.append(
@@ -1584,7 +1685,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the semi-automated deals channel workflow.")
     parser.add_argument(
         "--config",
-        default="config/auto-fetch-telegram.json",
+        default="config/brands-only-telegram.json",
         help="Path to workflow JSON config.",
     )
     parser.add_argument("--output", help="Override WhatsApp output file path.")

@@ -163,6 +163,26 @@ class DealsChannelTests(unittest.TestCase):
         self.assertEqual(len(accepted), 1)
         self.assertEqual(run_dup, 1)
 
+    def test_allowed_merchants_accepts_flipkart_title_with_tracking_url(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(
+            source="cuelinks-offers",
+            title="Flipkart Big Billion Days 50% off",
+            url="https://linksredirect.com/?cid=1&source=linkkit",
+            merchant="",
+        )
+        accepted, rejected, _ = filter_deals(
+            [deal],
+            FilterConfig(
+                allowed_merchants=["flipkart", "amazon"],
+                min_discount_percent=0,
+                require_discount_data=False,
+            ),
+        )
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(rejected, 0)
+
     def test_allowed_merchants_rejects_title_only_match(self):
         deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
         Deal = deal_mod.Deal
