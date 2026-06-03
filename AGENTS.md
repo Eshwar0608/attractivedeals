@@ -4,7 +4,7 @@
 
 ### Product overview
 
-Single Python 3 CLI (`scripts/deals_channel.py`): **Cuelinks Offers API** (`type: cuelinks_offers`), optional **Google Sheet CSV** (`type: csv`), brand allowlist, dedupe via `out/posted_deals.json`, Cuelinks URL wrap, Telegram posts. Writes `out/deals.csv` and `out/messages.txt`. Stdlib only — no database, Docker, or web server.
+Single Python 3 CLI (`scripts/deals_channel.py`): **Cuelinks Offers API** (`type: cuelinks_offers`), optional **Google Sheet CSV** (`type: csv`), optional brand allowlist (`config/allowed-merchants.json` — **empty list = all merchants**), dedupe via `out/posted_deals.json`, Cuelinks URL wrap, Telegram posts, optional **Google Docs** append (`google_docs` in config; needs `pip install -r requirements.txt` + service account). Writes `out/deals.csv` and `out/messages.txt`. No database, Docker, or web server.
 
 **Production config:** `config/brands-only-telegram.json` (GitHub Actions cron every 15 minutes UTC).
 
@@ -14,6 +14,7 @@ Single Python 3 CLI (`scripts/deals_channel.py`): **Cuelinks Offers API** (`type
 |------|---------|
 | Tests | `python3 -m unittest discover -s tests -v` |
 | Dry run | `python3 scripts/deals_channel.py --config config/brands-only-telegram.json --dry-run --verbose` |
+| Skip Google Doc | add `--skip-google-docs` |
 | Local manual feed test | `python3 scripts/deals_channel.py --config <tmp-config-with-manual-feed> --dry-run --skip-affiliate --limit 2` |
 
 ### Gotchas

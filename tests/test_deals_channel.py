@@ -4,6 +4,7 @@ import tempfile
 import unittest
 import urllib.parse
 from pathlib import Path
+from unittest import mock
 
 from scripts.deals_channel import (
     AffiliateConfig,
@@ -11,10 +12,13 @@ from scripts.deals_channel import (
     ExportCsvConfig,
     FeedConfig,
     FilterConfig,
+    GoogleDocsConfig,
     MessageFormatConfig,
     TelegramConfig,
     MessagesOutputConfig,
     WorkflowConfig,
+    append_to_google_doc,
+    build_google_docs_append_block,
     build_cuelinks_url,
     discover_cuelinks_items,
     fetch_cuelinks_offers_from_url,
@@ -23,6 +27,7 @@ from scripts.deals_channel import (
     host_matches_allowed,
     load_config,
     format_deal,
+    normalize_allowed_merchants,
     resolve_allowed_domains,
     unwrap_deal_url,
     wrap_urls_in_text,
@@ -696,6 +701,94 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(config.feeds[0].headers["Authorization"], "")
             self.assertEqual(config.feeds[0].headers["x-api-key"], "abc123")
 
+    def test_normalize_allowed_merchants_strips_empty_entries(self):
+        self.assertEqual(normalize_allowed_merchants([" flipkart ", "", "  "]), ["flipkart"])
+
+    def test_empty_allowed_merchants_accepts_any_store(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(
+            source="t",
+            title="Random boutique sale",
+            url="https://www.example-boutique.com/deal",
+            discount_percent=30,
+        )
+        accepted, rejected, _ = filter_deals(
+            [deal],
+            FilterConfig(
+                allowed_merchants=[],
+                min_discount_percent=0,
+                require_discount_data=False,
+            ),
+        )
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(rejected, 0)
+
+    def test_load_config_empty_allowed_merchants_file(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            merchants_file = root / "merchants.json"
+            merchants_file.write_text(
+                json.dumps({"allowed_merchants": []}),
+                encoding="utf-8",
+            )
+            config_file = root / "workflow.json"
+            config_file.write_text(
+                json.dumps(
+                    {
+                        "allowed_merchants_file": "merchants.json",
+                        "feeds": [{"name": "manual", "type": "manual", "items": []}],
+                        "filters": {"require_allowed_merchants": True},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            config = load_config(config_file)
+            self.assertEqual(config.filters.allowed_merchants, [])
+
+    def test_load_config_reads_google_docs_section(self):
+        config = load_config(Path("config/brands-only-telegram.json"))
+        self.assertTrue(config.google_docs.enabled)
+        self.assertIn("1LZJGJwvoK3UskdjKxoQ_VzSk3eBPmusX6eX4YSxM2qA", config.google_docs.document_id)
+
+    def test_build_google_docs_append_block_includes_messages_and_csv(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(
+            source="manual",
+            title="Flipkart sale",
+            url="https://www.flipkart.com/x",
+            merchant="flipkart",
+        )
+        block = build_google_docs_append_block(
+            ["Hello deal"],
+            [deal],
+            GoogleDocsConfig(include_messages=True, include_deals_csv=True),
+        )
+        self.assertIn("Telegram messages", block)
+        self.assertIn("Hello deal", block)
+        self.assertIn("Deals (CSV)", block)
+        self.assertIn("flipkart", block)
+
+    @mock.patch("scripts.deals_channel.insert_google_doc_text")
+    def test_append_to_google_doc_success(self, mock_insert: mock.MagicMock) -> None:
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(source="t", title="Test", url="https://example.com", merchant="x")
+        with mock.patch.dict(
+            os.environ,
+            {"GOOGLE_DOCS_ACCESS_TOKEN": "test-token"},
+            clear=False,
+        ):
+            appended, doc_id, errors = append_to_google_doc(
+                GoogleDocsConfig(document_id="doc123", enabled=True),
+                ["msg"],
+                [deal],
+            )
+        self.assertTrue(appended)
+        self.assertEqual(doc_id, "doc123")
+        self.assertEqual(errors, [])
+        mock_insert.assert_called_once()
 
 
 if __name__ == "__main__":

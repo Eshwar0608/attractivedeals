@@ -20,6 +20,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -189,6 +190,18 @@ class MessagesOutputConfig:
 
 
 @dataclass
+class GoogleDocsConfig:
+    enabled: bool = False
+    document_id: str = ""
+    document_id_env: str = "GOOGLE_DOCS_DOCUMENT_ID"
+    credentials_env: str = "GOOGLE_APPLICATION_CREDENTIALS"
+    access_token_env: str = "GOOGLE_DOCS_ACCESS_TOKEN"
+    required: bool = False
+    include_messages: bool = True
+    include_deals_csv: bool = True
+
+
+@dataclass
 class MessageFormatConfig:
     style: str = "compact"
     template: str = ""
@@ -217,6 +230,7 @@ class WorkflowConfig:
     export_csv: ExportCsvConfig = field(default_factory=ExportCsvConfig)
     dedupe: DedupeConfig = field(default_factory=DedupeConfig)
     message_format: MessageFormatConfig = field(default_factory=MessageFormatConfig)
+    google_docs: GoogleDocsConfig = field(default_factory=GoogleDocsConfig)
 
 
 @dataclass
@@ -261,6 +275,8 @@ class RunSummary:
     skipped_feeds: list[str] = field(default_factory=list)
     feed_details: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    google_docs_document_id: str | None = None
+    google_docs_appended: bool = False
 
 
 def config_fields(cls: type) -> set[str]:
@@ -293,15 +309,22 @@ def load_config(path: Path) -> WorkflowConfig:
             merchants_path = path.parent / merchants_path
         with merchants_path.open("r", encoding="utf-8") as merchants_handle:
             merchants_payload = json.load(merchants_handle)
-        filters_raw["allowed_merchants"] = merchants_payload.get("allowed_merchants", [])
+        filters_raw["allowed_merchants"] = normalize_allowed_merchants(
+            merchants_payload.get("allowed_merchants", [])
+        )
+
+    if filters_raw.get("allowed_merchants") is not None:
+        filters_raw["allowed_merchants"] = normalize_allowed_merchants(
+            filters_raw.get("allowed_merchants", [])
+        )
 
     filters = FilterConfig(**filters_raw)
-    if filters.require_allowed_merchants and not filters.allowed_merchants:
-        raise ValueError(
-            "Merchant filter is required but allowed_merchants is empty. "
-            "Set allowed_merchants_file in config (e.g. config/allowed-merchants.json) "
-            "or merge the latest attractivedeals PR with merchant filtering."
-        )
+
+    google_docs_raw = raw.get("google_docs", {})
+    google_docs_fields = config_fields(GoogleDocsConfig)
+    google_docs = GoogleDocsConfig(
+        **{k: v for k, v in google_docs_raw.items() if k in google_docs_fields}
+    )
 
     return WorkflowConfig(
         feeds=feeds,
@@ -317,7 +340,19 @@ def load_config(path: Path) -> WorkflowConfig:
         message_format=MessageFormatConfig(
             **{k: v for k, v in message_format_raw.items() if k in message_format_fields}
         ),
+        google_docs=google_docs,
     )
+
+
+def normalize_allowed_merchants(merchants: list[str] | None) -> list[str]:
+    if not merchants:
+        return []
+    cleaned: list[str] = []
+    for merchant in merchants:
+        text = str(merchant).strip()
+        if text:
+            cleaned.append(text)
+    return cleaned
 
 
 def expand_config_env(value: Any) -> Any:
@@ -941,7 +976,7 @@ def resolve_deal_merchant_key(deal: Deal) -> str | None:
 
 
 def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
-    """Only famous-brand offers pass. Junk merchants never post."""
+    """When allowed_merchants is empty, all stores pass; otherwise only listed brands."""
     if not filters.allowed_merchants:
         return True
 
@@ -1140,26 +1175,28 @@ def save_messages_file(messages: list[str], output_file: Path) -> None:
     output_file.write_text("\n\n---\n\n".join(messages) + ("\n" if messages else ""), encoding="utf-8")
 
 
+DEAL_CSV_FIELDNAMES = [
+    "source",
+    "title",
+    "url",
+    "price",
+    "original_price",
+    "discount_percent",
+    "coupon",
+    "category",
+    "description",
+    "image_url",
+    "merchant",
+    "links",
+    "bank_offer",
+    "message",
+]
+
+
 def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = [
-        "source",
-        "title",
-        "url",
-        "price",
-        "original_price",
-        "discount_percent",
-        "coupon",
-        "category",
-        "description",
-        "image_url",
-        "merchant",
-        "links",
-        "bank_offer",
-        "message",
-    ]
     with output_file.open("w", encoding="utf-8", newline="") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, fieldnames=DEAL_CSV_FIELDNAMES)
         writer.writeheader()
         for deal in deals:
             writer.writerow(
@@ -1180,6 +1217,172 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
                     "message": deal.telegram_message or "",
                 }
             )
+
+
+def format_deals_csv_text(deals: list[Deal]) -> str:
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=DEAL_CSV_FIELDNAMES)
+    writer.writeheader()
+    for deal in deals:
+        writer.writerow(
+            {
+                "source": deal.source,
+                "title": deal.title,
+                "url": deal.url,
+                "price": deal.price if deal.price is not None else "",
+                "original_price": deal.original_price if deal.original_price is not None else "",
+                "discount_percent": deal.discount_percent if deal.discount_percent is not None else "",
+                "coupon": deal.coupon or "",
+                "category": deal.category or "",
+                "description": deal.description or "",
+                "image_url": deal.image_url or "",
+                "merchant": deal.merchant or "",
+                "links": deal.links_text or "",
+                "bank_offer": deal.bank_offer or "",
+                "message": deal.telegram_message or "",
+            }
+        )
+    return buffer.getvalue()
+
+
+def resolve_google_docs_document_id(google_docs: GoogleDocsConfig) -> str:
+    if google_docs.document_id.strip():
+        return google_docs.document_id.strip()
+    return os.environ.get(google_docs.document_id_env, "").strip()
+
+
+def get_google_docs_access_token(google_docs: GoogleDocsConfig) -> str | None:
+    token = os.environ.get(google_docs.access_token_env, "").strip()
+    if token:
+        return token
+
+    credentials_path = os.environ.get(google_docs.credentials_env, "").strip()
+    if not credentials_path or not Path(credentials_path).is_file():
+        return None
+
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2 import service_account
+    except ImportError:
+        return None
+
+    credentials = service_account.Credentials.from_service_account_file(
+        credentials_path,
+        scopes=["https://www.googleapis.com/auth/documents"],
+    )
+    credentials.refresh(Request())
+    return credentials.token
+
+
+def google_doc_end_index(document: dict[str, Any]) -> int:
+    content = document.get("body", {}).get("content", [])
+    if not content:
+        return 1
+    return int(content[-1].get("endIndex", 1)) - 1
+
+
+def fetch_google_doc(document_id: str, access_token: str, timeout_seconds: int = 30) -> dict[str, Any]:
+    url = f"https://docs.googleapis.com/v1/documents/{document_id}"
+    request = urllib.request.Request(
+        url,
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def insert_google_doc_text(document_id: str, access_token: str, text: str, timeout_seconds: int = 30) -> None:
+    document = fetch_google_doc(document_id, access_token, timeout_seconds=timeout_seconds)
+    index = google_doc_end_index(document)
+    batch_url = f"https://docs.googleapis.com/v1/documents/{document_id}:batchUpdate"
+    payload = json.dumps(
+        {
+            "requests": [
+                {
+                    "insertText": {
+                        "location": {"index": index},
+                        "text": text,
+                    }
+                }
+            ]
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        batch_url,
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+        body = json.loads(response.read().decode("utf-8"))
+        if not isinstance(body, dict):
+            raise ValueError(f"Unexpected Google Docs response: {body}")
+
+
+def build_google_docs_append_block(
+    messages: list[str],
+    deals: list[Deal],
+    google_docs: GoogleDocsConfig,
+) -> str:
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    parts = [f"\n\n=== Deals channel run {timestamp} ===\n"]
+    if google_docs.include_messages and messages:
+        parts.append("\n--- Telegram messages ---\n\n")
+        parts.append("\n\n---\n\n".join(messages))
+        if not parts[-1].endswith("\n"):
+            parts.append("\n")
+    if google_docs.include_deals_csv and deals:
+        parts.append("\n--- Deals (CSV) ---\n\n")
+        parts.append(format_deals_csv_text(deals))
+    return "".join(parts)
+
+
+def append_to_google_doc(
+    google_docs: GoogleDocsConfig,
+    messages: list[str],
+    deals: list[Deal],
+) -> tuple[bool, str | None, list[str]]:
+    errors: list[str] = []
+    document_id = resolve_google_docs_document_id(google_docs)
+    if not document_id:
+        message = (
+            f"Google Docs skipped: set google_docs.document_id in config or "
+            f"{google_docs.document_id_env}."
+        )
+        if google_docs.required:
+            errors.append(message)
+        return False, None, errors
+
+    access_token = get_google_docs_access_token(google_docs)
+    if not access_token:
+        message = (
+            "Google Docs skipped: set "
+            f"{google_docs.access_token_env} or install google-auth and set "
+            f"{google_docs.credentials_env} to a service-account JSON file "
+            "(share the doc with the service account email as Editor)."
+        )
+        if google_docs.required:
+            errors.append(message)
+        return False, document_id, errors
+
+    block = build_google_docs_append_block(messages, deals, google_docs)
+    if not block.strip():
+        return False, document_id, errors
+
+    try:
+        insert_google_doc_text(document_id, access_token, block)
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        errors.append(f"Google Docs API HTTP {exc.code}: {detail}")
+        return False, document_id, errors
+    except Exception as exc:
+        errors.append(f"Google Docs append failed: {exc}")
+        return False, document_id, errors
+
+    return True, document_id, errors
 
 
 def post_messages_to_telegram(
@@ -1287,6 +1490,7 @@ def run_workflow(
     dry_run: bool = False,
     skip_telegram: bool = False,
     skip_affiliate: bool = False,
+    skip_google_docs: bool = False,
     output_override: str | None = None,
 ) -> RunSummary:
     summary = RunSummary()
@@ -1320,6 +1524,11 @@ def run_workflow(
     if config.filters.allowed_merchants:
         summary.feed_details.append(
             f"brand-only filter: {summary.allowed_merchants_count} allowed store(s), "
+            f"{len(filtered)} offer(s) kept"
+        )
+    else:
+        summary.feed_details.append(
+            f"merchant filter off: allowed_merchants is empty — all stores allowed, "
             f"{len(filtered)} offer(s) kept"
         )
     if summary.merchant_rejected:
@@ -1359,6 +1568,17 @@ def run_workflow(
         csv_file = Path(config.export_csv.output_file)
         save_deals_csv(to_publish, csv_file)
         summary.csv_file = str(csv_file)
+
+    if config.google_docs.enabled and not skip_google_docs and to_publish:
+        appended, document_id, google_errors = append_to_google_doc(
+            config.google_docs, messages, to_publish
+        )
+        summary.google_docs_document_id = document_id
+        summary.google_docs_appended = appended
+        if google_errors:
+            summary.errors.extend(google_errors)
+        if appended and document_id:
+            summary.feed_details.append(f"google docs: appended to document {document_id}")
 
     if skip_telegram:
         config.telegram.enabled = False
@@ -1523,6 +1743,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--skip-telegram", action="store_true", help="Disable Telegram posting for this run.")
     parser.add_argument("--skip-affiliate", action="store_true", help="Do not wrap deal URLs with affiliate tracking for this run.")
     parser.add_argument(
+        "--skip-google-docs",
+        action="store_true",
+        help="Do not append run output to the configured Google Doc for this run.",
+    )
+    parser.add_argument(
         "--allow-empty",
         action="store_true",
         help="Exit successfully even when no deals were fetched or accepted.",
@@ -1551,6 +1776,7 @@ def main(argv: list[str] | None = None) -> int:
         dry_run=args.dry_run,
         skip_telegram=args.skip_telegram,
         skip_affiliate=args.skip_affiliate,
+        skip_google_docs=args.skip_google_docs,
         output_override=args.output,
     )
     if args.verbose:
@@ -1564,6 +1790,14 @@ def main(argv: list[str] | None = None) -> int:
         return 1 if summary.telegram_failed else 0
 
     if summary.telegram_failed:
+        return 1
+    if (
+        config.google_docs.required
+        and not args.skip_google_docs
+        and config.google_docs.enabled
+        and not summary.google_docs_appended
+        and summary.accepted > 0
+    ):
         return 1
     if config.affiliate.required and not args.skip_affiliate and summary.errors:
         return 1

@@ -1,6 +1,6 @@
 {
   "_notes": [
-    "Production: Cuelinks API only, famous-brand allowlist, strong dedupe, promo Telegram format.",
+    "Production: Cuelinks API, optional brand allowlist (empty allowed-merchants.json = all stores), Google Doc append, dedupe, promo Telegram.",
     "Secrets: CUELINKS_API_TOKEN, CUELINKS_CHANNEL_ID, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.",
     "Runs every 15 minutes via GitHub Actions. Same offer is never posted twice (posted_deals.json cache)."
   ],
@@ -77,8 +77,18 @@
       "bookmyshow"
     ],
     "required_keywords": [],
-    "require_allowed_merchants": true,
+    "require_allowed_merchants": false,
     "max_items": 8
+  },
+  "google_docs": {
+    "enabled": true,
+    "document_id": "1LZJGJwvoK3UskdjKxoQ_VzSk3eBPmusX6eX4YSxM2qA",
+    "document_id_env": "GOOGLE_DOCS_DOCUMENT_ID",
+    "credentials_env": "GOOGLE_APPLICATION_CREDENTIALS",
+    "access_token_env": "GOOGLE_DOCS_ACCESS_TOKEN",
+    "required": false,
+    "include_messages": true,
+    "include_deals_csv": true
   },
   "hashtags": [],
   "message_format": {
