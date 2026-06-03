@@ -111,7 +111,7 @@ class DealsChannelTests(unittest.TestCase):
             url="https://www.example.com/deal",
             discount_percent=30,
         )
-        accepted, rejected = filter_deals([flipkart, other], filters)
+        accepted, rejected, _run_dup = filter_deals([flipkart, other], filters)
         self.assertEqual(len(accepted), 1)
         self.assertEqual(accepted[0].url, flipkart.url)
         self.assertEqual(rejected, 1)
@@ -126,7 +126,7 @@ class DealsChannelTests(unittest.TestCase):
             merchant="nykaa",
             discount_percent=40,
         )
-        accepted, rejected = filter_deals(
+        accepted, rejected, _run_dup = filter_deals(
             [row],
             FilterConfig(
                 allowed_merchants=["flipkart", "amazon"],
@@ -137,6 +137,32 @@ class DealsChannelTests(unittest.TestCase):
         self.assertEqual(len(accepted), 0)
         self.assertEqual(rejected, 1)
 
+    def test_same_run_dedupe_by_merchant_and_title(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        first = Deal(
+            source="api",
+            title="Nike 50% off sale",
+            url="https://www.myntra.com/deal-a",
+            merchant="myntra",
+        )
+        second = Deal(
+            source="sheet",
+            title="Nike 50% off sale",
+            url="https://www.myntra.com/deal-b",
+            merchant="myntra",
+        )
+        accepted, _rejected, run_dup = filter_deals(
+            [first, second],
+            FilterConfig(
+                allowed_merchants=["myntra"],
+                min_discount_percent=0,
+                require_discount_data=False,
+            ),
+        )
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(run_dup, 1)
+
     def test_allowed_merchants_rejects_title_only_match(self):
         deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
         Deal = deal_mod.Deal
@@ -146,7 +172,7 @@ class DealsChannelTests(unittest.TestCase):
             url="https://www.someotherstore.com/deal",
             discount_percent=50,
         )
-        accepted, rejected = filter_deals(
+        accepted, rejected, _run_dup = filter_deals(
             [fake],
             FilterConfig(
                 allowed_merchants=["amazon"],
@@ -227,7 +253,7 @@ class DealsChannelTests(unittest.TestCase):
             )
 
             parsed = parse_feed(feed)
-            accepted, _rejected = filter_deals(
+            accepted, _rejected, _run_dup = filter_deals(
                 parsed,
                 FilterConfig(
                     min_discount_percent=25,
@@ -313,7 +339,10 @@ class DealsChannelTests(unittest.TestCase):
             title="Deal",
             url="https://linksredirect.com/?cid=1&url=https%3A%2F%2Fwww.flipkart.com%2Fp%2F123",
         )
-        self.assertEqual(merchant_deal_key(deal), "https://www.flipkart.com/p/123")
+        self.assertEqual(
+            merchant_deal_key(deal),
+            "camp|flipkart|deal",
+        )
 
     def test_cross_run_dedupe_skips_previously_posted_deal(self):
         with tempfile.TemporaryDirectory() as tmp_dir:

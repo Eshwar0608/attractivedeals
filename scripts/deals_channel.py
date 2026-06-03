@@ -122,6 +122,7 @@ class FilterConfig:
     blocked_keywords: list[str] = field(default_factory=list)
     required_keywords: list[str] = field(default_factory=list)
     allowed_merchants: list[str] = field(default_factory=list)
+    require_allowed_merchants: bool = False
     max_items: int = 10
 
 
@@ -219,7 +220,9 @@ class RunSummary:
     whatsapp_file: str | None = None
     csv_file: str | None = None
     duplicates_skipped: int = 0
+    run_duplicates_skipped: int = 0
     merchant_rejected: int = 0
+    allowed_merchants_count: int = 0
     skipped_feeds: list[str] = field(default_factory=list)
     feed_details: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
@@ -257,9 +260,17 @@ def load_config(path: Path) -> WorkflowConfig:
             merchants_payload = json.load(merchants_handle)
         filters_raw["allowed_merchants"] = merchants_payload.get("allowed_merchants", [])
 
+    filters = FilterConfig(**filters_raw)
+    if filters.require_allowed_merchants and not filters.allowed_merchants:
+        raise ValueError(
+            "Merchant filter is required but allowed_merchants is empty. "
+            "Set allowed_merchants_file in config (e.g. config/allowed-merchants.json) "
+            "or merge the latest attractivedeals PR with merchant filtering."
+        )
+
     return WorkflowConfig(
         feeds=feeds,
-        filters=FilterConfig(**filters_raw),
+        filters=filters,
         hashtags=raw.get("hashtags", ["#deals"]),
         affiliate=AffiliateConfig(**raw.get("affiliate", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
@@ -689,14 +700,55 @@ def strip_namespace(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
-def filter_deals(deals: list[Deal], filters: FilterConfig) -> tuple[list[Deal], int]:
+def normalize_title_key(title: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", title.lower())[:160]
+
+
+def is_promo_style_deal(deal: Deal) -> bool:
+    return bool((deal.links_text or deal.telegram_message or "").strip())
+
+
+def merchant_deal_key(deal: Deal) -> str:
+    """Stable key for dedupe (unwraps affiliate redirects; promo = merchant + title)."""
+    primary_url = deal.url
+    for chunk in (deal.links_text, deal.telegram_message):
+        if chunk:
+            first = first_url_in_text(chunk)
+            if first:
+                primary_url = first
+                break
+    unwrapped = unwrap_deal_url(primary_url)
+    url_part = normalize_deal_url(unwrapped)
+    title_part = normalize_title_key(deal.title)
+    merchant_part = normalize_merchant_key(deal.merchant or "")
+    if not merchant_part and url_part:
+        host = deal_host(primary_url)
+        for key, domains in MERCHANT_DOMAIN_MAP.items():
+            if any(host == d or host.endswith(f".{d}") for d in domains):
+                merchant_part = key
+                break
+
+    if is_promo_style_deal(deal) and title_part:
+        base = merchant_part or "promo"
+        return f"promo|{base}|{title_part}"
+    # Same store + same headline = one campaign (stops API + sheet double-posting).
+    if merchant_part and title_part:
+        return f"camp|{merchant_part}|{title_part}"
+    if title_part and url_part:
+        return f"{title_part}|{url_part}"
+    return url_part or title_part or deal.title.lower()
+
+
+def filter_deals(deals: list[Deal], filters: FilterConfig) -> tuple[list[Deal], int, int]:
     accepted: list[Deal] = []
     seen: set[str] = set()
     merchant_rejected = 0
+    run_duplicates_skipped = 0
 
     for deal in deals:
-        key = deal_key(deal)
+        key = merchant_deal_key(deal)
         if key in seen:
+            run_duplicates_skipped += 1
             continue
         seen.add(key)
 
@@ -712,7 +764,7 @@ def filter_deals(deals: list[Deal], filters: FilterConfig) -> tuple[list[Deal], 
         if filters.max_items and len(accepted) >= filters.max_items:
             break
 
-    return accepted, merchant_rejected
+    return accepted, merchant_rejected, run_duplicates_skipped
 
 
 def normalize_deal_url(url: str) -> str:
@@ -725,18 +777,6 @@ def normalize_deal_url(url: str) -> str:
 def deal_key(deal: Deal) -> str:
     normalized_url = normalize_deal_url(deal.url)
     return normalized_url or deal.title.lower()
-
-
-def merchant_deal_key(deal: Deal) -> str:
-    """Stable key for cross-run dedupe (unwraps Cuelinks redirect URLs)."""
-    url = deal.url
-    parsed = urllib.parse.urlparse(url)
-    if parsed.netloc.lower() == "linksredirect.com":
-        embedded = urllib.parse.parse_qs(parsed.query).get("url", [None])[0]
-        if embedded:
-            url = urllib.parse.unquote(embedded)
-    normalized = normalize_deal_url(url)
-    return normalized or deal.title.lower()
 
 
 def load_posted_keys(state_file: Path) -> list[str]:
@@ -812,7 +852,7 @@ def resolve_allowed_domains(allowed_merchants: list[str]) -> set[str]:
 def unwrap_deal_url(url: str) -> str:
     parsed = urllib.parse.urlparse(url)
     host = parsed.netloc.lower().removeprefix("www.")
-    if host in ("linksredirect.com", "cuelinks.com", "clnk.in", "clk.li"):
+    if host in ("linksredirect.com", "cuelinks.com", "clnk.in", "clk.li", "cuelinks.in"):
         embedded = urllib.parse.parse_qs(parsed.query).get("url", [None])[0]
         if embedded:
             return urllib.parse.unquote(embedded)
@@ -1309,8 +1349,19 @@ def run_workflow(
         except Exception as exc:  # Keep other feeds moving if one source is unhealthy.
             summary.errors.append(f"{feed.name}: {exc}")
 
-    filtered, summary.merchant_rejected = filter_deals(all_deals, config.filters)
+    summary.allowed_merchants_count = len(config.filters.allowed_merchants)
+    filtered, summary.merchant_rejected, summary.run_duplicates_skipped = filter_deals(
+        all_deals, config.filters
+    )
     summary.skipped = summary.fetched - len(filtered)
+    if summary.run_duplicates_skipped:
+        summary.feed_details.append(
+            f"same-run dedupe: skipped {summary.run_duplicates_skipped} duplicate deal(s)"
+        )
+    if config.filters.allowed_merchants:
+        summary.feed_details.append(
+            f"merchant allowlist active: {summary.allowed_merchants_count} brand(s)"
+        )
     if summary.merchant_rejected:
         summary.feed_details.append(
             f"merchant filter: rejected {summary.merchant_rejected} deal(s) "

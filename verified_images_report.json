@@ -1,0 +1,4135 @@
+[
+  {
+    "id": "cmpxzvwp0000b04kym6syqg83",
+    "name": "Katiki Waterfalls",
+    "city": "Araku",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Katiki_Waterfall.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e8/Katiki_waterfalls.jp.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Katiki_waterfalls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fa/Waterfall218.jpg",
+        "generic Waterfall218 stock"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/60/Katika.jpg",
+        "Katika not Katiki"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzvxje000d04kyw3cbzpjn",
+    "name": "Bheemunipatnam Beach",
+    "city": "Bheemunipatnam",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/81/A_Shelter_at_Bheemunipatnam_Beach_Park.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/29/A_Statue_at_Bheemunipatnam_Beach_Park.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1b/A_Tomb_at_Dutch_Cemetery%2C_Bheemunipatnam_beach_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/A_Tomb_at_Dutch_Cemetery%2C_Bheemunipatnam_beach_02.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f6/%28Lepidochelys_olivacea%29_dead_at_Bheemunipatnam_beach_01.jpg",
+        "turtle carcass - weak as beach hero image but location OK"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzvz3j000j04kygbqu8fws",
+    "name": "Ethipothala Falls",
+    "city": "Macherla",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/64/Ethipothala_waterfall_guntur.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Ethipothala_Waterfalls_Landscape.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ethipothala_Waterfalls.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/4/40/Ethipothala_waterfall_2007.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b2/Ethipothala_waterfall.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpxzvydm000g04kyfi1qhm27",
+    "name": "Srisailam Mallikarjuna Temple",
+    "city": "Srisailam",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d5/2025_Ghanta_Matham_temple_in_Srisailam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6c/A_Nataraja_relief_carved_on_Northern_wall_of_Srisailam_Temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/APSS303_Srisailam_town_zoom_view_from_welcome_center2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Entrance_of_Srisailam_temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/Eshana_Lingam_and_Kumara_Lingam_temples_at_Ghanta_Matham_in_Srisailam.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuvlxr0000g04l1fbkteicr",
+    "name": "Bheemunipatnam Beach",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/A_Creative_Snap_at_Bheemunipatnam_Beach_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1b/A_Tomb_at_Dutch_Cemetery%2C_Bheemunipatnam_beach_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/A_Tomb_at_Dutch_Cemetery%2C_Bheemunipatnam_beach_02.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/0b/A_Tomb_at_Dutch_Cemetery%2C_Bheemunipatnam_beach_03.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/72/A_Tomb_at_Dutch_Cemetery%2C_Bheemunipatnam_beach_04.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmppccfn5000204l21a89rto9",
+    "name": "INS Kursura Submarine Museum",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d8/INS_Kursura_Submarine_Museum.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuvluxl000404l1ztkcusdc",
+    "name": "INS Kurusura Submarine Museum",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/bc/INS_Kursura_%28S20%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7a/INS_Kursura_at_RK_Beach_Vizag.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d8/INS_Kursura_Submarine_Museum.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6d/Interior_of_INS_Kursura_%28S20%29%2C_the_submarine_museum_in_Vizag_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/91/Interior_of_INS_Kursura_%28S20%29%2C_the_submarine_museum_in_Vizag_02.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuvlygc000j04l13v5ekb05",
+    "name": "Katiki Waterfalls",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Katiki_Waterfall.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e8/Katiki_waterfalls.jp.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Katiki_waterfalls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/60/Katika.jpg",
+        "Katika not Katiki"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fa/Waterfall218.jpg",
+        "generic Waterfall218 stock"
+      ]
+    ]
+  },
+  {
+    "id": "cmptyplcd000704jskqx9cwhr",
+    "name": "Anjuna Beach",
+    "city": "Anjuna",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/c/cf/Anjuna_Beach%2C_Goa%2C_India%2C_Legendary_Curlies_beach_shack.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/00/Anjuna_beach_water_receding.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b2/Anjuna_Hill_-_panoramio.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chapora_Fort_GOA.jpg",
+        "unverified (fname: chapora fort goa.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chapora_fort_25012016.jpg",
+        "unverified (fname: chapora fort 25012016.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1xdbo002c04l5gb0lcug6",
+    "name": "Arambol Beach",
+    "city": "Arambol",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/82/Arambol-give-tylicki.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ab/Arambol_2022-01-04-2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e6/Arambol_Lake_swimmer.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/df/Arambol_Mountain.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/00/Arambol_Shacks.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/cf/Anjuna_Beach%2C_Goa%2C_India%2C_Legendary_Curlies_beach_shack.jpg",
+        "Anjuna image on non-Anjuna place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chapora_Fort_GOA.jpg",
+        "Chapora fort image wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b2/Anjuna_Hill_-_panoramio.jpg",
+        "Anjuna image on non-Anjuna place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/00/Anjuna_beach_water_receding.jpg",
+        "Anjuna image on non-Anjuna place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chapora_fort_25012016.jpg",
+        "Chapora fort image wrong place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1wslb002404l5bfvzk2xw",
+    "name": "Fort Cabo de Rama",
+    "city": "Cabo de Rama",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f4/Aguada_Fort_%2C_Goa%2C_India.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chapora_Fort_GOA.jpg",
+        "Chapora fort image wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+        "unverified (fname: palolem beach, south goa.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/35/Fort_Chapora_26012016.jpg",
+        "Chapora fort image wrong place"
+      ]
+    ]
+  },
+  {
+    "id": "cmptypl43000604jsodjo91x1",
+    "name": "Baga Beach",
+    "city": "Calangute",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/53/Baga_Beach%2C_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/80/Baga_Beach_25012016.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ae/Boats_on_the_Calangute_beach%2C_Goa.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmptypkvq000504js12kgxli8",
+    "name": "Calangute Beach",
+    "city": "Calangute",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ae/Boats_on_the_Calangute_beach%2C_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/18/Calangute-Tinto.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/53/Baga_Beach%2C_Goa.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1xaw9002504l5luugkmqe",
+    "name": "Agonda Beach",
+    "city": "Canacona",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Palolem_Beach%2C_south_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1wrv9002104l5rypgho0s",
+    "name": "Cotigao Wildlife Sanctuary",
+    "city": "Canacona",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Palolem_Beach%2C_south_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg",
+        "unverified (fname: goa palolem beach sunset.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg",
+        "unverified (fname: goa palolem beach sunset.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptyplkp000804jsj65r549s",
+    "name": "Palolem Beach",
+    "city": "Canacona",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Palolem_Beach%2C_south_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1xb4x002604l54mkteyjt",
+    "name": "Candolim Beach",
+    "city": "Candolim",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/Aguada_Fort_-_Sinquerim_Beach_-_Goa_-_0001.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+        "unverified (fname: fort aguada.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "unverified (fname: sunset at calangute.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f4/Aguada_Fort_%2C_Goa%2C_India.JPG",
+        "unverified (fname: aguada fort , goa, india.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptypkf3000304jsdypu0rd0",
+    "name": "Dudhsagar Falls",
+    "city": "Collem",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "unverified (fname: doodhsagar fall.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Dudh_Sagar_Mendes.jpg",
+        "unverified (fname: dudh sagar mendes.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "unverified (fname: doodhsagar fall.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1wscm002304l5dq8hv7r8",
+    "name": "Colva Beach",
+    "city": "Colva",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ae/Boats_on_the_Calangute_beach%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1ws3y002204l5kbrk6xlo",
+    "name": "Divar Island",
+    "city": "Divar",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Jose_pacheco_-_Divar.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9e/Front_Elevation_of_Basilica_of_Bom_Jesus.jpg",
+        "Old Goa church on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/14/Perspective_of_Se_Cathedral.jpg",
+        "unverified (fname: perspective of se cathedral.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+        "unverified (fname: fort aguada.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f3/Basilica_of_Bom_Jesus_and_vehicles_parked_infront.jpg",
+        "Old Goa church on wrong place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1wq1p001w04l5w2zze9b5",
+    "name": "Bhagwan Mahavir Wildlife Sanctuary",
+    "city": "Mollem",
+    "state": "Goa",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "unverified (fname: doodhsagar fall.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg",
+        "unverified (fname: doodhsagar waterfalls.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Dudh_Sagar_Mendes.jpg",
+        "unverified (fname: dudh sagar mendes.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG",
+        "unverified (fname: shri-mangesh-temple,goa.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "unverified (fname: doodhsagar fall.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1xbdn002704l53f2hfp1b",
+    "name": "Morjim Beach",
+    "city": "Morjim",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/c/cf/Anjuna_Beach%2C_Goa%2C_India%2C_Legendary_Curlies_beach_shack.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chapora_Fort_GOA.jpg",
+        "unverified (fname: chapora fort goa.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b2/Anjuna_Hill_-_panoramio.jpg",
+        "unverified (fname: anjuna hill - panoramio.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "unverified (fname: sunset at calangute.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptypjpp000004jsgee6anr8",
+    "name": "Basilica of Bom Jesus",
+    "city": "Old Goa",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Front_Elevation_of_Basilica_of_Bom_Jesus.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f3/Basilica_of_Bom_Jesus_and_vehicles_parked_infront.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/38/Basilica_of_Bom_Jesus_inside_courtyard.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/14/Perspective_of_Se_Cathedral.jpg",
+        "unverified (fname: perspective of se cathedral.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/d8/Closeup_of_Se_Cathedral_from_Rua_Direita_%2802%29.jpg",
+        "unverified (fname: closeup of se cathedral from rua direita (02).jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptypjyb000104jsrt02sycp",
+    "name": "Se Cathedral",
+    "city": "Old Goa",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/14/Perspective_of_Se_Cathedral.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d8/Closeup_of_Se_Cathedral_from_Rua_Direita_%2802%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/0e/Bell_Tower_on_Se_Cathedral.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9e/Front_Elevation_of_Basilica_of_Bom_Jesus.jpg",
+        "unverified (fname: front elevation of basilica of bom jesus.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/38/Basilica_of_Bom_Jesus_inside_courtyard.jpg",
+        "unverified (fname: basilica of bom jesus inside courtyard.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1xcyl002b04l5ehsne0ay",
+    "name": "Butterfly Beach",
+    "city": "Palolem",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Palolem_Beach%2C_south_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Palolem_Beach%2C_South_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/da/Goa_Palolem_beach_sunset.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1y8yu002d04l530y7g05s",
+    "name": "Dona Paula",
+    "city": "Panaji",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8c/Dona_Paula%2C_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/93/Dona_Paula_Goa.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/db/Fishing_Boats_anchored_at_Dona_Paula_%2C_Goa.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+        "unverified (fname: fort aguada.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f4/Aguada_Fort_%2C_Goa%2C_India.JPG",
+        "unverified (fname: aguada fort , goa, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6b/Aguada_Fort_-_Sinquerim_Beach_-_Goa_-_0001.jpg",
+        "unverified (fname: aguada fort - sinquerim beach - goa - 0001.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1wpt1001v04l5ku129twm",
+    "name": "Fontainhas Latin Quarter",
+    "city": "Panaji",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/0c/Fontainhas_-_Wishing_Well_%2856337569%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e4/Fontainhas_-_somewhere_in_between.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/db/Road_along_Vasco-da-gama_residence_in_Fontainhas%2C_Panaji.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9e/Front_Elevation_of_Basilica_of_Bom_Jesus.jpg",
+        "Old Goa church on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/14/Perspective_of_Se_Cathedral.jpg",
+        "unverified (fname: perspective of se cathedral.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+        "unverified (fname: fort aguada.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f3/Basilica_of_Bom_Jesus_and_vehicles_parked_infront.jpg",
+        "Old Goa church on wrong place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmptyplt1000904jst8e7m8kv",
+    "name": "Shri Mangueshi Temple",
+    "city": "Ponda",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a9/IN-Goa-Ponda-shri-manguesh-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/48/IN-Goa-Ponda-shri-manguesh-2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a9/IN-Goa-Ponda-shri-manguesh-1.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1wpbe001u04l5x0fwcao0",
+    "name": "Spice Plantation Ponda",
+    "city": "Ponda",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/a9/IN-Goa-Ponda-shri-manguesh-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/48/IN-Goa-Ponda-shri-manguesh-2.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG",
+        "unverified (fname: shri-mangesh-temple,goa.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "Dudhsagar on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg",
+        "Dudhsagar on wrong place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1wrdu001z04l5jlgww9eb",
+    "name": "Netravali Bubbling Lake",
+    "city": "Sanguem",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/7c/Netravali.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "Dudhsagar on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg",
+        "Dudhsagar on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Dudh_Sagar_Mendes.jpg",
+        "unverified (fname: dudh sagar mendes.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG",
+        "unverified (fname: shri-mangesh-temple,goa.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "Dudhsagar on wrong place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1wr52001y04l5meswufox",
+    "name": "Tambdi Surla Temple",
+    "city": "Sanguem",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7d/Shri-Mangesh-Temple%2CGoa.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a9/IN-Goa-Ponda-shri-manguesh-1.jpg",
+        "unverified (fname: in-goa-ponda-shri-manguesh-1.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/48/IN-Goa-Ponda-shri-manguesh-2.jpg",
+        "unverified (fname: in-goa-ponda-shri-manguesh-2.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a9/IN-Goa-Ponda-shri-manguesh-1.jpg",
+        "unverified (fname: in-goa-ponda-shri-manguesh-1.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1wrmj002004l5gxl88r8n",
+    "name": "Harvalem Waterfall",
+    "city": "Sanquelim",
+    "state": "Goa",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "Dudhsagar on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg",
+        "Dudhsagar on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Dudh_Sagar_Mendes.jpg",
+        "unverified (fname: dudh sagar mendes.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Doodhsagar_Fall.jpg",
+        "Dudhsagar on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Doodhsagar_Waterfalls.jpg",
+        "Dudhsagar on wrong place"
+      ]
+    ]
+  },
+  {
+    "id": "cmptypk6r000204jsd966ky16",
+    "name": "Fort Aguada",
+    "city": "Sinquerim",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f4/Aguada_Fort_%2C_Goa%2C_India.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/Aguada_Fort_-_Sinquerim_Beach_-_Goa_-_0001.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1xbv0002904l53nm1c8k7",
+    "name": "Sinquerim Beach",
+    "city": "Sinquerim",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/Aguada_Fort_-_Sinquerim_Beach_-_Goa_-_0001.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+        "unverified (fname: fort aguada.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f4/Aguada_Fort_%2C_Goa%2C_India.JPG",
+        "unverified (fname: aguada fort , goa, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ]
+    ]
+  },
+  {
+    "id": "cmptypknf000404jsqpxnko2b",
+    "name": "Chapora Fort",
+    "city": "Vagator",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chapora_Fort_GOA.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/35/Fort_Chapora_26012016.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chapora_fort_25012016.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/cf/Anjuna_Beach%2C_Goa%2C_India%2C_Legendary_Curlies_beach_shack.jpg",
+        "unverified (fname: anjuna beach, goa, india, legendary curlies beach shack.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b2/Anjuna_Hill_-_panoramio.jpg",
+        "unverified (fname: anjuna hill - panoramio.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1xbmc002804l51vm67mun",
+    "name": "Vagator Beach",
+    "city": "Vagator",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Chapora_Fort_GOA.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/35/Fort_Chapora_26012016.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chapora_fort_25012016.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cf/Anjuna_Beach%2C_Goa%2C_India%2C_Legendary_Curlies_beach_shack.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b2/Anjuna_Hill_-_panoramio.jpg",
+        "unverified (fname: anjuna hill - panoramio.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1xcpw002a04l544kqh4t5",
+    "name": "Grand Island Scuba",
+    "city": "Vasco",
+    "state": "Goa",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ae/Boats_on_the_Calangute_beach%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/18/Calangute-Tinto.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/53/Baga_Beach%2C_Goa.jpg",
+        "unverified (fname: baga beach, goa.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1wqwd001x04l50k897x03",
+    "name": "Reis Magos Fort",
+    "city": "Verem",
+    "state": "Goa",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fort_aguada.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f4/Aguada_Fort_%2C_Goa%2C_India.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/Aguada_Fort_-_Sinquerim_Beach_-_Goa_-_0001.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunset_at_Calangute.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Baga_Beach%2C_Calangute%2C_Goa.jpg",
+        "Calangute/Baga image on wrong Goa place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1ktm6000n04l5gbltk6cf",
+    "name": "Chandratal Lake",
+    "city": "Batal",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d0/Beauty_of_Chandratal_Lake_03.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a7/Chandratal.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Chandratal_1.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/0/0a/Chandratal_July_2017.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/58/Ruddy_Shelduck_Chandratal_Spiti_Himachal_Jun18_D72_7911.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7a/Chandra_Taal.jpg",
+        "unverified (fname: chandra taal.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spiti_Valley.jpg",
+        "unverified (fname: spiti valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2a/Key_Monastery_Spiti.jpg",
+        "unverified (fname: key monastery spiti.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Key_Gompa_Spiti_Valley.jpg",
+        "unverified (fname: key gompa spiti valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9f/Kibber_village_Spiti.jpg",
+        "unverified (fname: kibber village spiti.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmptwun12000905l1xjczqi3i",
+    "name": "Bir Billing",
+    "city": "Bir",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/6a/Paragliding_at_Bir_Billing.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4d/Bir_Billing_paragliding.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8b/Bir_monastery.jpg",
+        "unverified (fname: bir monastery.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2d/Dharamshala_McLeod_Ganj.jpg",
+        "unverified (fname: dharamshala mcleod ganj.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/McLeod_Ganj.jpg",
+        "unverified (fname: mcleod ganj.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1lknk000u04l5kwelzzhn",
+    "name": "Chail",
+    "city": "Chail",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/1e/Chail_Palace.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/77/Chailcricketground.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5e/Chailhill.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Kali_Tibba_Temple_Chail_2025.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/47/Kufri%2C_starting_point_to_Chail.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/02/Bird_eye_View_of_Mall_Road_%28Shimla%29.jpg",
+        "unverified (fname: bird eye view of mall road (shimla).jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+        "unverified (fname: christ church, shimla.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Shimla_Mall_Road.jpg",
+        "unverified (fname: shimla mall road.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+        "unverified (fname: shimla city view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg",
+        "unverified (fname: the ridge, shimla.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1k88j000d04l569yhp49s",
+    "name": "Chamba",
+    "city": "Chamba",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e0/0051523_Hari_Rai_temple%2C_Chamba%2C_Himachal_Pradesh_032.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/02/0051723_Lakshmi_Narayan_group_of_temples%2C_Chamba%2C_Himachal_Pradesh_051.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2e/Chamba2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/77/Chamba3.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/31/Chamba4.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Dalhousie_hill_station.jpg",
+        "unverified (fname: dalhousie hill station.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8f/Dalhousie_view.jpg",
+        "unverified (fname: dalhousie view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5a/Khajjiar_Meadow.jpg",
+        "unverified (fname: khajjiar meadow.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6e/Khajjiar_Lake.jpg",
+        "unverified (fname: khajjiar lake.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9d/Khajjiar.jpg",
+        "unverified (fname: khajjiar.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmptwulmr000305l1anzvpkgv",
+    "name": "Dalhousie",
+    "city": "Dalhousie",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Dalhousie_hill_station.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Dalhousie_view.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5a/Khajjiar_Meadow.jpg",
+        "unverified (fname: khajjiar meadow.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6e/Khajjiar_Lake.jpg",
+        "unverified (fname: khajjiar lake.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9d/Khajjiar.jpg",
+        "unverified (fname: khajjiar.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptwuled000205l1wgt42885",
+    "name": "Dharamshala",
+    "city": "Dharamshala",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Dharamshala_McLeod_Ganj.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/McLeod_Ganj.jpg",
+        "unverified (fname: mcleod ganj.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/McLeod_Ganj_Street.jpg",
+        "unverified (fname: mcleod ganj street.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Tsuglagkhang_Complex.jpg",
+        "unverified (fname: tsuglagkhang complex.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1b/Bhagsu_Falls.jpg",
+        "unverified (fname: bhagsu falls.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k5us000504l5ata4rkys",
+    "name": "McLeod Ganj",
+    "city": "Dharamshala",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/McLeod_Ganj_Street.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8e/McLeod_Ganj.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Dharamshala_McLeod_Ganj.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Tsuglagkhang_Complex.jpg",
+        "unverified (fname: tsuglagkhang complex.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1b/Bhagsu_Falls.jpg",
+        "unverified (fname: bhagsu falls.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1ksp6000l04l58psu9yzu",
+    "name": "Triund",
+    "city": "Dharamshala",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Dharamshala_McLeod_Ganj.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/McLeod_Ganj_Street.jpg",
+        "unverified (fname: mcleod ganj street.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/McLeod_Ganj.jpg",
+        "unverified (fname: mcleod ganj.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Tsuglagkhang_Complex.jpg",
+        "unverified (fname: tsuglagkhang complex.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1b/Bhagsu_Falls.jpg",
+        "unverified (fname: bhagsu falls.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k7zz000c04l5e4nuzvjq",
+    "name": "Great Himalayan National Park",
+    "city": "Gushaini",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/64/Great_Himalayan_National_Park%2C_Kullu%2C_Himachal.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/32/Great_Himlayan_National_Park%2C_Himachal_Pradesh%2C_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4d/Verditer_Flycatcher_in_Great_Himalayan_National_Park.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg",
+        "unverified (fname: manali town.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1k7rg000b04l55a1ci0ky",
+    "name": "Tirthan Valley",
+    "city": "Gushaini",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg",
+        "unverified (fname: manali town.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k7iw000a04l5v2pw56dy",
+    "name": "Jibhi",
+    "city": "Jibhi",
+    "state": "Himachal Pradesh",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg",
+        "unverified (fname: manali town.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptwumsm000805l1fu5fqqqq",
+    "name": "Kalpa",
+    "city": "Kalpa",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kalpa_Kinnaur.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7c/Kinnaur_Kailash_from_Kalpa.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Sangla_valley.jpg",
+        "unverified (fname: sangla valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8a/Sangla_village.jpg",
+        "unverified (fname: sangla village.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spiti_Valley.jpg",
+        "unverified (fname: spiti valley.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1lkfc000t04l5rsqd8tf9",
+    "name": "Kasauli",
+    "city": "Kasauli",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/16/CHRIST_CHURCH%2C_KASAULI.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/4/47/Central_Research_Institute%2C_Kasauli.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7c/Christ_Church%2C_Kasauli_%2CSolan_%2CHimachal_Pardesh.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/02/Christchurch.kasauli.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/65/Doordarshan_TV_tower_Kasauli.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/02/Bird_eye_View_of_Mall_Road_%28Shimla%29.jpg",
+        "unverified (fname: bird eye view of mall road (shimla).jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+        "unverified (fname: christ church, shimla.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Shimla_Mall_Road.jpg",
+        "unverified (fname: shimla mall road.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+        "unverified (fname: shimla city view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg",
+        "unverified (fname: the ridge, shimla.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmptwum3i000505l1dnwapxm2",
+    "name": "Kasol",
+    "city": "Kasol",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Kasol_Parvati_valley.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "Manali-area image on wrong HP place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k8pp000e04l5wrzz7wkf",
+    "name": "Kaza",
+    "city": "Kaza",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spiti_Valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8d/Key_Gompa_Spiti_Valley.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2a/Key_Monastery_Spiti.jpg",
+        "unverified (fname: key monastery spiti.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9f/Kibber_village_Spiti.jpg",
+        "unverified (fname: kibber village spiti.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3b/Tabo_Monastery.jpg",
+        "unverified (fname: tabo monastery.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k8y9000f04l55r9j0s1k",
+    "name": "Key Monastery",
+    "city": "Kaza",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2a/Key_Monastery_Spiti.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8d/Key_Gompa_Spiti_Valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3b/Tabo_Monastery.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spiti_Valley.jpg",
+        "unverified (fname: spiti valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9f/Kibber_village_Spiti.jpg",
+        "unverified (fname: kibber village spiti.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptwulv5000405l1a3o6wpq9",
+    "name": "Khajjiar",
+    "city": "Khajjiar",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/5a/Khajjiar_Meadow.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6e/Khajjiar_Lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9d/Khajjiar.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Dalhousie_hill_station.jpg",
+        "unverified (fname: dalhousie hill station.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8f/Dalhousie_view.jpg",
+        "unverified (fname: dalhousie view.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1lixh000q04l5rk7whwpf",
+    "name": "Kufri",
+    "city": "Kufri",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/85/Kufri_Simla_Himachal_India_%281%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Kufri_Shimla.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+        "unverified (fname: christ church, shimla.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+        "unverified (fname: shimla city view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg",
+        "unverified (fname: the ridge, shimla.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptwumk6000705l1a97cl6ve",
+    "name": "Kullu",
+    "city": "Kullu",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/80/Beas_River%2C_Kullu_Valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/34/Beas_Valley_-_Palchan_-_Kullu_2014-05-10_2275.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/6/61/Kullu_Valley_with_River_Beas_-_Kullu_-_Himachal_Pradesh_-_2014-05-09_2186.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg",
+        "unverified (fname: manali town.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1lji7000r04l5kastjhcv",
+    "name": "Gulaba Snow Point",
+    "city": "Manali",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/b8/Rohtang_Pass.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1ljqf000s04l5alco3p79",
+    "name": "Hadimba Temple",
+    "city": "Manali",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg",
+        "unverified (fname: manali town.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptwul60000105l1xrc1pw0t",
+    "name": "Manali",
+    "city": "Manali",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1krsa000i04l59qfoqa9c",
+    "name": "Rohtang Pass",
+    "city": "Manali",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/b8/Rohtang_Pass.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1ks0h000j04l5sjplj9aw",
+    "name": "Solang Valley",
+    "city": "Manali",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b8/Rohtang_Pass.jpg",
+        "unverified (fname: rohtang pass.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k7ac000904l5z4m14re2",
+    "name": "Mashobra",
+    "city": "Mashobra",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3d/Mashobra_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/ce/Mashobra_Himanchal_Pradesh.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1f/Mashobra_Sunset.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/02/Bird_eye_View_of_Mall_Road_%28Shimla%29.jpg",
+        "Shimla image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+        "Shimla image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Shimla_Mall_Road.jpg",
+        "Shimla image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+        "Shimla image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg",
+        "Shimla image on wrong HP place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1k63d000604l5753ith6x",
+    "name": "Bhagsu Waterfall",
+    "city": "McLeod Ganj",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/McLeod_Ganj_Street.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8e/McLeod_Ganj.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Dharamshala_McLeod_Ganj.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1b/Bhagsu_Falls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Tsuglagkhang_Complex.jpg",
+        "unverified (fname: tsuglagkhang complex.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1k9fc000h04l5r6nqmw40",
+    "name": "Narkanda",
+    "city": "Narkanda",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/81/NARKANDA.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/83/Narkanda_DSC_5964_%2822108437655%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d5/Narkanda_DSC_5974_%2821920532978%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/39/Narkanda_India1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cc/Narkanda_himachal_pradesh_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/85/Kufri_Simla_Himachal_India_%281%29.jpg",
+        "unverified (fname: kufri simla himachal india (1).jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3e/Kufri_Shimla.jpg",
+        "unverified (fname: kufri shimla.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+        "unverified (fname: christ church, shimla.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+        "unverified (fname: shimla city view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg",
+        "unverified (fname: the ridge, shimla.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1k6bw000704l5os1l67e6",
+    "name": "Palampur",
+    "city": "Palampur",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/70/A_view_of_Palampur_Himachal_Pradesh_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a1/Palampur_tea_plantation%2C_Himachal_Pradesh%2C_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2d/Dharamshala_McLeod_Ganj.jpg",
+        "unverified (fname: dharamshala mcleod ganj.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/McLeod_Ganj.jpg",
+        "unverified (fname: mcleod ganj.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/McLeod_Ganj_Street.jpg",
+        "unverified (fname: mcleod ganj street.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Tsuglagkhang_Complex.jpg",
+        "unverified (fname: tsuglagkhang complex.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1b/Bhagsu_Falls.jpg",
+        "unverified (fname: bhagsu falls.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1k96t000g04l5vjxl61mq",
+    "name": "Rewalsar Lake",
+    "city": "Rewalsar",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/95/Morning_mist%2C_Lake_Rewalsar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d2/Rewalsar_Lake%2C_Mandi.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/Shrine_to_Mandarava_in_cave_above_Lake_Rewalsar.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2e/Manali_Town.jpg",
+        "Manali-area image on wrong HP place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1ku70000p04l55chs4a27",
+    "name": "Sangla Valley",
+    "city": "Sangla",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Sangla_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8a/Sangla_village.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spiti_Valley.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kalpa_Kinnaur.jpg",
+        "unverified (fname: kalpa kinnaur.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7c/Kinnaur_Kailash_from_Kalpa.jpg",
+        "unverified (fname: kinnaur kailash from kalpa.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1llcg000v04l57q2ecu6c",
+    "name": "Christ Church Shimla",
+    "city": "Shimla",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/02/Bird_eye_View_of_Mall_Road_%28Shimla%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4e/Shimla_Mall_Road.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1llkp000w04l55elskmi3",
+    "name": "Jakhu Temple",
+    "city": "Shimla",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/02/Bird_eye_View_of_Mall_Road_%28Shimla%29.jpg",
+        "unverified (fname: bird eye view of mall road (shimla).jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+        "unverified (fname: christ church, shimla.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Shimla_Mall_Road.jpg",
+        "unverified (fname: shimla mall road.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+        "unverified (fname: shimla city view.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmptwukx8000005l1oabrn2bo",
+    "name": "Shimla",
+    "city": "Shimla",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/ba/Landscape_of_Shimla_%2C_Himachal_Pradesh.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1k71t000804l5ge08s4vg",
+    "name": "Shimla Mall Road",
+    "city": "Shimla",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/02/Bird_eye_View_of_Mall_Road_%28Shimla%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/Christ_Church%2C_Shimla.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4e/Shimla_Mall_Road.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8c/Shimla_City_View.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Ridge%2C_Shimla.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1ks8o000k04l5sjl8242i",
+    "name": "Atal Tunnel Sissu",
+    "city": "Sissu",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d2/Atal_Tunnel_vrtmrgmpksk_%282%29.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b8/Rohtang_Pass.jpg",
+        "unverified (fname: rohtang pass.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "unverified (fname: solang valley, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "unverified (fname: manali city.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "unverified (fname: manali view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "unverified (fname: hadimba devi temple, manali.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1ktuf000o04l5dxohzjoq",
+    "name": "Tabo Monastery",
+    "city": "Tabo",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3b/Tabo_Monastery.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2a/Key_Monastery_Spiti.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spiti_Valley.jpg",
+        "unverified (fname: spiti valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Key_Gompa_Spiti_Valley.jpg",
+        "unverified (fname: key gompa spiti valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7a/Chandra_Taal.jpg",
+        "unverified (fname: chandra taal.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1kt5n000m04l54jps5r42",
+    "name": "Tosh",
+    "city": "Tosh",
+    "state": "Himachal Pradesh",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Kasol_Parvati_valley.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5c/Manali_City.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/61/Solang_Valley%2C_India.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Hadimba_Devi_Temple%2C_Manali.jpg",
+        "Manali-area image on wrong HP place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Manali_view.jpg",
+        "Manali-area image on wrong HP place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuzrmhq000a04l2uo22mh07",
+    "name": "Doodhpathri",
+    "city": "Budgam",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f2/Doodhpathri_-_A_dirt_road_goes_through_the_many_meadows_southwest_Jammu_Kashmir_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cb/Doodhpathri_-_pony_riding_across_the_meadows_southwest_Jammu_Kashmir_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/43/Meadows_and_Forests_Doodhpathri_southwest_Jammu_Kashmir_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ae/A_bench_with_scenic_view_Doodhpathri_southwest_Jammu_Kashmir_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/21/Doodh_Patthri%2C_Kashmir.jpg",
+        "unverified (fname: doodh patthri, kashmir.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy28v4v002f04l5gzdnqgty",
+    "name": "Yusmarg",
+    "city": "Budgam",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f2/Doodhpathri_-_A_dirt_road_goes_through_the_many_meadows_southwest_Jammu_Kashmir_India.jpg",
+        "unverified (fname: doodhpathri - a dirt road goes through the many meadows sout)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/cb/Doodhpathri_-_pony_riding_across_the_meadows_southwest_Jammu_Kashmir_India.jpg",
+        "unverified (fname: doodhpathri - pony riding across the meadows southwest jammu)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/43/Meadows_and_Forests_Doodhpathri_southwest_Jammu_Kashmir_India.jpg",
+        "unverified (fname: meadows and forests doodhpathri southwest jammu kashmir indi)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/21/Doodh_Patthri%2C_Kashmir.jpg",
+        "unverified (fname: doodh patthri, kashmir.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/ae/A_bench_with_scenic_view_Doodhpathri_southwest_Jammu_Kashmir_India.jpg",
+        "unverified (fname: a bench with scenic view doodhpathri southwest jammu kashmir)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy29adk002k04l5gckawv9b",
+    "name": "Nubra Valley Diskit Monastery",
+    "city": "Diskit",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Nubra_Valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Diskit_Gompa.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c3/Green_meadows_of_Gulmarg.jpg",
+        "unverified (fname: green meadows of gulmarg.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/d0/Sonamarg-_Meadow_of_Gold.jpg",
+        "Sonamarg on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/87/Gulmarg_%2C_Jammu_%26_Kashmir.jpg",
+        "unverified (fname: gulmarg , jammu & kashmir.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuzrlso000704l2xglzdix5",
+    "name": "Gulmarg",
+    "city": "Gulmarg",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/c/c3/Green_meadows_of_Gulmarg.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/29/Gulmarg_hill_Station.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/87/Gulmarg_%2C_Jammu_%26_Kashmir.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/APARAWAT%2C_PHASE_2%2C_GONDOLA%2C_HIMALAYAS%2C_GULMARG%2C_KASHMIR_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b8/APARAWAT%2C_PHASE_2%2C_GONDOLA%2C_HIMALAYAS%2C_GULMARG%2C_KASHMIR.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy299wr002i04l58b7q4pt2",
+    "name": "Leh Palace",
+    "city": "Leh",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Leh_Palace_2012.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Leh_palace_and_the_city.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Leh_Palace_Ladakh.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c3/Green_meadows_of_Gulmarg.jpg",
+        "unverified (fname: green meadows of gulmarg.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/d0/Sonamarg-_Meadow_of_Gold.jpg",
+        "Sonamarg on wrong place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy298lx002h04l5usrtgzpe",
+    "name": "Aru Valley",
+    "city": "Pahalgam",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/04/A_view_of_Pahalgam_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/15/Autumn_weather_in_pahalgam_kashmir_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/19/Betaab_Valley_Pahalgam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/42/Betaab_Valley%2C_Pahalgam%2C_Kashmir.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy28unt002e04l5wgh170l0",
+    "name": "Betaab Valley",
+    "city": "Pahalgam",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/A_natural_view_of_Pahalgam_in_morning.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/04/A_view_of_Pahalgam_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/15/Autumn_weather_in_pahalgam_kashmir_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/19/Betaab_Valley_Pahalgam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/42/Betaab_Valley%2C_Pahalgam%2C_Kashmir.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuzrm11000804l294w4ll6v",
+    "name": "Pahalgam",
+    "city": "Pahalgam",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/A_natural_view_of_Pahalgam_in_morning.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/04/A_view_of_Pahalgam_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/15/Autumn_weather_in_pahalgam_kashmir_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/19/Betaab_Valley_Pahalgam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/42/Betaab_Valley%2C_Pahalgam%2C_Kashmir.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy29a56002j04l548yfdxb9",
+    "name": "Pangong Lake",
+    "city": "Pangong",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/1d/Pangong_Lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8e/Pangong_Tso_Ladakh.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Pangong_lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7c/A_Boatman_in_Dal_Lake%2C_Srinagar.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c3/Green_meadows_of_Gulmarg.jpg",
+        "unverified (fname: green meadows of gulmarg.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuzrm9e000904l217by8k9n",
+    "name": "Sonamarg",
+    "city": "Sonamarg",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d0/Sonamarg-_Meadow_of_Gold.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/89/Sonamarg%2C_jammu_and_kashmir.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bc/Thajiwas_Park%2C_Sonamarg%2C_Jammu_and_Kashmir%2C_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f3/Sonmarg_valley_1.1.jpg",
+        "unverified (fname: sonmarg valley 1.1.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c9/Alpine_flower1.jpg",
+        "unverified (fname: alpine flower1.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuzrlkb000604l214gvw6oo",
+    "name": "Char Chinar",
+    "city": "Srinagar",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/47/Char_Chinar_%28viewed_from_Lake%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/18/Char_Chinar_-_panoramio.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8b/Char_Chinar_at_Dal_Lake_1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e6/Char_Chinar_at_Dal_Lake_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d1/Char_Chinar_at_Dal_Lake_3.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuzrk5n000004l2mwlbtm3n",
+    "name": "Dal Lake",
+    "city": "Srinagar",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/7c/A_Boatman_in_Dal_Lake%2C_Srinagar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/14/Boat_on_Dal_Lake%2C_Srinagar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c0/Boats_at_Dal_Lake%2C_Srinagar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/66/Boats_on_Dal_Lake%2C_Srinagar_during_Sunset.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d1/Char_Chinar_at_Dal_Lake_3.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy297we002g04l5izz1x1y2",
+    "name": "Indira Gandhi Memorial Tulip Garden",
+    "city": "Srinagar",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e1/Flowers_in_Nishat_Bagh_%28Srinagar%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/India_-_Srinagar_-_023_-_Nishat_Bagh_Mughal_Gardens.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c8/India_-_Srinagar_-_026_-_flowers_at_Nishat_Bagh_Mughal_Gardens_%283919402718%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/India_-_Srinagar_-_030_-_fountains_at_Nishat_Bagh_Mughal_Gardens.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/India_-_Srinagar_-_032_-_sunset_at_Nishat_Bagh_Mughal_Gardens_HDR.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuzrkmv000204l232vnkj3z",
+    "name": "Nishat Bagh",
+    "city": "Srinagar",
+    "state": "Jammu and Kashmir",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e1/Flowers_in_Nishat_Bagh_%28Srinagar%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/India_-_Srinagar_-_023_-_Nishat_Bagh_Mughal_Gardens.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c8/India_-_Srinagar_-_026_-_flowers_at_Nishat_Bagh_Mughal_Gardens_%283919402718%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/India_-_Srinagar_-_030_-_fountains_at_Nishat_Bagh_Mughal_Gardens.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/India_-_Srinagar_-_032_-_sunset_at_Nishat_Bagh_Mughal_Gardens_HDR.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpv0nqqb000d04lel989i5jv",
+    "name": "Agumbe",
+    "city": "Agumbe",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/43/View_from_sunset_point%2C_Agumbe_%2816017939927%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8d/Tropical_rainforest_Agumbe.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/ef/Sunset_Silence_Over_Agumbe_Hills.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f4/Amboli_Bush_Frog_with_enlarged_vocal_sac_for_mating_calls.jpg",
+        "unverified (fname: amboli bush frog with enlarged vocal sac for mating calls.jp)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/cd/Tony005.jpg",
+        "unverified (fname: tony005.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzg9a8000604jryxipbgdh",
+    "name": "Muthyala Maduvu",
+    "city": "Anekal",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/94/Muthyalamaduvu1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/68/Muthyalamaduvu2.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/59/Thottikallu_falls.jpg",
+        "unverified (fname: thottikallu falls.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/05/WV_banner_Central_Karnataka_Thottikallu_falls.jpg",
+        "unverified (fname: wv banner central karnataka thottikallu falls.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f0/Muneeshwara_Swamy_Shrine_near_Thottikallu_falls.jpg",
+        "unverified (fname: muneeshwara swamy shrine near thottikallu falls.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzp4ki000504kyacwsv6o2",
+    "name": "Mullayanagiri",
+    "city": "Chikkamagaluru",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Mullayanagiri_hills_near_Chikamagalur.png"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/99/KA_220_view_from_road_to_Mullayana_Giri_small.jpg",
+        "unverified (fname: ka 220 view from road to mullayana giri small.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/A_clean_shot.jpg",
+        "unverified (fname: a clean shot.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/60/Stunning_unknown.jpg",
+        "unverified (fname: stunning unknown.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e3/The_otherside_of_the_peak.jpg",
+        "unverified (fname: the otherside of the peak.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzwzte000104l7edddvnsn",
+    "name": "Chikmagalur",
+    "city": "Chikmagalur",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/db/Chikmagalur%2C_India._%287793316622%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/97/Court_Road%2C_Chikmagalur..jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/00/A_view_of_clouds_mountains_and_rural_life_Kemmangundi_Karnataka_India_2014.jpg",
+        "unverified (fname: a view of clouds mountains and rural life kemmangundi karnat)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5e/Foggy_hill.jpg",
+        "unverified (fname: foggy hill.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/99/KA_220_view_from_road_to_Mullayana_Giri_small.jpg",
+        "unverified (fname: ka 220 view from road to mullayana giri small.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c8/Kemmanagundi_View.jpg",
+        "unverified (fname: kemmanagundi view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/16/Kudremuk_view.jpg",
+        "unverified (fname: kudremuk view.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpxzx394000d04l7o56gqkm1",
+    "name": "Mullayanagiri",
+    "city": "Chikmagalur",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Mullayanagiri_hills_near_Chikamagalur.png"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/99/KA_220_view_from_road_to_Mullayana_Giri_small.jpg",
+        "unverified (fname: ka 220 view from road to mullayana giri small.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/A_clean_shot.jpg",
+        "unverified (fname: a clean shot.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/60/Stunning_unknown.jpg",
+        "unverified (fname: stunning unknown.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e3/The_otherside_of_the_peak.jpg",
+        "unverified (fname: the otherside of the peak.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzp2zs000204ky1xvllwxz",
+    "name": "Hebbe Falls",
+    "city": "Kemmangundi",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/68/Hebbe_Falls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a0/Hebbe_Falls_in_Kemmangundi_coffee_estate_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f2/Hebbe_falls_in_Kemmangundi_Karnataka_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/87/Hebbe_Falls_Chikmagalur_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Hebbe_Falls.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpxzp4t4000604ky5nvcgvxs",
+    "name": "Kemmangundi",
+    "city": "Kemmangundi",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d0/..._view_from_Kemmangundi_%2830311041773%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2e/..._view_from_Kemmangundi_%2830311054433%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/00/A_view_of_clouds_mountains_and_rural_life_Kemmangundi_Karnataka_India_2014.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5e/Hills_outside_Kemmangundi.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/85/Kemmanagundi_Hill_Station_-_panoramio.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpxzp51r000704kyt9ccj0lv",
+    "name": "Iruppu Falls",
+    "city": "Kutta",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Abbey_Falls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mallalli_Falls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Jog_Falls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Hebbe_Falls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Tropical_rainforest_Agumbe.jpg",
+        "unverified (fname: tropical rainforest agumbe.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzp2r7000104ky3wba3v4w",
+    "name": "Abbey Falls",
+    "city": "Madikeri",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/36/Abby_Falls_at_its_best_during_Monsoon.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b0/A_hanging_bridge_constructed_to_enjoy_the_view_of_Abbey_Falls%2C_Madikeri_%28Panorama%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5d/1632_px_-_Abbey_Falls_India.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/4/45/ABBEY_FALLS_MADIKERI.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a3/Abbey_Fall%2C_Madikeri_%281%29.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpxzwzku000004l7989bdsf0",
+    "name": "Coorg Madikeri",
+    "city": "Madikeri",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/ab/Golden_Temple%2C%2C_Namdroling_Monastery%2C_Coorg_District%2C_Karnataka.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7f/Omkareshwara_Temple%2C_Madikeri%2C_Kodagu_%28Coorg%29%2C_Karnataka%2C_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3d/Omkareshwara_Temple%2C_Madikeri%2C_Kodagu_%28Coorg%29%2C_Karnataka.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6c/RAJA_SEAT_HILL_VIEW.jpg",
+        "unverified (fname: raja seat hill view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5d/1632_px_-_Abbey_Falls_India.JPG",
+        "unverified (fname: 1632 px - abbey falls india.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpxzg8k8000304jrg9qnlux1",
+    "name": "Mekedatu",
+    "city": "Mekedatu",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/b0/Sangam-Mekedatu_bangalore_river.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Sangam-Mekedatu_bangalore_river_with_hill_nature_beauty.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/ee/Sangam-Mekedatu_bangalore_hill_near_river.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/ef/Sangam-Mekedatu_bangalore_hill.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/11/Sangam-Mekedatu_bangalore.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpxzgayv000c04jrlbkcvekj",
+    "name": "Sangama",
+    "city": "Sangama",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/Mekedatu_in_summer_2012.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Tip_of_Mekedatu.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/ee/Sangam-Mekedatu_bangalore_hill_near_river.jpg",
+        "unverified (fname: sangam-mekedatu bangalore hill near river.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Sangam-Mekedatu_bangalore_river_with_hill_nature_beauty.jpg",
+        "unverified (fname: sangam-mekedatu bangalore river with hill nature beauty.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b0/Sangam-Mekedatu_bangalore_river.jpg",
+        "unverified (fname: sangam-mekedatu bangalore river.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/ef/Sangam-Mekedatu_bangalore_hill.jpg",
+        "unverified (fname: sangam-mekedatu bangalore hill.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/11/Sangam-Mekedatu_bangalore.jpg",
+        "unverified (fname: sangam-mekedatu bangalore.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpxzgbp1000e04jrodn78hs3",
+    "name": "Thottikallu Falls",
+    "city": "Thottikallu",
+    "state": "Karnataka",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/59/Thottikallu_falls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/05/WV_banner_Central_Karnataka_Thottikallu_falls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f0/Muneeshwara_Swamy_Shrine_near_Thottikallu_falls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/94/Muthyalamaduvu1.jpg",
+        "unverified (fname: muthyalamaduvu1.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuw5r0u000a04l1rv92f5qr",
+    "name": "Alappuzha Backwaters",
+    "city": "Alappuzha",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2b/Alappuzha_Backwaters%2C_Kerala%2CIndia.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/50/Alleppey_backwaters_view_%2C_Kerala_%2C_India_05.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/11/Alleppey_backwaters_view_%2C_woman_washing_clothes_in_backwaters_%2CKerala_%2C_India_12.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e0/Around_Alappuzha_backwaters_Kerala.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/99/Backwaters_of_Alappuzha_%284608651360%29.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuw5pls000404l1wl7edvam",
+    "name": "Athirappilly Waterfalls",
+    "city": "Athirappilly",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e3/Athirappalli_Waterfalls%2C_Thrissur%2C_Kerala.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b3/Athirappilly_Water_Falls_in_Kerala.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d5/Athirappilly_Water_falls_Top_View.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c6/Athirappilly_Waterfalls_July_2022_P01.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2c/Athirapally_Water_falls.jpg",
+        "unverified (fname: athirapally water falls.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuw5pua000504l1gecmev6e",
+    "name": "Vazhachal Falls",
+    "city": "Athirappilly",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/c/cb/Chalakudy_river_%40_Vazhachal_-_panoramio.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/14/Entrance_of_Vazachal_Water_Falls%2C_Vazachal_Medicinal_Garden_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Entrance_to_vazhachal_waterfall_IMAG1973.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/ef/Snap_from_Vazhachal_0555.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/06/Chalakudy_River.jpg",
+        "unverified (fname: chalakudy river.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuw5pda000304l1btm4b20p",
+    "name": "Guruvayur Sree Krishna Temple",
+    "city": "Guruvayur",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/04/009392022_Guruvayur_temple%2C_Kerala_004.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/62/009392022_Guruvayur_temple%2C_Kerala_024.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fe/009392022_Guruvayur_temple%2C_Kerala_037.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/46/009392022_Guruvayur_temple%2C_Kerala_057.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0wqme000d04jotfsb62nc",
+    "name": "Guruvayur Temple",
+    "city": "Guruvayur",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/04/009392022_Guruvayur_temple%2C_Kerala_004.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/62/009392022_Guruvayur_temple%2C_Kerala_024.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fe/009392022_Guruvayur_temple%2C_Kerala_037.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/46/009392022_Guruvayur_temple%2C_Kerala_057.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/88/Board_depicting_non-hindus_are_not_allowed_inside_Guruvayur_Temple.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpuw5onp000004l1k0oubqan",
+    "name": "Edakkal Caves",
+    "city": "Kalpetta",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/b3/Edakkal_Caves_-_Interior.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e1/Edakkal_Caves_-_Petroglyphs_-_1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/ce/Edakkal_Caves_-_Petroglyphs_-_10.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Edakkal_Caves_-_Petroglyphs_-_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d2/Edakkal_Caves_-_Petroglyphs_-_4.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0vdah000704jo1cucafe8",
+    "name": "Meenmutty Falls",
+    "city": "Kalpetta",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/09/SOOCHIPPARA_WATERFALLS-WAYANAD.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/68/Soochipara_Falls%2C_Wayanad_Kerala%2C_2013.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/Soochipara_Falls%2C_Wayanad_Kerala%2C_2013_%28Landscape%29.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/26/Soochipara_Waterfalls%2C_Wayanad_-_panoramio.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/06/Soochipara.jpg",
+        "unverified (fname: soochipara.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuw5owa000104l1ztf7ymhx",
+    "name": "Soochipara Falls",
+    "city": "Kalpetta",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/09/SOOCHIPPARA_WATERFALLS-WAYANAD.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/06/Soochipara.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/68/Soochipara_Falls%2C_Wayanad_Kerala%2C_2013.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/Soochipara_Falls%2C_Wayanad_Kerala%2C_2013_%28Landscape%29.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/26/Soochipara_Waterfalls%2C_Wayanad_-_panoramio.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0veqh000904jo421ziqhy",
+    "name": "Ashtamudi Lake",
+    "city": "Kollam",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8b/A_top_view_of_Ashtamudi_backwaters.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/dd/Ashtamudi-lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f0/Ashtamudi_Kerala.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e6/Ashtamudi_Lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/04/Ashtamudi_Lake_3.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2b/Alappuzha_Backwaters%2C_Kerala%2CIndia.jpg",
+        "unverified (fname: alappuzha backwaters, kerala,india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/50/Alleppey_backwaters_view_%2C_Kerala_%2C_India_05.jpg",
+        "unverified (fname: alleppey backwaters view , kerala , india 05.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/11/Alleppey_backwaters_view_%2C_woman_washing_clothes_in_backwaters_%2CKerala_%2C_India_12.jpg",
+        "unverified (fname: alleppey backwaters view , woman washing clothes in backwate)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e0/Around_Alappuzha_backwaters_Kerala.jpg",
+        "unverified (fname: around alappuzha backwaters kerala.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/99/Backwaters_of_Alappuzha_%284608651360%29.jpg",
+        "unverified (fname: backwaters of alappuzha (4608651360).jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpv0ns48000j04leajlwdmlk",
+    "name": "Illikkal Kallu",
+    "city": "Kottayam",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d1/Illikkal_Kallu_%28%E0%B4%87%E0%B4%B2%E0%B5%8D%E0%B4%B2%E0%B4%BF%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B5%BD_%E0%B4%95%E0%B4%B2%E0%B5%8D%E0%B4%B2%E0%B5%8D_%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/41/Illikkal_Kallu%2C_Kottayam%2C_Kerala.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/The_beauty_of_nature_near_Illikkal_kallu_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/13/The_beauty_of_nature_near_Illikkal_kallu_02.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e6/Kattikkayam_waterfalls%2C_Kerala%2C_India.jpg",
+        "unverified (fname: kattikkayam waterfalls, kerala, india.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuw5ryu000e04l13e8b9vb8",
+    "name": "Munnar",
+    "city": "Munnar",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/01/Munnar_-_Lockhart_tea_plantation.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/09/Munnar_-_Tea_Plantations.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c7/Munnar_Tea_Farms-_view_of_elephants_grazing_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d6/Munnar_Tea_Farms-_view_of_elephants_grazing_02.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/76/Munnar_Tea_Farms-_view_of_elephants_grazing_03.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpppyeni000b04l2dbgts0ba",
+    "name": "Munnar Tea Plantations",
+    "city": "Munnar",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/09/Munnar_-_Tea_Plantations.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0vzcf000a04jot88nqq56",
+    "name": "Banasura Sagar Dam",
+    "city": "Padinjarathara",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/36/A_typical_view_of_Banasura_Dam.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/9/99/Banasura_Dam3.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a5/Banasurasagar-Spillway.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f0/Banasurasagar_Main_Dam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/12/Banasurasagar_dam1%28wayanad%29.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/88/Pakhal-Lake.jpg",
+        "Pakhal lake image on Banasura (wrong state/place)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/09/SOOCHIPPARA_WATERFALLS-WAYANAD.jpg",
+        "unverified (fname: soochippara waterfalls-wayanad.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Edakkal_Caves_-_Interior.jpg",
+        "unverified (fname: edakkal caves - interior.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/47/Nelliyampathy_forests%2CKarashoori_area.jpg",
+        "unverified (fname: nelliyampathy forests,karashoori area.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/01/Munnar_-_Lockhart_tea_plantation.jpg",
+        "unverified (fname: munnar - lockhart tea plantation.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy0w0wv000b04jo35ajhhfc",
+    "name": "Illikkal Kallu",
+    "city": "Teekoy",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d1/Illikkal_Kallu_%28%E0%B4%87%E0%B4%B2%E0%B5%8D%E0%B4%B2%E0%B4%BF%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B5%BD_%E0%B4%95%E0%B4%B2%E0%B5%8D%E0%B4%B2%E0%B5%8D_%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/41/Illikkal_Kallu%2C_Kottayam%2C_Kerala.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/The_beauty_of_nature_near_Illikkal_kallu_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/13/The_beauty_of_nature_near_Illikkal_kallu_02.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e6/Kattikkayam_waterfalls%2C_Kerala%2C_India.jpg",
+        "unverified (fname: kattikkayam waterfalls, kerala, india.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy0w15g000c04jo969ivo2d",
+    "name": "Thenmala",
+    "city": "Thenmala",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/5e/Thenmala_boating.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Reservoir_of_Thenmala_Dam%2C_Kollam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Statue_at_Thenmala_Leisure_Zone_04.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2c/Athirapally_Water_falls.jpg",
+        "Athirappilly on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/06/Chalakudy_River.jpg",
+        "unverified (fname: chalakudy river.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy0vdj4000804jod3wkmo8m",
+    "name": "Thommankuthu",
+    "city": "Thodupuzha",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/31/Thommankuthu_waterfalls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2c/Athirapally_Water_falls.jpg",
+        "unverified (fname: athirapally water falls.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e3/Athirappalli_Waterfalls%2C_Thrissur%2C_Kerala.jpg",
+        "unverified (fname: athirappalli waterfalls, thrissur, kerala.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/Athirappilly_Water_Falls_in_Kerala.jpg",
+        "unverified (fname: athirappilly water falls in kerala.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/d5/Athirappilly_Water_falls_Top_View.jpg",
+        "unverified (fname: athirappilly water falls top view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c6/Athirappilly_Waterfalls_July_2022_P01.jpg",
+        "unverified (fname: athirappilly waterfalls july 2022 p01.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpppyg3i000h04l2e82e9gs3",
+    "name": "Edakkal Caves",
+    "city": "Wayanad",
+    "state": "Kerala",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/b/b3/Edakkal_Caves_-_Interior.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy09dah001j04kynuq2s549",
+    "name": "Igatpuri",
+    "city": "Igatpuri",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e6/Igatpuri_waterfall.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/d6/Green_Lush.jpg",
+        "unverified (fname: green lush.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8f/Lonavala_hill_station.jpg",
+        "Lonavala on wrong Maharashtra place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6e/Lonavala_western_ghats.jpg",
+        "Lonavala on wrong Maharashtra place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Lonavala_valley.jpg",
+        "Lonavala on wrong Maharashtra place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1cxhm000404l56hzuwsjz",
+    "name": "Karjat",
+    "city": "Karjat",
+    "state": "Maharashtra",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8f/Lonavala_hill_station.jpg",
+        "unverified (fname: lonavala hill station.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Lonavala_valley.jpg",
+        "unverified (fname: lonavala valley.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1a/Lonavala_monsoon_view.jpg",
+        "unverified (fname: lonavala monsoon view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Lonavala_tiger_point.jpg",
+        "unverified (fname: lonavala tiger point.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6e/Lonavala_western_ghats.jpg",
+        "unverified (fname: lonavala western ghats.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1bev3000104l5fpzpwwio",
+    "name": "Karnala Bird Sanctuary",
+    "city": "Karnala",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/35/KarnalaWS.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Karnala_006.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6e/Karnala_bird_santuary_1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5a/Karnala_bird_santuary_2.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/57/%27Ant_Nest%27_a_natural_architectural_marvel..JPG",
+        "unverified (fname: 'ant nest' a natural architectural marvel..jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/08/Aerial_view_near_Sanjay_Gandhi_National_Park%2C_Mumbai%2C_Maharastra%2C_India_%282008%29.jpg",
+        "unverified (fname: aerial view near sanjay gandhi national park, mumbai, mahara)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Giri%E2%80%99s_Geckoella_Cyrtodactylus_varadgirii_by_Dr._Raju_Kasambe_DSCN5356_01.jpg",
+        "unverified (fname: giri\u2019s geckoella cyrtodactylus varadgirii by dr. raju kasamb)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c7/Giri%E2%80%99s_Geckoella_Cyrtodactylus_varadgirii_by_Dr._Raju_Kasambe_DSCN5356_02.jpg",
+        "unverified (fname: giri\u2019s geckoella cyrtodactylus varadgirii by dr. raju kasamb)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Giri%E2%80%99s_Geckoella_Cyrtodactylus_varadgirii_by_Dr._Raju_Kasambe_DSCN5356_03.jpg",
+        "unverified (fname: giri\u2019s geckoella cyrtodactylus varadgirii by dr. raju kasamb)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy02qrk000t04kyxb9wrwnq",
+    "name": "Khandala",
+    "city": "Khandala",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/11/%27The_Bhor_Ghat%2C_Gradient_of_the_Railway_Near_Khandala%2C_India%27%2C_wood_engraving_from_1884.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c8/..._a_view_from_Khandala_%283625008608%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/67/A_Resort_near_Khandala_Point_at_Matheran_Hill_Station_-_panoramio.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/65/On_the_Bhore_Ghaut_-_Duke%27s_Nose_and_Station%2C_from_Bungalow_%2812599357884%29.jpg",
+        "unverified (fname: on the bhore ghaut - duke's nose and station, from bungalow )"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/38/On_the_Bhore_Ghaut_-_Duke%27s_Nose_and_Station_%2812599142623%29.jpg",
+        "unverified (fname: on the bhore ghaut - duke's nose and station (12599142623).j)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1bee9000004l5fnzm5pl7",
+    "name": "Bhushi Dam",
+    "city": "Lonavala",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9d/Bhushi_Dam.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Lonavala_hill_station.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Lonavala_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Lonavala_monsoon_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Lonavala_tiger_point.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy02qah000r04ky273qsvrj",
+    "name": "Lonavala",
+    "city": "Lonavala",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Lonavala_hill_station.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Lonavala_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Lonavala_monsoon_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Lonavala_tiger_point.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6e/Lonavala_western_ghats.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpmp7d1v000t04jysyjcv4p9",
+    "name": "Lonavala Tiger Point",
+    "city": "Lonavala",
+    "state": "Maharashtra",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9d/Bhushi_Dam.JPG",
+        "unverified (fname: bhushi dam.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy02pt6000p04kyqcqvhipt",
+    "name": "Mahabaleshwar",
+    "city": "Mahabaleshwar",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/78/Mahabaleshwar%2C_view_point.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6d/Mahabaleshwar_-_Needle-hole_Point_%285769812159%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b1/Mahabaleshwar_-_Panchghani_%285769484311%29.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/84/Panchghani_-_Panoramic_View_%285769660143%29.jpg",
+        "unverified (fname: panchghani - panoramic view (5769660143).jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5a/Like_a_Canvas.jpg",
+        "unverified (fname: like a canvas.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy02qj0000s04kybne05n9e",
+    "name": "Matheran",
+    "city": "Matheran",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/ee/551%2C_Matheran_Hill_Railway_%282533318533%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/67/A_Resort_near_Khandala_Point_at_Matheran_Hill_Station_-_panoramio.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/b3/HILLS_SEEN_ON_THE_WAY_TO_MATHERAN_-_panoramio.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/India_-_Matheran_-_14_-_Climbing_to_the_hill_station_of_Matheran_%282798639503%29.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/a/a3/Garbet_Plateau.jpg",
+        "unverified (fname: garbet plateau.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuycqer000804i9em433ddf",
+    "name": "Global Vipassana Pagoda",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f2/Ceiling_of_Global_Vipassana_Pagoda.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1e/Global_Vipassana_Pagoda_main_pillar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/12/Mumabi_Pagoda_Temple.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c5/From_iphone_006.JPG",
+        "unverified (fname: from iphone 006.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/df/From_iphone_008.JPG",
+        "unverified (fname: from iphone 008.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1bfom000204l58lvldmo6",
+    "name": "Gorai Beach",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f2/Ceiling_of_Global_Vipassana_Pagoda.jpg",
+        "unverified (fname: ceiling of global vipassana pagoda.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c5/From_iphone_006.JPG",
+        "unverified (fname: from iphone 006.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/df/From_iphone_008.JPG",
+        "unverified (fname: from iphone 008.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Global_Vipassana_Pagoda_main_pillar.jpg",
+        "unverified (fname: global vipassana pagoda main pillar.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/12/Mumabi_Pagoda_Temple.jpg",
+        "unverified (fname: mumabi pagoda temple.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuycqve000a04i9krux4y9h",
+    "name": "Hanging Gardens",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/c/c1/Hanging_Gardens%2C_Mumbai%2C_2009.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Hanging_Gardens_Malabar_Hill.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ab/Jackfruit_tree_Malabar_hills_Hanging_gardens_Mumbai.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9b/Blue_Tiger_Butterfly_-_Mumbai_%284610594154%29.jpg",
+        "unverified (fname: blue tiger butterfly - mumbai (4610594154).jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/de/Girgaum_Chowpatty.jpg",
+        "unverified (fname: girgaum chowpatty.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpmp7bm3000n04jyejdumhrp",
+    "name": "Marine Drive",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/13/Marine_Drive_in_evening.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9d/Marine_Lines%2C_Mumbai.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/0/0a/Marine_drive_evening.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/d/de/Girgaum_Chowpatty.jpg",
+        "unverified (fname: girgaum chowpatty.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Let_it_rain_over_me%21_%2819517352494%29.jpg",
+        "unverified (fname: let it rain over me! (19517352494).jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpuycp0t000204i9iqe4mb54",
+    "name": "Sanjay Gandhi National Park",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/0/08/Aerial_view_near_Sanjay_Gandhi_National_Park%2C_Mumbai%2C_Maharastra%2C_India_%282008%29.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/57/%27Ant_Nest%27_a_natural_architectural_marvel..JPG",
+        "unverified (fname: 'ant nest' a natural architectural marvel..jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Giri%E2%80%99s_Geckoella_Cyrtodactylus_varadgirii_by_Dr._Raju_Kasambe_DSCN5356_01.jpg",
+        "unverified (fname: giri\u2019s geckoella cyrtodactylus varadgirii by dr. raju kasamb)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/c7/Giri%E2%80%99s_Geckoella_Cyrtodactylus_varadgirii_by_Dr._Raju_Kasambe_DSCN5356_02.jpg",
+        "unverified (fname: giri\u2019s geckoella cyrtodactylus varadgirii by dr. raju kasamb)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Giri%E2%80%99s_Geckoella_Cyrtodactylus_varadgirii_by_Dr._Raju_Kasambe_DSCN5356_03.jpg",
+        "unverified (fname: giri\u2019s geckoella cyrtodactylus varadgirii by dr. raju kasamb)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy02q1x000q04kynzh1hh01",
+    "name": "Panchgani",
+    "city": "Panchgani",
+    "state": "Maharashtra",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Table_Top_View_from_Panchgani_Pune.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/93/View_from_the_Table_land.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Food_stall%2C_Table_Land%2C_Panchgani.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/c/ca/MBWR19_09_MountainsLake_3_small.jpg",
+        "unverified (fname: mbwr19 09 mountainslake 3 small.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/84/Panchghani_-_Panoramic_View_%285769660143%29.jpg",
+        "unverified (fname: panchghani - panoramic view (5769660143).jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpty4fni000804kyaxbbb0hf",
+    "name": "Madras High Court",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/62/Chennai_High_Court.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c9/A_building_in_Chennai.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d9/Chennai_-_bird%27s-eye_view.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpmp7dj3000v04jyovmpmi2v",
+    "name": "Marina Beach",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d9/Chennai_-_bird%27s-eye_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e0/06Marina_Madras.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c1/Marina_Beach%2C_Chennai.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0dtjk001o04kyw66s7a59",
+    "name": "Basar Saraswati Temple",
+    "city": "Basar",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/78/Basara-ghat.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/de/Basara_Saraswathi_Temple_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f5/Basara_Temple_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/89/Basar_Temple_view_02.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fa/A_scene_in_the_temple_at_basara.JPG"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0dvam001v04kyw3tzq8di",
+    "name": "Bhadrachalam Temple",
+    "city": "Bhadrachalam",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/de/Basara_Saraswathi_Temple_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Entrance_of_Srisailam_temple.jpg",
+        "Srisailam temple image on wrong temple"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ethipothala_Waterfalls.JPG",
+        "Ethipothala on wrong place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/78/Basara-ghat.jpg",
+        "unverified (fname: basara-ghat.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/20/Nagarjuna_Sagar_Dam.jpg",
+        "unverified (fname: nagarjuna sagar dam.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy0du0d001q04kyjsrq75qz",
+    "name": "Pochera Waterfalls",
+    "city": "Boath",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8a/Pochera_waterfall_Telangana.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/10/Pochera_waterfall.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cb/Pochera_waterfall_2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c0/Near_Pochera_waterfalls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/aa/Kuntala-waterfalls1.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpofs35y000105k0og6l8f7g",
+    "name": "Thousand Pillar Temple",
+    "city": "Hanamkonda",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8a/12th_century_Thousand_Pillar_temple%2C_Hanumkonda%2C_Telangana%2C_India_-_101.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c8/Nandi_Thousand_Pillar_Temple_Warangal.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/95/Kakatiya_Kala_Thoranam%2C_Warangal_Fort.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/44/Bhadrakali_Temple%2C_Warangal.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Ramappa_Temple.png"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmppbe0gt000004l7wmzl5pa4",
+    "name": "Charminar",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/fb/Charminar%2C_Hyderabad%2C_11-12-2022.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/91/Charminar%2C_Mecca_Masjid.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Charminar%2C_hyderabad_%2889594%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/40/Charminar-Hyderabad-Monument.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d1/Charminar-Pride_of_Hyderabad.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmputcfky000404l1fa4f7dnk",
+    "name": "Mecca Masjid",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/91/Charminar%2C_Mecca_Masjid.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ac/Mecca_Masjid%2C_Hyderabad%2C_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/28/Mecca_Masjid_-_Hyderabad%2C_Telangana%2C_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bb/Mecca_Masjid_Hyderabad.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Mecca_Masjid_in_Hyderabad_10.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0du8r001r04kynoms3oue",
+    "name": "Bogatha Waterfall",
+    "city": "Koyaveerapuram",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/59/Bogatha_Waterfall.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c3/Bogatha_Waterfall_top_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/72/Bogatha_Waterfall_page_banner.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/Bogatha_Water_Falls.png"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Bhogatha_water_falls.jpg",
+        "unverified (fname: bhogatha water falls.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy0dtry001p04kyo1k934gc",
+    "name": "Kuntala Waterfall",
+    "city": "Kuntala",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/a/aa/Kuntala-waterfalls1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Kuntala_waterfall.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/83/View_of_Valley_of_Kuntala_Waterfalls.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/19/Kuntala_waterfall_4.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a1/Kuntalawaterfalls.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0jiaq000004jo5ziwz2fb",
+    "name": "Ethipothala Falls",
+    "city": "Nagarjuna Sagar",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ethipothala_Waterfalls.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Ethipothala_Waterfalls_Landscape.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/6/64/Ethipothala_water_falls.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/4/40/Ethipothala_waterfall_2007.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/27/Ethipothala_waterfalls.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0dv28001u04kyjyw77e4h",
+    "name": "Nagarjuna Sagar Dam",
+    "city": "Nagarjuna Sagar",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/ed/Nagarjuna_sagar_dam..._2.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/2/20/Nagarjuna_Sagar_Dam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bc/Nagarjuna_Sagar_dam_with_all_Crest_gates_closed.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/38/Nagarjuna_Sagar_dam_with_all_Crest_gates_closed_%28Wide_angle%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6a/Nagarjuna_Sagar_Interstate_bridge.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpv0npkv000804levqwg92dd",
+    "name": "Pakhal Lake",
+    "city": "Pakhal",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/88/Pakhal-Lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/ca/Pakhal_Lake_Telangana.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/44/Pakhal_lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c7/Pakhal_lake_%28cropped%29.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Pakhal_lake_nice_view.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0dslo001l04ky351azyoi",
+    "name": "Ramappa Temple",
+    "city": "Palampet",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Ramappa_Temple.png",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Sculptures_of_Ramappa_Temple_in_Palampet%2C_Telangana_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fd/Sculptures_of_Ramappa_Temple_in_Palampet%2C_Telangana_07.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bd/Sculptures_of_Ramappa_Temple_in_Palampet%2C_Telangana_18.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/10/Sculptures_of_Ramappa_Temple_in_Palampet%2C_Telangana_03.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0n7ow000604jom94ixbht",
+    "name": "Sahastrakund Waterfalls",
+    "city": "Sahastrakund",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f2/Sahastrakund-waterfall.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/aa/Kuntala-waterfalls1.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/0/01/Shahsrakund_waterfall_02.jpg",
+        "unverified (fname: shahsrakund waterfall 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/10/Pochera_waterfall.jpg",
+        "unverified (fname: pochera waterfall.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e7/Ethipothala_Waterfalls.JPG",
+        "Ethipothala on wrong place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy0jjzb000404jo9boh2huu",
+    "name": "Bheemuni Paadam Waterfalls",
+    "city": "Seethanagaram",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/32/Bheemuni_Paadam_Waterfalls.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/b/b4/Pied_thrush_01.jpg",
+        "unverified (fname: pied thrush 01.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/e/e8/Pied_thrush_02.jpg",
+        "unverified (fname: pied thrush 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Pied_thrush_03.jpg",
+        "unverified (fname: pied thrush 03.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/59/Bogatha_Waterfall.jpg",
+        "unverified (fname: bogatha waterfall.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy0dulf001s04kys0pftelc",
+    "name": "Srisailam Temple",
+    "city": "Srisailam",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Entrance_of_Srisailam_temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2d/APSS303_Srisailam_town_zoom_view_from_welcome_center2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d5/2025_Ghanta_Matham_temple_in_Srisailam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6c/A_Nataraja_relief_carved_on_Northern_wall_of_Srisailam_Temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/Eshana_Lingam_and_Kumara_Lingam_temples_at_Ghanta_Matham_in_Srisailam.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0dsu5001m04kyx71tp69n",
+    "name": "Laknavaram Lake",
+    "city": "Tadvai",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/99/View_of_Laknavaram_lake%2C_from_suspension_bridge.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c8/Laknavaram_hanging_bridge.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/88/Pakhal-Lake.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/ca/Pakhal_Lake_Telangana.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Pakhal_lake_nice_view.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpofs3w1000405k0nui0sa8a",
+    "name": "Laknavaram Lake",
+    "city": "Warangal",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/99/View_of_Laknavaram_lake%2C_from_suspension_bridge.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpofs3nc000305k0o23k54gt",
+    "name": "Ramappa Temple (Rudreshwara)",
+    "city": "Warangal",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Ramappa_Temple.png"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy0dsd9001k04kyneferj11",
+    "name": "Warangal Fort",
+    "city": "Warangal",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/95/Kakatiya_Kala_Thoranam%2C_Warangal_Fort.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fc/Kakatiya_Kala_Thoranam_%28Warangal_Gate%29_and_Ruins.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/31/Warangal_fort.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1b/Ruins_at_Warangal_Fort.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7f/Kakatiya_Kala_Thoranam_09.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpofs2wu000005k0j5lukw3e",
+    "name": "Warangal Fort (Kakatiya Kala Thoranam)",
+    "city": "Warangal",
+    "state": "Telangana",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/95/Kakatiya_Kala_Thoranam%2C_Warangal_Fort.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1b/Ruins_at_Warangal_Fort.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1rcx6001g04l54oqca9r5",
+    "name": "Almora",
+    "city": "Almora",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/c/c9/Almora_Bazaar._c1860.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/77/Almora_Uttarakhand_India_2013.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/11/Almora_after_rain_sunlight.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/de/Ancient_Cave_Paintings_at_Lakhudiyar%2C_Almora_District%2C_Uttarakhand_India_-_1.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/55/Kosi_River_valley_near_Almora%2C_Uttarakhand%2C_India.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kausani_view_Himalaya.jpg",
+        "unverified (fname: kausani view himalaya.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8a/Kausani_Uttarakhand.jpg",
+        "unverified (fname: kausani uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rp5h001i04l5e3acwkn1",
+    "name": "Badrinath Temple",
+    "city": "Badrinath",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/76/Badrinath_Mandir_on_20_June_2019.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Badrinath_temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8d/Badrinath_Temple_Uttarakhand.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6e/Neelkanth_peak_Badrinath.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1r97b001004l51q5syv6n",
+    "name": "Bhimtal",
+    "city": "Bhimtal",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/11/Bhimtal_lake_view_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/c/cc/Graphic_Era_Hill_University_Bhimtal_Campus.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d8/The_dam_and_the_Bhim_temple_at_Bhimtal%2C_1895.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Nainital_Lake_view.jpg",
+        "unverified (fname: nainital lake view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Naini_Lake_Nainital.jpg",
+        "unverified (fname: naini lake nainital.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5e/Nainital_boat_house.jpg",
+        "unverified (fname: nainital boat house.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2f/Snow_view_point%2C_Nainital.jpg",
+        "unverified (fname: snow view point, nainital.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1sblt001r04l5k2lcqyw4",
+    "name": "Binsar Wildlife Sanctuary",
+    "city": "Binsar",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f6/Binsar%2C_a_view_of_Kumaon_Himalayas.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fc/Binsar.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/2/22/Binsar_Oak_Forests.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kausani_view_Himalaya.jpg",
+        "unverified (fname: kausani view himalaya.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8a/Kausani_Uttarakhand.jpg",
+        "unverified (fname: kausani uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1ratv001704l5d3989qn2",
+    "name": "Chakrata",
+    "city": "Chakrata",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2a/Chakrata_small.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "unverified (fname: mussoorie hill station.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+        "unverified (fname: mussoorie lal tibba.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+        "unverified (fname: kempty falls, mussoorie.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+        "unverified (fname: gun hill, mussoorie.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg",
+        "unverified (fname: mussoorie mall road.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rc83001d04l5w15yc5o4",
+    "name": "Chopta",
+    "city": "Chopta",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Gorson_Bugyal.jpg",
+        "unverified (fname: gorson bugyal.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Auli_ski_resort.jpg",
+        "unverified (fname: auli ski resort.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devotees_at_Kedarnath_temple%2C_Uttrakhand_01.jpg",
+        "Kedarnath/Badrinath on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rbzp001c04l59fhhf9sc",
+    "name": "Robbers Cave",
+    "city": "Dehradun",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg",
+        "Mussoorie image on wrong UK place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rbrc001b04l5j8mrmpv7",
+    "name": "Sahastradhara",
+    "city": "Dehradun",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg",
+        "Mussoorie image on wrong UK place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rali001604l5rpcyya9o",
+    "name": "Dhanaulti",
+    "city": "Dhanaulti",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1rpdu001j04l5m1xeiz3s",
+    "name": "Gangotri Temple",
+    "city": "Gangotri",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Gangotri_temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Gangotri_Temple_Uttarakhand.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devotees_at_Kedarnath_temple%2C_Uttrakhand_01.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/76/Badrinath_Mandir_on_20_June_2019.jpg",
+        "unverified (fname: badrinath mandir on 20 june 2019.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rqbf001n04l5iq9iqaw6",
+    "name": "Hemkund Sahib",
+    "city": "Ghangaria",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4c/Valley_of_Flowers%2CUttarakhand_08.jpg",
+        "unverified (fname: valley of flowers,uttarakhand 08.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Valley_of_flowers%2C_Uttarakhand%2C_India.jpg",
+        "unverified (fname: valley of flowers, uttarakhand, india.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/7e/Valley_of_Flowers_National_Park.jpg",
+        "unverified (fname: valley of flowers national park.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Gorson_Bugyal.jpg",
+        "unverified (fname: gorson bugyal.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1r8i3000x04l5bjak6pxq",
+    "name": "Valley of Flowers",
+    "city": "Ghangaria",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Valley_of_Flowers%2CUttarakhand_08.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Valley_of_flowers%2C_Uttarakhand%2C_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7e/Valley_of_Flowers_National_Park.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Gorson_Bugyal.jpg",
+        "unverified (fname: gorson bugyal.jpg)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rqjt001o04l5w9dt8y3x",
+    "name": "Auli",
+    "city": "Joshimath",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/Auli_Temple_From_Ropeway_%28196432903%29.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4b/Auli_ski_resort.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/Auli_artificial_lake.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Gorson_Bugyal.jpg",
+        "unverified (fname: gorson bugyal.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rpun001l04l5dhpnk0f8",
+    "name": "Joshimath",
+    "city": "Joshimath",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/Auli_Temple_From_Ropeway_%28196432903%29.jpeg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Auli_ski_resort.jpg",
+        "unverified (fname: auli ski resort.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8f/Auli_artificial_lake.jpg",
+        "unverified (fname: auli artificial lake.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Gorson_Bugyal.jpg",
+        "unverified (fname: gorson bugyal.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rad5001504l5fsnbpkix",
+    "name": "Kanatal",
+    "city": "Kanatal",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/29/Kanatal.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "unverified (fname: mussoorie hill station.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+        "unverified (fname: mussoorie lal tibba.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+        "unverified (fname: kempty falls, mussoorie.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+        "unverified (fname: gun hill, mussoorie.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg",
+        "unverified (fname: mussoorie mall road.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rbam001904l5x1a7q11q",
+    "name": "Kausani",
+    "city": "Kausani",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kausani_view_Himalaya.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8a/Kausani_Uttarakhand.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rox3001h04l5ujom71ae",
+    "name": "Kedarnath Temple",
+    "city": "Kedarnath",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devotees_at_Kedarnath_temple%2C_Uttrakhand_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8e/Kedarnath_Temple_in_Rainy_season.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Kedarnath_Temple_Uttarakhand.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5f/Kedarnath_peak.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1sbue001s04l5c0a1jw69",
+    "name": "Khirsu",
+    "city": "Khirsu",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kausani_view_Himalaya.jpg",
+        "unverified (fname: kausani view himalaya.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8a/Kausani_Uttarakhand.jpg",
+        "unverified (fname: kausani uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1ra4r001404l5a10hrt6w",
+    "name": "Lansdowne",
+    "city": "Lansdowne",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/4d/Lansdowne_Landscape.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg",
+        "Mussoorie image on wrong UK place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rq31001m04l52zeb2mlo",
+    "name": "Mana Village",
+    "city": "Mana",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/76/Badrinath_Mandir_on_20_June_2019.jpg",
+        "unverified (fname: badrinath mandir on 20 june 2019.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Badrinath_temple.jpg",
+        "unverified (fname: badrinath temple.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Badrinath_Temple_Uttarakhand.jpg",
+        "unverified (fname: badrinath temple uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6e/Neelkanth_peak_Badrinath.jpg",
+        "unverified (fname: neelkanth peak badrinath.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1saiv001q04l5k06av7cu",
+    "name": "Mukteshwar",
+    "city": "Mukteshwar",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chauli_Ki_Jali%2C_Mukteshwar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/fb/House_made_on_hill_at_Mukteshwar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/96/IBL_Mukteshwar_people.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/e/ec/MonkeyFaceStone-Mukteshwar.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/69/Mukteshwar%2C_a_view_of_the_Himalayas.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Nainital_Lake_view.jpg",
+        "unverified (fname: nainital lake view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Naini_Lake_Nainital.jpg",
+        "unverified (fname: naini lake nainital.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5e/Nainital_boat_house.jpg",
+        "unverified (fname: nainital boat house.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2f/Snow_view_point%2C_Nainital.jpg",
+        "unverified (fname: snow view point, nainital.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1s9x6001p04l5tyix4tnj",
+    "name": "Munsiyari",
+    "city": "Munsiyari",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Gorson_Bugyal.jpg",
+        "unverified (fname: gorson bugyal.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Auli_ski_resort.jpg",
+        "unverified (fname: auli ski resort.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devotees_at_Kedarnath_temple%2C_Uttrakhand_01.jpg",
+        "unverified (fname: devotees at kedarnath temple, uttrakhand 01.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1r8qk000y04l5i6qrwwne",
+    "name": "Mussoorie",
+    "city": "Mussoorie",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1r8yx000z04l5z2y0mi9w",
+    "name": "Nainital",
+    "city": "Nainital",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Nainital_Lake_view.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8d/Naini_Lake_Nainital.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/5e/Nainital_boat_house.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Snow_view_point%2C_Nainital.jpg"
+    ],
+    "rejected": []
+  },
+  {
+    "id": "cmpy1r9fo001104l56xhxjlv0",
+    "name": "Naukuchiatal",
+    "city": "Naukuchiatal",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/4/44/Naukuchiatal_Lake.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Nainital_Lake_view.jpg",
+        "unverified (fname: nainital lake view.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8d/Naini_Lake_Nainital.jpg",
+        "unverified (fname: naini lake nainital.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5e/Nainital_boat_house.jpg",
+        "unverified (fname: nainital boat house.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/2f/Snow_view_point%2C_Nainital.jpg",
+        "unverified (fname: snow view point, nainital.jpg)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rcot001f04l5qjy0zc2i",
+    "name": "Tehri Lake",
+    "city": "New Tehri",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/1/11/A_protest_message_against_Tehri_dam%2C_Garhwal%2C_Uttarakhand.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/df/Power_House_of_Tehri_Dam.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/26/TehriDam_1.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/0/03/Tehri_Dam_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Tehri_dam.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mussoorie_Lal_Tibba.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/9/9c/Kempty_Falls%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gun_Hill%2C_Mussoorie.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mussoorie_Mall_Road.jpg",
+        "Mussoorie image on wrong UK place"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rbiz001a04l5fb5jt620",
+    "name": "Ranikhet",
+    "city": "Ranikhet",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/d/d8/Entrance_to_Ranikhet_Bazaar_in_1946.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/9/96/Jhula_devi_temple%2C_Ranikhet.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4d/Panorama_of_Himalayas_from_Ranikhet%2C_Uttarakhand%2C_India.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bc/Panorama_of_Ranikhet_town_in_Almora_district%2C_Uttarakhand.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bd/Rani_Jheel%2C_Ranikhet.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kausani_view_Himalaya.jpg",
+        "unverified (fname: kausani view himalaya.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8a/Kausani_Uttarakhand.jpg",
+        "unverified (fname: kausani uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1rcgg001e04l5c46jso5d",
+    "name": "Rudraprayag",
+    "city": "Rudraprayag",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e0/Confluence_of_Alaknanda_and_Mandakini_at_Rudraprayag.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d5/Mandakini-left-bank-broken-bridge-rudraprayag-sangam-g.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6a/Mandakini_joins_Alaknanda_at_Rudraprayag.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/6/6b/P1000137-41-rudraprayag-pano-g.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/87/RudraprayagConfluence.JPG"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devotees_at_Kedarnath_temple%2C_Uttrakhand_01.jpg",
+        "unverified (fname: devotees at kedarnath temple, uttrakhand 01.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8e/Kedarnath_Temple_in_Rainy_season.jpg",
+        "unverified (fname: kedarnath temple in rainy season.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3a/Kedarnath_Temple_Uttarakhand.jpg",
+        "unverified (fname: kedarnath temple uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/5/5f/Kedarnath_peak.jpg",
+        "unverified (fname: kedarnath peak.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ],
+    "source": "wikipedia_article_images"
+  },
+  {
+    "id": "cmpy1sc2x001t04l5jqj195tn",
+    "name": "Sitlakhet",
+    "city": "Sitlakhet",
+    "state": "Uttarakhand",
+    "verified_urls": [],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/1/1e/Kausani_view_Himalaya.jpg",
+        "unverified (fname: kausani view himalaya.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/8/8a/Kausani_Uttarakhand.jpg",
+        "unverified (fname: kausani uttarakhand.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/6/62/Boats_on_Nainital_Lake_02.jpg",
+        "unverified (fname: boats on nainital lake 02.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/2/24/Mussoorie_Hill_Station.jpg",
+        "Mussoorie image on wrong UK place"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  },
+  {
+    "id": "cmpy1rpm9001k04l53qdpiwmk",
+    "name": "Yamunotri Temple",
+    "city": "Yamunotri",
+    "state": "Uttarakhand",
+    "verified_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/8/8c/Yamunotri_Temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9e/Gangotri_temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devotees_at_Kedarnath_temple%2C_Uttrakhand_01.jpg"
+    ],
+    "rejected": [
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/7/76/Badrinath_Mandir_on_20_June_2019.jpg",
+        "unverified (fname: badrinath mandir on 20 june 2019.jpg)"
+      ],
+      [
+        "https://upload.wikimedia.org/wikipedia/commons/3/3f/Chopta%2C_starting_point_for_treks_to_Tungnath_and_Chandrashila.jpg",
+        "unverified (fname: chopta, starting point for treks to tungnath and chandrashil)"
+      ]
+    ]
+  }
+]
