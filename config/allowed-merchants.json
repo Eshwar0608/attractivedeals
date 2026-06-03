@@ -1,0 +1,27 @@
+{
+  "_notes": "Single list used by deal configs via allowed_merchants_file. Only URLs on these domains are posted.",
+  "allowed_merchants": [
+    "amazon",
+    "flipkart",
+    "myntra",
+    "meesho",
+    "ajio",
+    "rare rabbit",
+    "lenskart",
+    "nike",
+    "woodland",
+    "zomato",
+    "blinkit",
+    "swiggy",
+    "zepto",
+    "bigbasket",
+    "rapido",
+    "uber",
+    "ola",
+    "fnp",
+    "kfc",
+    "recharge",
+    "phonepe",
+    "paytm"
+  ]
+}

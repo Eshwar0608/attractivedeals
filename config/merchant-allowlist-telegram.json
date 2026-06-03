@@ -5,6 +5,7 @@
     "image_url must be a direct https image link (JPG/PNG) that Telegram can fetch. Copy product image URL from the store page or Cuelinks offer.",
     "Set GOOGLE_SHEET_CSV_URL, CUELINKS_CHANNEL_ID, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID. No CUELINKS_API_TOKEN required."
   ],
+  "allowed_merchants_file": "allowed-merchants.json",
   "feeds": [
     {
       "name": "google-sheet-curated",
@@ -46,30 +47,6 @@
     "require_discount_data": false,
     "blocked_keywords": ["refurbished", "used", "renewed", "expired", "out of stock"],
     "required_keywords": [],
-    "allowed_merchants": [
-      "amazon",
-      "flipkart",
-      "myntra",
-      "meesho",
-      "ajio",
-      "rare rabbit",
-      "lenskart",
-      "nike",
-      "woodland",
-      "zomato",
-      "blinkit",
-      "swiggy",
-      "zepto",
-      "bigbasket",
-      "rapido",
-      "uber",
-      "ola",
-      "fnp",
-      "kfc",
-      "recharge",
-      "phonepe",
-      "paytm"
-    ],
     "max_items": 10
   },
   "hashtags": ["#deals", "#offers", "#shopping"],

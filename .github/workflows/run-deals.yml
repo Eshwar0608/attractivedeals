@@ -22,13 +22,13 @@ on:
         description: "Config file to run"
         required: true
         type: choice
-        default: "config/auto-fetch-telegram.json"
+        default: "config/merchant-allowlist-telegram.json"
         options:
+          - "config/merchant-allowlist-telegram.json"
           - "config/auto-fetch-telegram.json"
           - "config/google-sheet-cuelinks.json"
           - "config/simple-cuelinks.json"
           - "config/deals.json"
-          - "config/merchant-allowlist-telegram.json"
   schedule:
     # Runs every 30 minutes. GitHub cron uses UTC (may be delayed during high load).
     - cron: "*/30 * * * *"
@@ -117,7 +117,7 @@ jobs:
             fi
           else
             echo "limit=10" >> "$GITHUB_OUTPUT"
-            echo "config_path=config/auto-fetch-telegram.json" >> "$GITHUB_OUTPUT"
+            echo "config_path=config/merchant-allowlist-telegram.json" >> "$GITHUB_OUTPUT"
             echo "telegram_flag=" >> "$GITHUB_OUTPUT"
             echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
           fi

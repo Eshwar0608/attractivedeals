@@ -2,8 +2,10 @@
   "_notes": [
     "Simplest Cuelinks mode: paste normal product/deal URLs below and set CUELINKS_CHANNEL_ID. The script wraps URLs through linksredirect.com before posting.",
     "You can get your Cuelinks Channel ID from Cuelinks dashboard > Account > My Channels. You do not need merchant feed/API URLs for this mode.",
-    "Replace the sample deals with real products you want to share."
+    "Replace the sample deals with real products you want to share.",
+    "Only store URLs listed in allowed-merchants.json are posted."
   ],
+  "allowed_merchants_file": "allowed-merchants.json",
   "feeds": [
     {
       "name": "manual-cuelinks-deals",

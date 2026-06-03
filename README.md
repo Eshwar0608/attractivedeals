@@ -33,6 +33,8 @@ If GitHub Actions is green but nothing posts, open the latest **Run Deals Channe
 | `fetched: 0` with no errors | Sheet CSV is empty, wrong tab published, or column names do not include `title` and `url` |
 | `fetched` > 0 but `accepted: 0` | Deals failed filters — add `discount_percent` or `price` + `original_price` |
 | `telegram_posted: 0` on a scheduled run | Missing `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`, or manual run left **`dry_run: true`** |
+| Every merchant posts (Nykaa, etc.) | Config has no merchant filter — use `config/merchant-allowlist-telegram.json` or ensure `allowed_merchants_file` is set; check log for `merchant filter: rejected N deal(s)` |
+| `merchant_rejected` is high, `accepted: 0` | Sheet/API URLs are not from allowed domains — use direct store links (see `config/allowed-merchants.json`) |
 
 The script now **fails the workflow** when no deals are accepted or Telegram does not post (except `--dry-run` / `--allow-empty`), so silent empty runs should no longer show as success.
 
