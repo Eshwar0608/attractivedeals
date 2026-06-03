@@ -2,6 +2,7 @@ import json
 import os
 import tempfile
 import unittest
+import urllib.parse
 from pathlib import Path
 
 from scripts.deals_channel import (
@@ -15,10 +16,14 @@ from scripts.deals_channel import (
     WorkflowConfig,
     build_cuelinks_url,
     discover_cuelinks_items,
+    normalize_whatsapp_phone,
     fetch_cuelinks_offers_from_url,
     filter_deals,
+    host_matches_allowed,
     load_config,
     format_deal,
+    resolve_allowed_domains,
+    unwrap_deal_url,
     main,
     mark_deals_posted,
     merchant_deal_key,
@@ -29,6 +34,56 @@ from scripts.deals_channel import (
 
 
 class DealsChannelTests(unittest.TestCase):
+    def test_allowed_merchants_filter_by_domain(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        filters = FilterConfig(
+            allowed_merchants=["flipkart", "amazon"],
+            min_discount_percent=0,
+            require_discount_data=False,
+        )
+        flipkart = Deal(
+            source="t",
+            title="Shoes sale",
+            url="https://www.flipkart.com/p/abc",
+            discount_percent=30,
+        )
+        other = Deal(
+            source="t",
+            title="Random sale",
+            url="https://www.example.com/deal",
+            discount_percent=30,
+        )
+        accepted = filter_deals([flipkart, other], filters)
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(accepted[0].url, flipkart.url)
+
+    def test_allowed_merchants_unwrap_cuelinks_redirect(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        embedded = "https://www.myntra.com/deal/1"
+        wrapped = (
+            "https://linksredirect.com/?cid=1&source=linkkit&url="
+            + urllib.parse.quote(embedded, safe="")
+        )
+        self.assertEqual(unwrap_deal_url(wrapped), embedded)
+        domains = resolve_allowed_domains(["myntra"])
+        self.assertTrue(host_matches_allowed(wrapped, domains))
+
+    def test_csv_feed_parses_image_url_column(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            feed_file = Path(tmp_dir) / "sheet.csv"
+            feed_file.write_text(
+                "title,url,price,original_price,image_url\n"
+                "Watch 40% off,https://www.flipkart.com/watch,600,1000,"
+                "https://cdn.example.com/watch.jpg\n",
+                encoding="utf-8",
+            )
+            parsed = parse_feed(
+                FeedConfig(name="google-sheet", url=str(feed_file), type="csv", currency="Rs. ")
+            )
+            self.assertEqual(parsed[0].image_url, "https://cdn.example.com/watch.jpg")
+
     def test_json_feed_is_parsed_and_weak_deals_are_filtered(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             feed_file = Path(tmp_dir) / "feed.json"
@@ -147,6 +202,9 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.telegram_posted, 0)
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
+
+    def test_normalize_whatsapp_phone_strips_formatting(self):
+        self.assertEqual(normalize_whatsapp_phone("+91 98765-43210"), "919876543210")
 
     def test_merchant_deal_key_unwraps_cuelinks_redirect(self):
         deal = __import__("scripts.deals_channel", fromlist=["Deal"]).Deal(

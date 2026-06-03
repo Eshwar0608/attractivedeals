@@ -1,22 +1,11 @@
 {
   "_notes": [
-    "Primary automated pipeline: fetch live offers from Cuelinks API, export to out/deals.csv, wrap links, post to Telegram.",
-    "Set CUELINKS_API_TOKEN (from Cuelinks after API approval). Optional GOOGLE_SHEET_CSV_URL adds manual/curated rows from a sheet.",
-    "If your account uses a custom Offers API URL, set CUELINKS_OFFERS_URL."
+    "Curated deals from Google Sheet only — filtered to your allowed merchants, optional product images, Telegram photo posts.",
+    "Sheet columns: title, url, price, original_price, discount_percent, coupon, category, description, image_url",
+    "image_url must be a direct https image link (JPG/PNG) that Telegram can fetch. Copy product image URL from the store page or Cuelinks offer.",
+    "Set GOOGLE_SHEET_CSV_URL, CUELINKS_CHANNEL_ID, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID. No CUELINKS_API_TOKEN required."
   ],
   "feeds": [
-    {
-      "name": "cuelinks-offers",
-      "enabled": true,
-      "type": "cuelinks_offers",
-      "url": "${CUELINKS_OFFERS_URL:-}",
-      "items_path": "${CUELINKS_OFFERS_ITEMS_PATH:-}",
-      "api_token_env": "CUELINKS_API_TOKEN",
-      "max_pages": 5,
-      "per_page": 50,
-      "category": "${CUELINKS_OFFERS_CATEGORY:-}",
-      "currency": "Rs. "
-    },
     {
       "name": "google-sheet-curated",
       "enabled": true,
@@ -30,6 +19,7 @@
       "coupon_field": "coupon",
       "category_field": "category",
       "description_field": "description",
+      "image_field": "image_url",
       "currency": "Rs. "
     }
   ],
@@ -56,6 +46,30 @@
     "require_discount_data": false,
     "blocked_keywords": ["refurbished", "used", "renewed", "expired", "out of stock"],
     "required_keywords": [],
+    "allowed_merchants": [
+      "amazon",
+      "flipkart",
+      "myntra",
+      "meesho",
+      "ajio",
+      "rare rabbit",
+      "lenskart",
+      "nike",
+      "woodland",
+      "zomato",
+      "blinkit",
+      "swiggy",
+      "zepto",
+      "bigbasket",
+      "rapido",
+      "uber",
+      "ola",
+      "fnp",
+      "kfc",
+      "recharge",
+      "phonepe",
+      "paytm"
+    ],
     "max_items": 10
   },
   "hashtags": ["#deals", "#offers", "#shopping"],
@@ -64,15 +78,13 @@
     "bot_token_env": "TELEGRAM_BOT_TOKEN",
     "chat_id_env": "TELEGRAM_CHAT_ID",
     "disable_web_page_preview": false,
-    "timeout_seconds": 15,
+    "send_photo_when_image_available": true,
+    "photo_caption_max_length": 1024,
+    "timeout_seconds": 20,
     "required": true
   },
   "whatsapp": {
     "output_file": "out/whatsapp_deals.txt",
-    "auto_send": true,
-    "access_token_env": "WHATSAPP_ACCESS_TOKEN",
-    "phone_number_id_env": "WHATSAPP_PHONE_NUMBER_ID",
-    "to_phone_env": "WHATSAPP_TO_PHONE",
-    "required": false
+    "auto_send": false
   }
 }

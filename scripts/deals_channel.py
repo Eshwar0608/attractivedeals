@@ -33,6 +33,32 @@ DEFAULT_CUELINKS_OFFERS_URLS = (
 )
 CUELINKS_ITEM_PATHS = ("offers", "data.offers", "data", "results", "items", "coupons", "deals")
 
+# Domains for filters.allowed_merchants (keys are normalized with normalize_merchant_key).
+MERCHANT_DOMAIN_MAP: dict[str, tuple[str, ...]] = {
+    "amazon": ("amazon.in", "amazon.com", "amzn.to", "amzn.in"),
+    "flipkart": ("flipkart.com",),
+    "myntra": ("myntra.com",),
+    "meesho": ("meesho.com", "meesho.io"),
+    "ajio": ("ajio.com",),
+    "rare_rabbit": ("rarerabbit.com", "thehouseofrare.com", "houseofrare.com"),
+    "lenskart": ("lenskart.com",),
+    "nike": ("nike.com", "nike.in"),
+    "woodland": ("woodlandworldwide.com",),
+    "zomato": ("zomato.com",),
+    "blinkit": ("blinkit.com", "grofers.com"),
+    "swiggy": ("swiggy.com",),
+    "zepto": ("zepto.com",),
+    "bigbasket": ("bigbasket.com",),
+    "rapido": ("rapido.bike", "rapido.app"),
+    "uber": ("uber.com",),
+    "ola": ("olacabs.com", "ola.com"),
+    "fnp": ("fnp.com", "fernsnpetals.com"),
+    "kfc": ("kfc.co.in", "kfc.com", "online.kfc.co.in"),
+    "phonepe": ("phonepe.com",),
+    "paytm": ("paytm.com",),
+    "recharge": ("paytm.com", "phonepe.com"),
+}
+
 
 @dataclass
 class FeedConfig:
@@ -51,6 +77,7 @@ class FeedConfig:
     coupon_field: str = "coupon"
     category_field: str = "category"
     description_field: str = "description"
+    image_field: str = "image_url"
     currency: str = ""
     api_token_env: str = "CUELINKS_API_TOKEN"
     max_pages: int = 5
@@ -79,6 +106,7 @@ class FilterConfig:
     require_discount_data: bool = False
     blocked_keywords: list[str] = field(default_factory=list)
     required_keywords: list[str] = field(default_factory=list)
+    allowed_merchants: list[str] = field(default_factory=list)
     max_items: int = 10
 
 
@@ -88,6 +116,8 @@ class TelegramConfig:
     bot_token_env: str = "TELEGRAM_BOT_TOKEN"
     chat_id_env: str = "TELEGRAM_CHAT_ID"
     disable_web_page_preview: bool = False
+    send_photo_when_image_available: bool = True
+    photo_caption_max_length: int = 1024
     timeout_seconds: int = 15
     required: bool = False
 
@@ -95,6 +125,13 @@ class TelegramConfig:
 @dataclass
 class WhatsAppConfig:
     output_file: str = "out/whatsapp_deals.txt"
+    auto_send: bool = False
+    access_token_env: str = "WHATSAPP_ACCESS_TOKEN"
+    phone_number_id_env: str = "WHATSAPP_PHONE_NUMBER_ID"
+    to_phone_env: str = "WHATSAPP_TO_PHONE"
+    api_version: str = "v21.0"
+    timeout_seconds: int = 15
+    required: bool = False
 
 
 @dataclass
@@ -130,6 +167,7 @@ class Deal:
     coupon: str | None = None
     category: str | None = None
     description: str | None = None
+    image_url: str | None = None
     currency: str = ""
 
     @property
@@ -147,6 +185,8 @@ class RunSummary:
     skipped: int = 0
     telegram_posted: int = 0
     telegram_failed: int = 0
+    whatsapp_posted: int = 0
+    whatsapp_failed: int = 0
     whatsapp_file: str | None = None
     csv_file: str | None = None
     duplicates_skipped: int = 0
@@ -172,6 +212,8 @@ def load_config(path: Path) -> WorkflowConfig:
     export_fields = config_fields(ExportCsvConfig)
     dedupe_raw = raw.get("dedupe", {})
     dedupe_fields = config_fields(DedupeConfig)
+    whatsapp_raw = raw.get("whatsapp", {})
+    whatsapp_fields = config_fields(WhatsAppConfig)
 
     return WorkflowConfig(
         feeds=feeds,
@@ -179,7 +221,7 @@ def load_config(path: Path) -> WorkflowConfig:
         hashtags=raw.get("hashtags", ["#deals"]),
         affiliate=AffiliateConfig(**raw.get("affiliate", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
-        whatsapp=WhatsAppConfig(**raw.get("whatsapp", {})),
+        whatsapp=WhatsAppConfig(**{k: v for k, v in whatsapp_raw.items() if k in whatsapp_fields}),
         export_csv=ExportCsvConfig(**{k: v for k, v in export_raw.items() if k in export_fields}),
         dedupe=DedupeConfig(**{k: v for k, v in dedupe_raw.items() if k in dedupe_fields}),
     )
@@ -382,6 +424,18 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             price,
         )
 
+        image_url = clean_optional_text(
+            first_text(
+                get_nested(item, feed.image_field),
+                get_nested(item, "image"),
+                get_nested(item, "image_url"),
+                get_nested(item, "thumbnail"),
+                get_nested(item, "product_image"),
+                get_nested(item, "banner_image"),
+                get_nested(item, "offer_image"),
+            )
+        )
+
         deals.append(
             Deal(
                 source=feed.name,
@@ -399,6 +453,7 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
                 ),
                 category=clean_optional_text(get_nested(item, feed.category_field)),
                 description=clean_optional_text(get_nested(item, feed.description_field)),
+                image_url=image_url,
                 currency=feed.currency,
             )
         )
@@ -425,6 +480,10 @@ def normalize_sheet_row(row: dict[str, Any]) -> dict[str, Any]:
         normalized["url"] = normalized["link"]
     if "product_url" in normalized and "url" not in normalized:
         normalized["url"] = normalized["product_url"]
+    if "img" in normalized and "image_url" not in normalized:
+        normalized["image_url"] = normalized["img"]
+    if "image" in normalized and "image_url" not in normalized:
+        normalized["image_url"] = normalized["image"]
     return normalized
 
 
@@ -551,6 +610,8 @@ def filter_deals(deals: list[Deal], filters: FilterConfig) -> list[Deal]:
 
         if not is_allowed_by_keywords(deal, filters):
             continue
+        if not is_allowed_merchant(deal, filters):
+            continue
         if not is_strong_enough(deal, filters):
             continue
         accepted.append(deal)
@@ -635,6 +696,63 @@ def mark_deals_posted(
         keys.append(key)
         known.add(key)
     save_posted_keys(state_file, keys, max_entries)
+
+
+def normalize_merchant_key(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", name.strip().lower()).strip("_")
+
+
+def resolve_allowed_domains(allowed_merchants: list[str]) -> set[str]:
+    domains: set[str] = set()
+    for merchant in allowed_merchants:
+        key = normalize_merchant_key(merchant)
+        mapped = MERCHANT_DOMAIN_MAP.get(key)
+        if mapped:
+            domains.update(mapped)
+            continue
+        if "." in merchant:
+            domains.add(merchant.lower().strip())
+    return domains
+
+
+def unwrap_deal_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    host = parsed.netloc.lower()
+    if host in ("linksredirect.com", "www.linksredirect.com"):
+        embedded = urllib.parse.parse_qs(parsed.query).get("url", [None])[0]
+        if embedded:
+            return urllib.parse.unquote(embedded)
+    return url
+
+
+def deal_host(url: str) -> str:
+    return urllib.parse.urlparse(unwrap_deal_url(url)).netloc.lower().removeprefix("www.")
+
+
+def host_matches_allowed(url: str, allowed_domains: set[str]) -> bool:
+    if not allowed_domains:
+        return True
+    host = deal_host(url)
+    for domain in allowed_domains:
+        candidate = domain.lower().removeprefix("www.")
+        if host == candidate or host.endswith(f".{candidate}"):
+            return True
+    return False
+
+
+def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
+    if not filters.allowed_merchants:
+        return True
+    allowed_domains = resolve_allowed_domains(filters.allowed_merchants)
+    if host_matches_allowed(deal.url, allowed_domains):
+        return True
+    searchable = " ".join(
+        value for value in [deal.title, deal.description or "", deal.category or ""] if value
+    ).lower()
+    for merchant in filters.allowed_merchants:
+        if merchant.lower() in searchable:
+            return True
+    return False
 
 
 def is_allowed_by_keywords(deal: Deal, filters: FilterConfig) -> bool:
@@ -745,6 +863,7 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
         "coupon",
         "category",
         "description",
+        "image_url",
     ]
     with output_file.open("w", encoding="utf-8", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -761,6 +880,7 @@ def save_deals_csv(deals: list[Deal], output_file: Path) -> None:
                     "coupon": deal.coupon or "",
                     "category": deal.category or "",
                     "description": deal.description or "",
+                    "image_url": deal.image_url or "",
                 }
             )
 
@@ -790,15 +910,31 @@ def post_messages_to_telegram(
     errors: list[str] = []
     posted_deals: list[Deal] = []
     for index, message in enumerate(messages):
+        deal = deals[index] if deals and index < len(deals) else None
         try:
-            send_telegram_message(token, chat_id, message, telegram)
+            if (
+                deal
+                and deal.image_url
+                and telegram.send_photo_when_image_available
+            ):
+                send_telegram_photo(token, chat_id, deal.image_url, message, telegram)
+            else:
+                send_telegram_message(token, chat_id, message, telegram)
             posted += 1
-            if deals and index < len(deals):
-                posted_deals.append(deals[index])
+            if deal:
+                posted_deals.append(deal)
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
             failed += 1
             errors.append(f"Telegram post failed: {exc}")
     return posted, failed, errors, posted_deals
+
+
+def truncate_telegram_caption(text: str, max_length: int) -> str:
+    if max_length <= 0 or len(text) <= max_length:
+        return text
+    if max_length <= 3:
+        return text[:max_length]
+    return text[: max_length - 3] + "..."
 
 
 def send_telegram_message(
@@ -823,10 +959,115 @@ def send_telegram_message(
             raise ValueError(result)
 
 
+def send_telegram_photo(
+    token: str,
+    chat_id: str,
+    photo_url: str,
+    caption: str,
+    telegram: TelegramConfig,
+) -> None:
+    api_url = f"https://api.telegram.org/bot{token}/sendPhoto"
+    payload = urllib.parse.urlencode(
+        {
+            "chat_id": chat_id,
+            "photo": photo_url,
+            "caption": truncate_telegram_caption(caption, telegram.photo_caption_max_length),
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(api_url, data=payload, method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=telegram.timeout_seconds) as response:
+            body = response.read().decode("utf-8")
+            result = json.loads(body)
+            if not result.get("ok"):
+                raise ValueError(result)
+    except (urllib.error.URLError, urllib.error.HTTPError, ValueError):
+        send_telegram_message(token, chat_id, caption, telegram)
+
+
+def normalize_whatsapp_phone(value: str) -> str:
+    digits = re.sub(r"\D", "", value)
+    if not digits:
+        raise ValueError(f"Invalid WhatsApp phone number: {value!r}")
+    return digits
+
+
+def send_whatsapp_message(
+    access_token: str,
+    phone_number_id: str,
+    to_phone: str,
+    text: str,
+    whatsapp: WhatsAppConfig,
+) -> None:
+    api_url = (
+        f"https://graph.facebook.com/{whatsapp.api_version}/"
+        f"{phone_number_id}/messages"
+    )
+    body = json.dumps(
+        {
+            "messaging_product": "whatsapp",
+            "to": normalize_whatsapp_phone(to_phone),
+            "type": "text",
+            "text": {"preview_url": True, "body": text},
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        api_url,
+        data=body,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=whatsapp.timeout_seconds) as response:
+        result = json.loads(response.read().decode("utf-8"))
+        if "error" in result:
+            raise ValueError(result["error"])
+
+
+def post_messages_to_whatsapp(
+    messages: list[str],
+    whatsapp: WhatsAppConfig,
+    dry_run: bool = False,
+    deals: list[Deal] | None = None,
+) -> tuple[int, int, list[str], list[Deal]]:
+    if dry_run or not whatsapp.auto_send:
+        return 0, 0, [], []
+
+    token = os.environ.get(whatsapp.access_token_env, "").strip()
+    phone_number_id = os.environ.get(whatsapp.phone_number_id_env, "").strip()
+    to_phone = os.environ.get(whatsapp.to_phone_env, "").strip()
+    if not token or not phone_number_id or not to_phone:
+        message = (
+            f"WhatsApp auto-send skipped: set {whatsapp.access_token_env}, "
+            f"{whatsapp.phone_number_id_env}, and {whatsapp.to_phone_env}."
+        )
+        if whatsapp.required:
+            return 0, len(messages), [message], []
+        return 0, 0, [message], []
+
+    posted = 0
+    failed = 0
+    errors: list[str] = []
+    posted_deals: list[Deal] = []
+    for index, message in enumerate(messages):
+        try:
+            send_whatsapp_message(token, phone_number_id, to_phone, message, whatsapp)
+            posted += 1
+            if deals and index < len(deals):
+                posted_deals.append(deals[index])
+        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
+            failed += 1
+            errors.append(f"WhatsApp post failed: {exc}")
+    return posted, failed, errors, posted_deals
+
+
 def run_workflow(
     config: WorkflowConfig,
     dry_run: bool = False,
     skip_telegram: bool = False,
+    skip_whatsapp: bool = False,
     skip_affiliate: bool = False,
     output_override: str | None = None,
 ) -> RunSummary:
@@ -894,11 +1135,29 @@ def run_workflow(
     summary.telegram_failed = failed
     summary.errors.extend(errors)
 
+    if skip_whatsapp:
+        config.whatsapp.auto_send = False
+    wa_posted, wa_failed, wa_errors, wa_posted_deals = post_messages_to_whatsapp(
+        messages,
+        config.whatsapp,
+        dry_run=dry_run,
+        deals=to_publish,
+    )
+    summary.whatsapp_posted = wa_posted
+    summary.whatsapp_failed = wa_failed
+    summary.errors.extend(wa_errors)
+
+    all_posted_deals = posted_deals + [
+        deal
+        for deal in wa_posted_deals
+        if merchant_deal_key(deal) not in {merchant_deal_key(item) for item in posted_deals}
+    ]
     should_record = config.dedupe.enabled and (
-        (not dry_run and posted_deals) or (dry_run and config.dedupe.record_on_dry_run and to_publish)
+        (not dry_run and all_posted_deals)
+        or (dry_run and config.dedupe.record_on_dry_run and to_publish)
     )
     if should_record:
-        record_deals = posted_deals if not dry_run else to_publish
+        record_deals = all_posted_deals if not dry_run else to_publish
         mark_deals_posted(Path(config.dedupe.state_file), record_deals, config.dedupe.max_entries)
 
     if (
@@ -912,6 +1171,19 @@ def run_workflow(
         summary.errors.append(
             "Telegram was not posted: set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, "
             "or run with --dry-run for a test."
+        )
+
+    if (
+        to_publish
+        and config.whatsapp.auto_send
+        and not skip_whatsapp
+        and not dry_run
+        and wa_posted == 0
+        and wa_failed == 0
+    ):
+        summary.errors.append(
+            "WhatsApp was not sent: set WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, "
+            "and WHATSAPP_TO_PHONE, or disable whatsapp.auto_send."
         )
 
     return summary
@@ -1024,6 +1296,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--limit", type=int, help="Override max deals for this run.")
     parser.add_argument("--dry-run", action="store_true", help="Build messages without posting to Telegram.")
     parser.add_argument("--skip-telegram", action="store_true", help="Disable Telegram posting for this run.")
+    parser.add_argument(
+        "--skip-whatsapp",
+        action="store_true",
+        help="Disable WhatsApp Cloud API auto-send for this run.",
+    )
     parser.add_argument("--skip-affiliate", action="store_true", help="Do not wrap deal URLs with affiliate tracking for this run.")
     parser.add_argument(
         "--allow-empty",
@@ -1053,6 +1330,7 @@ def main(argv: list[str] | None = None) -> int:
         config,
         dry_run=args.dry_run,
         skip_telegram=args.skip_telegram,
+        skip_whatsapp=args.skip_whatsapp,
         skip_affiliate=args.skip_affiliate,
         output_override=args.output,
     )
@@ -1066,7 +1344,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.allow_empty:
         return 1 if summary.telegram_failed else 0
 
-    if summary.telegram_failed:
+    if summary.telegram_failed or summary.whatsapp_failed:
         return 1
     if config.affiliate.required and not args.skip_affiliate and summary.errors:
         return 1
@@ -1083,6 +1361,16 @@ def main(argv: list[str] | None = None) -> int:
         and not args.skip_telegram
         and not args.dry_run
         and summary.telegram_posted == 0
+        and summary.duplicates_skipped == 0
+    ):
+        return 1
+    if (
+        config.whatsapp.auto_send
+        and not args.skip_whatsapp
+        and not args.dry_run
+        and summary.whatsapp_posted == 0
+        and summary.duplicates_skipped == 0
+        and config.whatsapp.required
     ):
         return 1
     return 0
