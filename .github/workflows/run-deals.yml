@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Build WhatsApp output without posting to Telegram"
+        description: "Build message output without posting to Telegram"
         required: true
         type: boolean
         default: true
@@ -18,18 +18,6 @@ on:
         required: true
         type: boolean
         default: false
-      config_path:
-        description: "Config file to run"
-        required: true
-        type: choice
-        default: "config/brands-only-telegram.json"
-        options:
-          - "config/brands-only-telegram.json"
-          - "config/auto-fetch-telegram.json"
-          - "config/merchant-allowlist-telegram.json"
-          - "config/google-sheet-cuelinks.json"
-          - "config/simple-cuelinks.json"
-          - "config/deals.json"
   schedule:
     # Runs every 15 minutes (UTC). GitHub cron may be delayed during high load.
     - cron: "*/15 * * * *"
@@ -45,47 +33,12 @@ jobs:
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
-      WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
-      WHATSAPP_TO_PHONE: ${{ secrets.WHATSAPP_TO_PHONE }}
       CUELINKS_CHANNEL_ID: ${{ secrets.CUELINKS_CHANNEL_ID }}
       GOOGLE_SHEET_CSV_URL: ${{ secrets.GOOGLE_SHEET_CSV_URL }}
       CUELINKS_API_TOKEN: ${{ secrets.CUELINKS_API_TOKEN }}
       CUELINKS_OFFERS_URL: ${{ secrets.CUELINKS_OFFERS_URL }}
       CUELINKS_OFFERS_ITEMS_PATH: ${{ secrets.CUELINKS_OFFERS_ITEMS_PATH }}
       CUELINKS_OFFERS_CATEGORY: ${{ secrets.CUELINKS_OFFERS_CATEGORY }}
-
-      AMAZON_IN_FEED_URL: ${{ secrets.AMAZON_IN_FEED_URL }}
-      AMAZON_IN_AUTH_HEADER: ${{ secrets.AMAZON_IN_AUTH_HEADER }}
-      AMAZON_IN_API_KEY: ${{ secrets.AMAZON_IN_API_KEY }}
-
-      FLIPKART_FEED_URL: ${{ secrets.FLIPKART_FEED_URL }}
-      FLIPKART_AUTH_HEADER: ${{ secrets.FLIPKART_AUTH_HEADER }}
-      FLIPKART_API_KEY: ${{ secrets.FLIPKART_API_KEY }}
-
-      ZOMATO_FEED_URL: ${{ secrets.ZOMATO_FEED_URL }}
-      ZOMATO_AUTH_HEADER: ${{ secrets.ZOMATO_AUTH_HEADER }}
-      ZOMATO_API_KEY: ${{ secrets.ZOMATO_API_KEY }}
-
-      BIGBASKET_FEED_URL: ${{ secrets.BIGBASKET_FEED_URL }}
-      BIGBASKET_AUTH_HEADER: ${{ secrets.BIGBASKET_AUTH_HEADER }}
-      BIGBASKET_API_KEY: ${{ secrets.BIGBASKET_API_KEY }}
-
-      INSTAMART_FEED_URL: ${{ secrets.INSTAMART_FEED_URL }}
-      INSTAMART_AUTH_HEADER: ${{ secrets.INSTAMART_AUTH_HEADER }}
-      INSTAMART_API_KEY: ${{ secrets.INSTAMART_API_KEY }}
-
-      ZEPTO_FEED_URL: ${{ secrets.ZEPTO_FEED_URL }}
-      ZEPTO_AUTH_HEADER: ${{ secrets.ZEPTO_AUTH_HEADER }}
-      ZEPTO_API_KEY: ${{ secrets.ZEPTO_API_KEY }}
-
-      AJIO_FEED_URL: ${{ secrets.AJIO_FEED_URL }}
-      AJIO_AUTH_HEADER: ${{ secrets.AJIO_AUTH_HEADER }}
-      AJIO_API_KEY: ${{ secrets.AJIO_API_KEY }}
-
-      TATACLIQ_FEED_URL: "https://linksredirect.com/?cid=292882&source=linkkit&url=https%3A%2F%2Fwww.tatacliq.com%2F"
-      TATACLIQ_AUTH_HEADER: ${{ secrets.TATACLIQ_AUTH_HEADER }}
-      TATACLIQ_API_KEY: ${{ secrets.TATACLIQ_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -120,7 +73,6 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "limit=${{ inputs.limit }}" >> "$GITHUB_OUTPUT"
-            echo "config_path=${{ inputs.config_path }}" >> "$GITHUB_OUTPUT"
             if [ "${{ inputs.dry_run }}" = "true" ]; then
               echo "telegram_flag=--dry-run" >> "$GITHUB_OUTPUT"
             else
@@ -133,14 +85,13 @@ jobs:
             fi
           else
             echo "limit=10" >> "$GITHUB_OUTPUT"
-            echo "config_path=config/brands-only-telegram.json" >> "$GITHUB_OUTPUT"
             echo "telegram_flag=" >> "$GITHUB_OUTPUT"
             echo "affiliate_flag=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Debug run options
         run: |
-          echo "Using config_path=${{ steps.options.outputs.config_path }}"
+          echo "Using config_path=config/brands-only-telegram.json"
           echo "Using limit=${{ steps.options.outputs.limit }}"
           echo "Using telegram_flag='${{ steps.options.outputs.telegram_flag }}'"
           echo "Using affiliate_flag='${{ steps.options.outputs.affiliate_flag }}'"
@@ -149,7 +100,7 @@ jobs:
         run: |
           set -o pipefail
           python3 scripts/deals_channel.py \
-            --config "${{ steps.options.outputs.config_path }}" \
+            --config config/brands-only-telegram.json \
             --limit "${{ steps.options.outputs.limit }}" \
             --verbose \
             ${{ steps.options.outputs.telegram_flag }} \
@@ -177,7 +128,7 @@ jobs:
         with:
           name: deals-output
           path: |
-            out/whatsapp_deals.txt
+            out/messages.txt
             out/deals.csv
             out/posted_deals.json
           if-no-files-found: ignore

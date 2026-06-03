@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Semi-automated affiliate deals workflow.
 
-Fetches affiliate feeds, filters weak deals, formats shareable messages, posts
-to Telegram, and writes WhatsApp-ready copy without using a database.
+Fetches Cuelinks offers and optional Google Sheet CSV, filters deals, formats
+messages, posts to Telegram, and writes a text file of formatted messages.
 """
 
 from __future__ import annotations
@@ -19,7 +19,6 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -185,15 +184,8 @@ class TelegramConfig:
 
 
 @dataclass
-class WhatsAppConfig:
-    output_file: str = "out/whatsapp_deals.txt"
-    auto_send: bool = False
-    access_token_env: str = "WHATSAPP_ACCESS_TOKEN"
-    phone_number_id_env: str = "WHATSAPP_PHONE_NUMBER_ID"
-    to_phone_env: str = "WHATSAPP_TO_PHONE"
-    api_version: str = "v21.0"
-    timeout_seconds: int = 15
-    required: bool = False
+class MessagesOutputConfig:
+    output_file: str = "out/messages.txt"
 
 
 @dataclass
@@ -221,7 +213,7 @@ class WorkflowConfig:
     hashtags: list[str] = field(default_factory=lambda: ["#deals"])
     affiliate: AffiliateConfig = field(default_factory=AffiliateConfig)
     telegram: TelegramConfig = field(default_factory=TelegramConfig)
-    whatsapp: WhatsAppConfig = field(default_factory=WhatsAppConfig)
+    messages_output: MessagesOutputConfig = field(default_factory=MessagesOutputConfig)
     export_csv: ExportCsvConfig = field(default_factory=ExportCsvConfig)
     dedupe: DedupeConfig = field(default_factory=DedupeConfig)
     message_format: MessageFormatConfig = field(default_factory=MessageFormatConfig)
@@ -260,9 +252,7 @@ class RunSummary:
     skipped: int = 0
     telegram_posted: int = 0
     telegram_failed: int = 0
-    whatsapp_posted: int = 0
-    whatsapp_failed: int = 0
-    whatsapp_file: str | None = None
+    messages_file: str | None = None
     csv_file: str | None = None
     duplicates_skipped: int = 0
     run_duplicates_skipped: int = 0
@@ -292,8 +282,8 @@ def load_config(path: Path) -> WorkflowConfig:
     dedupe_fields = config_fields(DedupeConfig)
     message_format_raw = raw.get("message_format", {})
     message_format_fields = config_fields(MessageFormatConfig)
-    whatsapp_raw = raw.get("whatsapp", {})
-    whatsapp_fields = config_fields(WhatsAppConfig)
+    messages_raw = raw.get("messages_output", raw.get("whatsapp", {}))
+    messages_fields = config_fields(MessagesOutputConfig)
 
     filters_raw = dict(raw.get("filters", {}))
     merchants_file = raw.get("allowed_merchants_file")
@@ -319,7 +309,9 @@ def load_config(path: Path) -> WorkflowConfig:
         hashtags=raw.get("hashtags", ["#deals"]),
         affiliate=AffiliateConfig(**raw.get("affiliate", {})),
         telegram=TelegramConfig(**raw.get("telegram", {})),
-        whatsapp=WhatsAppConfig(**{k: v for k, v in whatsapp_raw.items() if k in whatsapp_fields}),
+        messages_output=MessagesOutputConfig(
+            **{k: v for k, v in messages_raw.items() if k in messages_fields}
+        ),
         export_csv=ExportCsvConfig(**{k: v for k, v in export_raw.items() if k in export_fields}),
         dedupe=DedupeConfig(**{k: v for k, v in dedupe_raw.items() if k in dedupe_fields}),
         message_format=MessageFormatConfig(
@@ -351,7 +343,7 @@ def expand_env_placeholders(value: str) -> str:
 
 def fetch_text(url: str, headers: dict[str, str] | None = None, timeout: int = 20) -> str:
     if not url:
-        raise ValueError("Feed URL is empty. Set the merchant feed URL in config/deals.json or env vars.")
+        raise ValueError("Feed URL is empty. Set the feed URL in config or env vars (e.g. GOOGLE_SHEET_CSV_URL).")
 
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme in ("", "file"):
@@ -470,23 +462,13 @@ def parse_feed(feed: FeedConfig) -> list[Deal]:
     if feed_type == "cuelinks_offers":
         return fetch_cuelinks_offers(feed)
 
-    body = fetch_text(feed.url, feed.headers)
-    if feed_type == "auto":
-        stripped = body.lstrip()
-        feed_type = "json" if stripped.startswith(("{", "[")) else "rss"
-
-    if feed_type == "json":
-        return parse_json_feed(feed, body)
     if feed_type == "csv":
+        body = fetch_text(feed.url, feed.headers)
         return parse_csv_feed(feed, body)
-    if feed_type in ("rss", "atom", "xml"):
-        return parse_xml_feed(feed, body)
-    raise ValueError(f"Unsupported feed type for {feed.name}: {feed.type}")
-
-
-def parse_json_feed(feed: FeedConfig, body: str) -> list[Deal]:
-    payload = json.loads(body)
-    return parse_json_items(feed, extract_items(payload, feed.items_path))
+    raise ValueError(
+        f"Unsupported feed type for {feed.name}: {feed.type}. "
+        "Use cuelinks_offers, csv, or manual/inline."
+    )
 
 
 def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
@@ -665,39 +647,6 @@ def parse_csv_feed(feed: FeedConfig, body: str) -> list[Deal]:
         )
     return deals
 
-def parse_xml_feed(feed: FeedConfig, body: str) -> list[Deal]:
-    root = ET.fromstring(body)
-    elements = root.findall(".//item") or root.findall(".//{*}entry")
-    deals: list[Deal] = []
-
-    for element in elements:
-        title = child_text(element, "title")
-        url = child_text(element, "link")
-        if not url:
-            link = element.find("{*}link")
-            url = link.attrib.get("href", "") if link is not None else ""
-        description = first_text(
-            child_text(element, "description"),
-            child_text(element, "summary"),
-            child_text(element, "content"),
-        )
-        if not title or not url:
-            continue
-        discount_percent = parse_percent(None, title, None, None)
-        deals.append(
-            Deal(
-                source=feed.name,
-                title=clean_text(title),
-                url=clean_text(url),
-                discount_percent=discount_percent,
-                category=clean_optional_text(child_text(element, "category")),
-                description=clean_optional_text(description),
-                currency=feed.currency,
-            )
-        )
-
-    return deals
-
 
 def extract_items(payload: Any, items_path: str | None) -> list[Any]:
     if items_path:
@@ -734,17 +683,6 @@ def dict_lookup(data: dict[str, Any], key: str) -> Any:
         if str(candidate).lower() == lowered:
             return value
     return None
-
-
-def child_text(element: ET.Element, child_name: str) -> str | None:
-    for child in element:
-        if strip_namespace(child.tag) == child_name:
-            return child.text
-    return None
-
-
-def strip_namespace(tag: str) -> str:
-    return tag.rsplit("}", 1)[-1]
 
 
 def normalize_title_key(title: str) -> str:
@@ -1197,7 +1135,7 @@ def normalize_hashtag(value: str) -> str:
     return f"#{tag.lower()}" if tag else ""
 
 
-def save_whatsapp_messages(messages: list[str], output_file: Path) -> None:
+def save_messages_file(messages: list[str], output_file: Path) -> None:
     output_file.parent.mkdir(parents=True, exist_ok=True)
     output_file.write_text("\n\n---\n\n".join(messages) + ("\n" if messages else ""), encoding="utf-8")
 
@@ -1344,89 +1282,10 @@ def send_telegram_photo(
         send_telegram_message(token, chat_id, caption, telegram)
 
 
-def normalize_whatsapp_phone(value: str) -> str:
-    digits = re.sub(r"\D", "", value)
-    if not digits:
-        raise ValueError(f"Invalid WhatsApp phone number: {value!r}")
-    return digits
-
-
-def send_whatsapp_message(
-    access_token: str,
-    phone_number_id: str,
-    to_phone: str,
-    text: str,
-    whatsapp: WhatsAppConfig,
-) -> None:
-    api_url = (
-        f"https://graph.facebook.com/{whatsapp.api_version}/"
-        f"{phone_number_id}/messages"
-    )
-    body = json.dumps(
-        {
-            "messaging_product": "whatsapp",
-            "to": normalize_whatsapp_phone(to_phone),
-            "type": "text",
-            "text": {"preview_url": True, "body": text},
-        }
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        api_url,
-        data=body,
-        method="POST",
-        headers={
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json",
-        },
-    )
-    with urllib.request.urlopen(request, timeout=whatsapp.timeout_seconds) as response:
-        result = json.loads(response.read().decode("utf-8"))
-        if "error" in result:
-            raise ValueError(result["error"])
-
-
-def post_messages_to_whatsapp(
-    messages: list[str],
-    whatsapp: WhatsAppConfig,
-    dry_run: bool = False,
-    deals: list[Deal] | None = None,
-) -> tuple[int, int, list[str], list[Deal]]:
-    if dry_run or not whatsapp.auto_send:
-        return 0, 0, [], []
-
-    token = os.environ.get(whatsapp.access_token_env, "").strip()
-    phone_number_id = os.environ.get(whatsapp.phone_number_id_env, "").strip()
-    to_phone = os.environ.get(whatsapp.to_phone_env, "").strip()
-    if not token or not phone_number_id or not to_phone:
-        message = (
-            f"WhatsApp auto-send skipped: set {whatsapp.access_token_env}, "
-            f"{whatsapp.phone_number_id_env}, and {whatsapp.to_phone_env}."
-        )
-        if whatsapp.required:
-            return 0, len(messages), [message], []
-        return 0, 0, [message], []
-
-    posted = 0
-    failed = 0
-    errors: list[str] = []
-    posted_deals: list[Deal] = []
-    for index, message in enumerate(messages):
-        try:
-            send_whatsapp_message(token, phone_number_id, to_phone, message, whatsapp)
-            posted += 1
-            if deals and index < len(deals):
-                posted_deals.append(deals[index])
-        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
-            failed += 1
-            errors.append(f"WhatsApp post failed: {exc}")
-    return posted, failed, errors, posted_deals
-
-
 def run_workflow(
     config: WorkflowConfig,
     dry_run: bool = False,
     skip_telegram: bool = False,
-    skip_whatsapp: bool = False,
     skip_affiliate: bool = False,
     output_override: str | None = None,
 ) -> RunSummary:
@@ -1492,9 +1351,9 @@ def run_workflow(
     messages = [
         format_deal_message(deal, config.hashtags, config.message_format) for deal in to_publish
     ]
-    output_file = Path(output_override or config.whatsapp.output_file)
-    save_whatsapp_messages(messages, output_file)
-    summary.whatsapp_file = str(output_file)
+    output_file = Path(output_override or config.messages_output.output_file)
+    save_messages_file(messages, output_file)
+    summary.messages_file = str(output_file)
 
     if config.export_csv.enabled and to_publish:
         csv_file = Path(config.export_csv.output_file)
@@ -1513,29 +1372,12 @@ def run_workflow(
     summary.telegram_failed = failed
     summary.errors.extend(errors)
 
-    if skip_whatsapp:
-        config.whatsapp.auto_send = False
-    wa_posted, wa_failed, wa_errors, wa_posted_deals = post_messages_to_whatsapp(
-        messages,
-        config.whatsapp,
-        dry_run=dry_run,
-        deals=to_publish,
-    )
-    summary.whatsapp_posted = wa_posted
-    summary.whatsapp_failed = wa_failed
-    summary.errors.extend(wa_errors)
-
-    all_posted_deals = posted_deals + [
-        deal
-        for deal in wa_posted_deals
-        if merchant_deal_key(deal) not in {merchant_deal_key(item) for item in posted_deals}
-    ]
     should_record = config.dedupe.enabled and (
-        (not dry_run and all_posted_deals)
+        (not dry_run and posted_deals)
         or (dry_run and config.dedupe.record_on_dry_run and to_publish)
     )
     if should_record:
-        record_deals = all_posted_deals if not dry_run else to_publish
+        record_deals = posted_deals if not dry_run else to_publish
         mark_deals_posted(Path(config.dedupe.state_file), record_deals, config.dedupe.max_entries)
 
     if (
@@ -1549,19 +1391,6 @@ def run_workflow(
         summary.errors.append(
             "Telegram was not posted: set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, "
             "or run with --dry-run for a test."
-        )
-
-    if (
-        to_publish
-        and config.whatsapp.auto_send
-        and not skip_whatsapp
-        and not dry_run
-        and wa_posted == 0
-        and wa_failed == 0
-    ):
-        summary.errors.append(
-            "WhatsApp was not sent: set WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, "
-            "and WHATSAPP_TO_PHONE, or disable whatsapp.auto_send."
         )
 
     return summary
@@ -1688,15 +1517,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default="config/brands-only-telegram.json",
         help="Path to workflow JSON config.",
     )
-    parser.add_argument("--output", help="Override WhatsApp output file path.")
+    parser.add_argument("--output", help="Override formatted-messages output file path.")
     parser.add_argument("--limit", type=int, help="Override max deals for this run.")
     parser.add_argument("--dry-run", action="store_true", help="Build messages without posting to Telegram.")
     parser.add_argument("--skip-telegram", action="store_true", help="Disable Telegram posting for this run.")
-    parser.add_argument(
-        "--skip-whatsapp",
-        action="store_true",
-        help="Disable WhatsApp Cloud API auto-send for this run.",
-    )
     parser.add_argument("--skip-affiliate", action="store_true", help="Do not wrap deal URLs with affiliate tracking for this run.")
     parser.add_argument(
         "--allow-empty",
@@ -1726,7 +1550,6 @@ def main(argv: list[str] | None = None) -> int:
         config,
         dry_run=args.dry_run,
         skip_telegram=args.skip_telegram,
-        skip_whatsapp=args.skip_whatsapp,
         skip_affiliate=args.skip_affiliate,
         output_override=args.output,
     )
@@ -1740,7 +1563,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.allow_empty:
         return 1 if summary.telegram_failed else 0
 
-    if summary.telegram_failed or summary.whatsapp_failed:
+    if summary.telegram_failed:
         return 1
     if config.affiliate.required and not args.skip_affiliate and summary.errors:
         return 1
@@ -1758,15 +1581,6 @@ def main(argv: list[str] | None = None) -> int:
         and not args.dry_run
         and summary.telegram_posted == 0
         and summary.duplicates_skipped == 0
-    ):
-        return 1
-    if (
-        config.whatsapp.auto_send
-        and not args.skip_whatsapp
-        and not args.dry_run
-        and summary.whatsapp_posted == 0
-        and summary.duplicates_skipped == 0
-        and config.whatsapp.required
     ):
         return 1
     return 0

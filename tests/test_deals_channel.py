@@ -13,11 +13,10 @@ from scripts.deals_channel import (
     FilterConfig,
     MessageFormatConfig,
     TelegramConfig,
-    WhatsAppConfig,
+    MessagesOutputConfig,
     WorkflowConfig,
     build_cuelinks_url,
     discover_cuelinks_items,
-    normalize_whatsapp_phone,
     fetch_cuelinks_offers_from_url,
     filter_deals,
     format_deal_message,
@@ -87,7 +86,7 @@ class DealsChannelTests(unittest.TestCase):
         self.assertEqual(wrapped.count("linksredirect.com"), 2)
 
     def test_load_config_reads_allowed_merchants_file(self):
-        config = load_config(Path("config/merchant-allowlist-telegram.json"))
+        config = load_config(Path("config/brands-only-telegram.json"))
         self.assertIn("amazon", [m.lower() for m in config.filters.allowed_merchants])
         self.assertIn("flipkart", [m.lower() for m in config.filters.allowed_merchants])
 
@@ -229,65 +228,54 @@ class DealsChannelTests(unittest.TestCase):
             )
             self.assertEqual(parsed[0].image_url, "https://cdn.example.com/watch.jpg")
 
-    def test_json_feed_is_parsed_and_weak_deals_are_filtered(self):
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            feed_file = Path(tmp_dir) / "feed.json"
-            feed_file.write_text(
-                json.dumps(
-                    {
-                        "deals": [
-                            {
-                                "title": "Laptop 40% off",
-                                "affiliate_url": "https://example.com/laptop?ref=abc",
-                                "price": "60000",
-                                "mrp": "100000",
-                                "coupon_code": "SAVE40",
-                                "category": "Electronics",
-                            },
-                            {
-                                "title": "Cable 5% off",
-                                "affiliate_url": "https://example.com/cable",
-                                "price": "95",
-                                "mrp": "100",
-                            },
-                            {
-                                "title": "Used phone 80% off",
-                                "affiliate_url": "https://example.com/phone",
-                                "price": "2000",
-                                "mrp": "10000",
-                            },
-                        ]
-                    }
-                ),
-                encoding="utf-8",
-            )
-            feed = FeedConfig(
-                name="local-json",
-                url=str(feed_file),
-                type="json",
-                items_path="deals",
-                url_field="affiliate_url",
-                original_price_field="mrp",
-                coupon_field="coupon_code",
-                currency="Rs. ",
-            )
+    def test_manual_feed_items_are_parsed_and_weak_deals_are_filtered(self):
+        feed = FeedConfig(
+            name="local-manual",
+            type="manual",
+            items=[
+                {
+                    "title": "Laptop 40% off",
+                    "affiliate_url": "https://example.com/laptop?ref=abc",
+                    "price": "60000",
+                    "mrp": "100000",
+                    "coupon_code": "SAVE40",
+                    "category": "Electronics",
+                },
+                {
+                    "title": "Cable 5% off",
+                    "affiliate_url": "https://example.com/cable",
+                    "price": "95",
+                    "mrp": "100",
+                },
+                {
+                    "title": "Used phone 80% off",
+                    "affiliate_url": "https://example.com/phone",
+                    "price": "2000",
+                    "mrp": "10000",
+                },
+            ],
+            url_field="affiliate_url",
+            original_price_field="mrp",
+            coupon_field="coupon_code",
+            currency="Rs. ",
+        )
 
-            parsed = parse_feed(feed)
-            accepted, _rejected, _run_dup = filter_deals(
-                parsed,
-                FilterConfig(
-                    min_discount_percent=25,
-                    min_savings_amount=100,
-                    require_discount_data=True,
-                    blocked_keywords=["used"],
-                    max_items=10,
-                ),
-            )
+        parsed = parse_feed(feed)
+        accepted, _rejected, _run_dup = filter_deals(
+            parsed,
+            FilterConfig(
+                min_discount_percent=25,
+                min_savings_amount=100,
+                require_discount_data=True,
+                blocked_keywords=["used"],
+                max_items=10,
+            ),
+        )
 
-            self.assertEqual(len(parsed), 3)
-            self.assertEqual(len(accepted), 1)
-            self.assertEqual(accepted[0].title, "Laptop 40% off")
-            self.assertEqual(accepted[0].discount_percent, 40)
+        self.assertEqual(len(parsed), 3)
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(accepted[0].title, "Laptop 40% off")
+        self.assertEqual(accepted[0].discount_percent, 40)
 
     def test_format_deal_adds_price_coupon_and_hashtags(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -307,7 +295,10 @@ class DealsChannelTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            deal = parse_feed(FeedConfig(name="local", url=str(feed_file), type="json", currency="Rs. "))[0]
+            items = json.loads(feed_file.read_text(encoding="utf-8"))
+            deal = parse_feed(
+                FeedConfig(name="local", type="manual", items=items, currency="Rs. ")
+            )[0]
 
             message = format_deal_message(
                 deal, ["#Deals", "Top Picks"], MessageFormatConfig(style="compact")
@@ -318,28 +309,28 @@ class DealsChannelTests(unittest.TestCase):
             self.assertIn("Coupon: AUDIO50", message)
             self.assertIn("#deals #toppicks #audiogear", message)
 
-    def test_run_workflow_writes_whatsapp_file_without_telegram(self):
+    def test_run_workflow_writes_messages_file_without_telegram(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
-            feed_file = Path(tmp_dir) / "feed.json"
-            output_file = Path(tmp_dir) / "whatsapp.txt"
-            feed_file.write_text(
-                json.dumps(
-                    [
-                        {
-                            "title": "Mixer 30% off",
-                            "url": "https://example.com/mixer",
-                            "price": "700",
-                            "original_price": "1000",
-                        }
-                    ]
-                ),
-                encoding="utf-8",
-            )
+            output_file = Path(tmp_dir) / "messages.txt"
             config = WorkflowConfig(
-                feeds=[FeedConfig(name="local", url=str(feed_file), type="json", currency="Rs. ")],
+                feeds=[
+                    FeedConfig(
+                        name="local",
+                        type="manual",
+                        items=[
+                            {
+                                "title": "Mixer 30% off",
+                                "url": "https://example.com/mixer",
+                                "price": "700",
+                                "original_price": "1000",
+                            }
+                        ],
+                        currency="Rs. ",
+                    )
+                ],
                 filters=FilterConfig(min_discount_percent=25, require_discount_data=True),
                 telegram=TelegramConfig(enabled=False),
-                whatsapp=WhatsAppConfig(output_file=str(output_file)),
+                messages_output=MessagesOutputConfig(output_file=str(output_file)),
             )
 
             summary = run_workflow(config, skip_telegram=True)
@@ -349,9 +340,6 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(summary.telegram_posted, 0)
             self.assertTrue(output_file.exists())
             self.assertIn("Mixer 30% off", output_file.read_text(encoding="utf-8"))
-
-    def test_normalize_whatsapp_phone_strips_formatting(self):
-        self.assertEqual(normalize_whatsapp_phone("+91 98765-43210"), "919876543210")
 
     def test_merchant_deal_key_unwraps_cuelinks_redirect(self):
         deal = __import__("scripts.deals_channel", fromlist=["Deal"]).Deal(
@@ -367,7 +355,7 @@ class DealsChannelTests(unittest.TestCase):
     def test_cross_run_dedupe_skips_previously_posted_deal(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             state_file = Path(tmp_dir) / "posted.json"
-            whatsapp_file = Path(tmp_dir) / "whatsapp.txt"
+            messages_file = Path(tmp_dir) / "messages.txt"
             mark_deals_posted(
                 state_file,
                 [
@@ -402,7 +390,7 @@ class DealsChannelTests(unittest.TestCase):
                 ],
                 filters=FilterConfig(min_discount_percent=20, require_discount_data=True, max_items=10),
                 telegram=TelegramConfig(enabled=False),
-                whatsapp=WhatsAppConfig(output_file=str(whatsapp_file)),
+                messages_output=MessagesOutputConfig(output_file=str(messages_file)),
                 dedupe=DedupeConfig(enabled=True, state_file=str(state_file)),
                 affiliate=AffiliateConfig(enabled=False),
             )
@@ -411,8 +399,8 @@ class DealsChannelTests(unittest.TestCase):
 
             self.assertEqual(summary.duplicates_skipped, 1)
             self.assertEqual(summary.accepted, 1)
-            self.assertIn("New deal 50% off", whatsapp_file.read_text(encoding="utf-8"))
-            self.assertNotIn("Old deal 40% off", whatsapp_file.read_text(encoding="utf-8"))
+            self.assertIn("New deal 50% off", messages_file.read_text(encoding="utf-8"))
+            self.assertNotIn("Old deal 40% off", messages_file.read_text(encoding="utf-8"))
 
     def test_discover_cuelinks_items_from_offers_payload(self):
         payload = {
@@ -470,10 +458,10 @@ class DealsChannelTests(unittest.TestCase):
             self.assertEqual(deals[0].title, "Ajio 50% off")
             self.assertEqual(deals[0].coupon, "AJIO50")
 
-    def test_run_workflow_writes_csv_and_whatsapp(self):
+    def test_run_workflow_writes_csv_and_messages(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             csv_file = Path(tmp_dir) / "deals.csv"
-            whatsapp_file = Path(tmp_dir) / "whatsapp.txt"
+            messages_file = Path(tmp_dir) / "messages.txt"
             config = WorkflowConfig(
                 feeds=[
                     FeedConfig(
@@ -491,7 +479,7 @@ class DealsChannelTests(unittest.TestCase):
                 ],
                 filters=FilterConfig(min_discount_percent=20, require_discount_data=True),
                 telegram=TelegramConfig(enabled=False),
-                whatsapp=WhatsAppConfig(output_file=str(whatsapp_file)),
+                messages_output=MessagesOutputConfig(output_file=str(messages_file)),
                 export_csv=ExportCsvConfig(enabled=True, output_file=str(csv_file)),
             )
 
@@ -533,14 +521,14 @@ class DealsChannelTests(unittest.TestCase):
     def test_main_fails_when_no_deals_accepted(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             config_file = Path(tmp_dir) / "config.json"
-            output_file = Path(tmp_dir) / "whatsapp.txt"
+            output_file = Path(tmp_dir) / "messages.txt"
             config_file.write_text(
                 json.dumps(
                     {
                         "feeds": [{"name": "manual", "type": "manual", "items": []}],
                         "affiliate": {"enabled": False},
                         "telegram": {"enabled": False},
-                        "whatsapp": {"output_file": str(output_file)},
+                        "messages_output": {"output_file": str(output_file)},
                     }
                 ),
                 encoding="utf-8",
@@ -583,7 +571,7 @@ class DealsChannelTests(unittest.TestCase):
 
     def test_manual_feed_with_cuelinks_wraps_urls(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
-            output_file = Path(tmp_dir) / "whatsapp.txt"
+            output_file = Path(tmp_dir) / "messages.txt"
             config = WorkflowConfig(
                 feeds=[
                     FeedConfig(
@@ -609,7 +597,7 @@ class DealsChannelTests(unittest.TestCase):
                     required=True,
                 ),
                 telegram=TelegramConfig(enabled=False),
-                whatsapp=WhatsAppConfig(output_file=str(output_file)),
+                messages_output=MessagesOutputConfig(output_file=str(output_file)),
             )
 
             summary = run_workflow(config, skip_telegram=True)
@@ -632,7 +620,7 @@ class DealsChannelTests(unittest.TestCase):
 
     def test_skip_affiliate_leaves_urls_unwrapped_even_when_required(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
-            output_file = Path(tmp_dir) / "whatsapp.txt"
+            output_file = Path(tmp_dir) / "messages.txt"
             config = WorkflowConfig(
                 feeds=[
                     FeedConfig(
@@ -651,7 +639,7 @@ class DealsChannelTests(unittest.TestCase):
                 filters=FilterConfig(min_discount_percent=25, require_discount_data=True),
                 affiliate=AffiliateConfig(enabled=True, network="cuelinks", required=True),
                 telegram=TelegramConfig(enabled=False),
-                whatsapp=WhatsAppConfig(output_file=str(output_file)),
+                messages_output=MessagesOutputConfig(output_file=str(output_file)),
             )
 
             summary = run_workflow(config, skip_telegram=True, skip_affiliate=True)
@@ -664,11 +652,11 @@ class DealsChannelTests(unittest.TestCase):
 
     def test_run_workflow_skips_unconfigured_feed_urls(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
-            output_file = Path(tmp_dir) / "whatsapp.txt"
+            output_file = Path(tmp_dir) / "messages.txt"
             config = WorkflowConfig(
                 feeds=[FeedConfig(name="missing-feed", url="")],
                 telegram=TelegramConfig(enabled=False),
-                whatsapp=WhatsAppConfig(output_file=str(output_file)),
+                messages_output=MessagesOutputConfig(output_file=str(output_file)),
             )
 
             summary = run_workflow(config, skip_telegram=True)
