@@ -35,6 +35,7 @@ from scripts.deals_channel import (
     mark_deals_posted,
     merchant_deal_key,
     parse_feed,
+    parse_json_items,
     run_workflow,
     save_deals_csv,
 )
@@ -166,6 +167,42 @@ class DealsChannelTests(unittest.TestCase):
         )
         self.assertEqual(len(accepted), 1)
         self.assertEqual(run_dup, 1)
+
+    def test_cuelinks_offer_with_merchant_column_and_tracking_url(self):
+        deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
+        Deal = deal_mod.Deal
+        deal = Deal(
+            source="cuelinks-offers",
+            title="Up to 60% off on fashion",
+            url="https://linksredirect.com/?cid=1&source=linkkit&url=https%3A%2F%2Fwww.flipkart.com%2Foffers",
+            merchant="Flipkart",
+            discount_percent=10,
+        )
+        accepted, rejected, _ = filter_deals(
+            [deal],
+            FilterConfig(
+                allowed_merchants=["flipkart", "amazon"],
+                min_discount_percent=0,
+                require_discount_data=False,
+            ),
+        )
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(rejected, 0)
+
+    def test_parse_cuelinks_item_nested_merchant_name(self):
+        feed = FeedConfig(name="cuelinks-offers", type="cuelinks_offers", merchant_field="merchant")
+        deals = parse_json_items(
+            feed,
+            [
+                {
+                    "offer_title": "Weekend sale",
+                    "offer_url": "https://linksredirect.com/?url=https://www.myntra.com/sale",
+                    "merchant": {"name": "Myntra"},
+                }
+            ],
+        )
+        self.assertEqual(len(deals), 1)
+        self.assertEqual(deals[0].merchant, "Myntra")
 
     def test_allowed_merchants_accepts_flipkart_title_with_tracking_url(self):
         deal_mod = __import__("scripts.deals_channel", fromlist=["Deal"])
