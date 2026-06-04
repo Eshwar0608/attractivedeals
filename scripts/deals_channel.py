@@ -577,18 +577,7 @@ def parse_json_items(feed: FeedConfig, items: list[Any]) -> list[Deal]:
             )
         )
 
-        merchant = clean_optional_text(
-            first_text(
-                get_nested(item, feed.merchant_field),
-                get_nested(item, "merchant_name"),
-                get_nested(item, "advertiser_name"),
-                get_nested(item, "advertiser"),
-                get_nested(item, "store"),
-                get_nested(item, "store_name"),
-                get_nested(item, "brand"),
-                get_nested(item, "campaign_name"),
-            )
-        )
+        merchant = merchant_text_from_item(item, feed)
 
         deals.append(
             Deal(
@@ -943,6 +932,91 @@ def infer_merchant_key_from_text(text: str) -> str | None:
     return None
 
 
+def merchant_text_from_item(item: dict[str, Any], feed: FeedConfig) -> str | None:
+    """Resolve store/advertiser label from Cuelinks or manual JSON items."""
+    paths = [
+        feed.merchant_field,
+        "merchant_name",
+        "merchant.name",
+        "advertiser_name",
+        "advertiser.name",
+        "advertiser",
+        "store",
+        "store_name",
+        "brand",
+        "brand_name",
+        "campaign.merchant",
+        "campaign.merchant_name",
+        "campaign.advertiser",
+        "campaign.advertiser_name",
+        "offer_merchant",
+        "publisher_name",
+    ]
+    for path in paths:
+        value = get_nested(item, path)
+        if isinstance(value, dict):
+            value = first_text(
+                get_nested(value, "name"),
+                get_nested(value, "title"),
+                get_nested(value, "label"),
+            )
+        text = clean_optional_text(value)
+        if text:
+            return text
+    return None
+
+
+def deal_text_matches_allowed_merchant(deal: Deal, allowed_merchants: list[str]) -> bool:
+    searchable = " ".join(
+        part
+        for part in [deal.title, deal.description or "", deal.category or "", deal.merchant or ""]
+        if part
+    ).lower()
+    if not searchable:
+        return False
+    for merchant in allowed_merchants:
+        label = merchant.strip().lower()
+        if not label:
+            continue
+        if label in searchable:
+            return True
+        normalized = normalize_merchant_key(merchant).replace("_", " ")
+        if normalized and normalized in searchable.replace("_", " "):
+            return True
+        target_key = normalize_merchant_key(merchant)
+        for hint, key in MERCHANT_TITLE_HINTS:
+            if key == target_key and hint in searchable:
+                return True
+    return False
+
+
+def merchant_passes_domain_check(
+    deal: Deal,
+    allowed_merchants: list[str],
+    brand_key: str | None = None,
+) -> bool:
+    """Allow tracking-only URLs when label/title match; block wrong-store landing URLs."""
+    allowed_domains = resolve_allowed_domains(allowed_merchants)
+    non_affiliate_hosts: list[str] = []
+
+    for url in urls_in_deal_text(deal):
+        host = deal_host(url)
+        if host in AFFILIATE_ONLY_HOSTS or not host:
+            continue
+        non_affiliate_hosts.append(host)
+        if host_matches_allowed(url, allowed_domains):
+            return True
+
+    if not non_affiliate_hosts:
+        return True
+
+    if brand_key:
+        for host in non_affiliate_hosts:
+            if merchant_key_from_host(host) == brand_key:
+                return True
+    return False
+
+
 def resolve_deal_merchant_key(deal: Deal) -> str | None:
     if deal.merchant:
         key = normalize_merchant_key(deal.merchant)
@@ -977,23 +1051,24 @@ def resolve_deal_merchant_key(deal: Deal) -> str | None:
 
 def is_allowed_merchant(deal: Deal, filters: FilterConfig) -> bool:
     """When allowed_merchants is empty, all stores pass; otherwise only listed brands."""
-    if not filters.allowed_merchants:
+    allowed = filters.allowed_merchants
+    if not allowed:
         return True
 
-    brand_key = resolve_deal_merchant_key(deal)
-    if not brand_key or not merchant_label_matches_allowed(brand_key, filters.allowed_merchants):
-        return False
-
-    allowed_domains = resolve_allowed_domains(filters.allowed_merchants)
-    for url in urls_in_deal_text(deal):
-        if host_matches_allowed(url, allowed_domains):
+    if deal.merchant and merchant_label_matches_allowed(deal.merchant, allowed):
+        if merchant_passes_domain_check(deal, allowed):
             return True
 
-    host = deal_host(deal.url)
-    if host in AFFILIATE_ONLY_HOSTS or not host:
-        return True
+    if deal_text_matches_allowed_merchant(deal, allowed):
+        brand_key = resolve_deal_merchant_key(deal)
+        if merchant_passes_domain_check(deal, allowed, brand_key=brand_key):
+            return True
 
-    return merchant_key_from_host(host) == brand_key
+    brand_key = resolve_deal_merchant_key(deal)
+    if not brand_key or not merchant_label_matches_allowed(brand_key, allowed):
+        return False
+
+    return merchant_passes_domain_check(deal, allowed, brand_key=brand_key)
 
 
 def is_allowed_by_keywords(deal: Deal, filters: FilterConfig) -> bool:
